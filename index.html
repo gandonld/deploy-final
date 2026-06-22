@@ -158,7 +158,22 @@ textarea { resize:vertical; min-height:60px; }
         <div><label>是否有老人</label><select id="f-haselderly"><option value="">请选择</option><option>是</option><option>否</option></select></div>
         <div><label>是否有小孩</label><select id="f-haschildren"><option value="">请选择</option><option>是（0-3岁）</option><option>是（3-12岁）</option><option>是（12岁以上）</option><option>否</option></select></div>
       </div>
-      <div><label>家庭成员备注</label><textarea id="f-familynote" placeholder="如：老人需无障碍设施，小孩需防撞设计"></textarea></div>
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);margin-top:0;">成员特殊需求</div>
+      <div class="checkbox-group" id="cg-familynote">
+        <label class="cb-item"><input type="checkbox" value="老人需无障碍设施" onchange="updateTextarea('f-familynote','cg-familynote')"> 老人需无障碍设施</label>
+        <label class="cb-item"><input type="checkbox" value="小孩需防撞设计" onchange="updateTextarea('f-familynote','cg-familynote')"> 小孩需防撞设计</label>
+        <label class="cb-item"><input type="checkbox" value="有孕妇/备孕" onchange="updateTextarea('f-familynote','cg-familynote')"> 有孕妇/备孕</label>
+        <label class="cb-item"><input type="checkbox" value="过敏体质（需环保材料）" onchange="updateTextarea('f-familynote','cg-familynote')"> 过敏体质（需环保材料）</label>
+        <label class="cb-item"><input type="checkbox" value="老人房需紧急呼叫按钮" onchange="updateTextarea('f-familynote','cg-familynote')"> 老人房需紧急呼叫按钮</label>
+        <label class="cb-item"><input type="checkbox" value="需要儿童安全防护" onchange="updateTextarea('f-familynote','cg-familynote')"> 需要儿童安全防护</label>
+        <label class="cb-item"><input type="checkbox" value="对噪音敏感" onchange="updateTextarea('f-familynote','cg-familynote')"> 对噪音敏感</label>
+        <label class="cb-item"><input type="checkbox" value="需要隔音处理" onchange="updateTextarea('f-familynote','cg-familynote')"> 需要隔音处理</label>
+        <label class="cb-item"><input type="checkbox" value="养宠物（需耐磨地面）" onchange="updateTextarea('f-familynote','cg-familynote')"> 养宠物（需耐磨地面）</label>
+        <label class="cb-item"><input type="checkbox" value="需要独立衣帽间" onchange="updateTextarea('f-familynote','cg-familynote')"> 需要独立衣帽间</label>
+        <label class="cb-item"><input type="checkbox" value="成员有长期居家办公" onchange="updateTextarea('f-familynote','cg-familynote')"> 成员有长期居家办公</label>
+        <label class="cb-item"><input type="checkbox" value="经常有老人来访小住" onchange="updateTextarea('f-familynote','cg-familynote')"> 经常有老人来访小住</label>
+      </div>
+      <textarea id="f-familynote" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       <!-- 风格偏好 -->
       <div class="section-title">风格偏好</div>
       <div class="grid3">
@@ -349,7 +364,24 @@ textarea { resize:vertical; min-height:60px; }
       </div>
       <!-- 其他需求 -->
       <div class="section-title">其他需求</div>
-      <div><label>特殊需求备注</label><textarea id="f-other" placeholder="如：环保要求高（有小孩）、需要智能家居"></textarea></div>
+      <div class="checkbox-group" id="cg-other">
+        <label class="cb-item"><input type="checkbox" value="环保要求高（有小孩/孕妇）" onchange="updateTextarea('f-other','cg-other')"> 环保要求高（有小孩/孕妇）</label>
+        <label class="cb-item"><input type="checkbox" value="需要快速完工" onchange="updateTextarea('f-other','cg-other')"> 需要快速完工</label>
+        <label class="cb-item"><input type="checkbox" value="预算有限，优先性价比" onchange="updateTextarea('f-other','cg-other')"> 预算有限，优先性价比</label>
+        <label class="cb-item"><input type="checkbox" value="施工期间需要临时住房" onchange="updateTextarea('f-other','cg-other')"> 施工期间需要临时住房</label>
+        <label class="cb-item"><input type="checkbox" value="对噪音敏感" onchange="updateTextarea('f-other','cg-other')"> 对噪音敏感</label>
+        <label class="cb-item"><input type="checkbox" value="需要全屋净水/软水" onchange="updateTextarea('f-other','cg-other')"> 需要全屋净水/软水</label>
+        <label class="cb-item"><input type="checkbox" value="需要新风系统" onchange="updateTextarea('f-other','cg-other')"> 需要新风系统</label>
+        <label class="cb-item"><input type="checkbox" value="需要中央除尘" onchange="updateTextarea('f-other','cg-other')"> 需要中央除尘</label>
+        <label class="cb-item"><input type="checkbox" value="需要智能家居" onchange="updateTextarea('f-other','cg-other')"> 需要智能家居</label>
+        <label class="cb-item"><input type="checkbox" value="预留宠物活动空间" onchange="updateTextarea('f-other','cg-other')"> 预留宠物活动空间</label>
+        <label class="cb-item"><input type="checkbox" value="需要可变形/多功能家具" onchange="updateTextarea('f-other','cg-other')"> 需要可变形/多功能家具</label>
+        <label class="cb-item"><input type="checkbox" value="希望后期可改造" onchange="updateTextarea('f-other','cg-other')"> 希望后期可改造</label>
+        <label class="cb-item"><input type="checkbox" value="需要代收快递/外卖" onchange="updateTextarea('f-other','cg-other')"> 需要代收快递/外卖（玄关设计）</label>
+        <label class="cb-item"><input type="checkbox" value="希望尽量少用木工现场制作" onchange="updateTextarea('f-other','cg-other')"> 希望尽量少用木工现场制作</label>
+        <label class="cb-item"><input type="checkbox" value="需要安装监控/安防" onchange="updateTextarea('f-other','cg-other')"> 需要安装监控/安防</label>
+      </div>
+      <textarea id="f-other" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       <div class="form-actions">
         <button class="btn btn-primary" onclick="saveRecord()">💾 保存客户资料</button>
         <button class="btn btn-outline" onclick="resetForm()">🔄 重置表单</button>
@@ -748,6 +780,8 @@ function editRecord(id) {
     setCheckboxesFromTextarea('f-need-hallway','cg-hallway');
     setCheckboxesFromTextarea('f-need-balcony','cg-balcony');
     setCheckboxesFromTextarea('f-need-smarthome','cg-smarthome');
+    setCheckboxesFromTextarea('f-familynote','cg-familynote');
+    setCheckboxesFromTextarea('f-other','cg-other');
     document.getElementById('form-title').textContent = '编辑客户资料 — ' + (c['f-name'] || '');
     navigate('form');
   });
@@ -829,7 +863,7 @@ function resetForm() {
     if (el) el.value = '';
   });
   // 取消所有功能区 checkbox 勾选
-  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome'];
+  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome','cg-familynote','cg-other'];
   cgIds.forEach(function(gid) {
     var g = document.getElementById(gid);
     if (!g) return;
