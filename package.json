@@ -1,0 +1,12 @@
+{
+  "name": "fengyun-crm",
+  "version": "2.0.0",
+  "description": "蜂云装饰客户资料管理系统 - 全栈版（本地 + 云端实时同步）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
