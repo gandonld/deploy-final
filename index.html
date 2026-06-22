@@ -67,12 +67,15 @@ textarea { resize:vertical; min-height:60px; }
 .form-actions { display:flex; gap:12px; margin-top:24px; }
 .header-actions { display:flex; gap:8px; }
 .db-status { font-size:12px; padding:4px 10px; border-radius:12px; background:var(--gray-100); }
+.checkbox-group { display:flex; flex-wrap:wrap; gap:6px 14px; margin-bottom:10px; }
+.cb-item { display:flex; align-items:center; gap:4px; font-size:12.5px; color:var(--gray-600); cursor:pointer; background:var(--gray-50); padding:4px 10px; border-radius:6px; border:1px solid var(--gray-200); transition:all .15s; }
+.cb-item:hover { background:var(--primary-light); border-color:var(--primary); }
+.cb-item input[type="checkbox"] { cursor:pointer; accent-color:var(--primary); }
 @media(max-width:768px){
-  .grid2,.grid3 { grid-template-columns:1fr; }
-  .stats { grid-template-columns:repeat(2,1fr); }
-  .header { flex-direction:column; gap:10px; }
-  .header-actions { flex-wrap:wrap; }
+  .checkbox-group { gap:4px 8px; }
+  .cb-item { font-size:11.5px; padding:3px 7px; }
 }
+
   </style>
 </head>
 <body>
@@ -166,27 +169,155 @@ textarea { resize:vertical; min-height:60px; }
       <div><label>参考风格/案例描述</label><textarea id="f-reference" placeholder="如：喜欢小红书上的XX博主风格、参考了XX酒店的装修、偏好简约但不冷清"></textarea></div>
       <!-- 功能区需求 -->
       <div class="section-title">功能区需求</div>
-      <div class="grid2">
-        <div><label>客厅需求</label><textarea id="f-need-livingroom" placeholder="如：需要投影仪/电视墙、拒绝繁杂吊顶、想要无主灯设计"></textarea></div>
-        <div><label>餐厅需求</label><textarea id="f-need-dining" placeholder="如：需要餐边柜、吧台、岛台一体、圆桌/长桌"></textarea></div>
+      
+      <!-- 客厅 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">客厅</div>
+      <div class="checkbox-group" id="cg-livingroom">
+        <label class="cb-item"><input type="checkbox" value="无主灯设计" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 无主灯设计</label>
+        <label class="cb-item"><input type="checkbox" value="投影仪/电视墙" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 投影仪/电视墙</label>
+        <label class="cb-item"><input type="checkbox" value="大落地窗/采光好" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 大落地窗/采光好</label>
+        <label class="cb-item"><input type="checkbox" value="拒绝繁杂吊顶" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 拒绝繁杂吊顶</label>
+        <label class="cb-item"><input type="checkbox" value="沙发背景墙" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 沙发背景墙</label>
+        <label class="cb-item"><input type="checkbox" value="客厅阳台打通" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 客厅阳台打通</label>
+        <label class="cb-item"><input type="checkbox" value="储物柜/展示柜" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 储物柜/展示柜</label>
+        <label class="cb-item"><input type="checkbox" value="预留空调位" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 预留空调位</label>
       </div>
-      <div class="grid2">
-        <div><label>厨房需求</label><textarea id="f-need-kitchen" placeholder="如：开放式/封闭式、需要中岛台、双开门冰箱、集成灶"></textarea></div>
-        <div><label>主卧需求</label><textarea id="f-need-masterbed" placeholder="如：需要衣帽间/步入式衣柜、梳妆台、飘窗改造"></textarea></div>
+      <textarea id="f-need-livingroom" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 餐厅 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">餐厅</div>
+      <div class="checkbox-group" id="cg-dining">
+        <label class="cb-item"><input type="checkbox" value="餐边柜" onchange="updateTextarea('f-need-dining','cg-dining')"> 餐边柜</label>
+        <label class="cb-item"><input type="checkbox" value="吧台" onchange="updateTextarea('f-need-dining','cg-dining')"> 吧台</label>
+        <label class="cb-item"><input type="checkbox" value="岛台一体" onchange="updateTextarea('f-need-dining','cg-dining')"> 岛台一体</label>
+        <label class="cb-item"><input type="checkbox" value="圆桌" onchange="updateTextarea('f-need-dining','cg-dining')"> 圆桌</label>
+        <label class="cb-item"><input type="checkbox" value="长桌" onchange="updateTextarea('f-need-dining','cg-dining')"> 长桌</label>
+        <label class="cb-item"><input type="checkbox" value="酒柜" onchange="updateTextarea('f-need-dining','cg-dining')"> 酒柜</label>
+        <label class="cb-item"><input type="checkbox" value="卡座" onchange="updateTextarea('f-need-dining','cg-dining')"> 卡座</label>
+        <label class="cb-item"><input type="checkbox" value="冰箱位" onchange="updateTextarea('f-need-dining','cg-dining')"> 冰箱位</label>
       </div>
-      <div class="grid2">
-        <div><label>次卧需求</label><textarea id="f-need-secondbed" placeholder="如：儿童房（性别/年龄）、老人房、客房"></textarea></div>
-        <div><label>卫生间需求</label><textarea id="f-need-bathroom" placeholder="如：干湿分离、需要浴缸/智能马桶、双台盆"></textarea></div>
+      <textarea id="f-need-dining" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 厨房 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">厨房</div>
+      <div class="checkbox-group" id="cg-kitchen">
+        <label class="cb-item"><input type="checkbox" value="开放式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 开放式厨房</label>
+        <label class="cb-item"><input type="checkbox" value="封闭式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 封闭式厨房</label>
+        <label class="cb-item"><input type="checkbox" value="中岛台" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 中岛台</label>
+        <label class="cb-item"><input type="checkbox" value="双开门冰箱" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 双开门冰箱</label>
+        <label class="cb-item"><input type="checkbox" value="集成灶" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 集成灶</label>
+        <label class="cb-item"><input type="checkbox" value="洗碗机" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 洗碗机</label>
+        <label class="cb-item"><input type="checkbox" value="垃圾处理器" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 垃圾处理器</label>
+        <label class="cb-item"><input type="checkbox" value="净水器" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 净水器</label>
+        <label class="cb-item"><input type="checkbox" value="嵌入式家电" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 嵌入式家电</label>
+        <label class="cb-item"><input type="checkbox" value="凉霸" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 凉霸</label>
       </div>
-      <div class="grid2">
-        <div><label>书房/办公区</label><textarea id="f-need-study" placeholder="如：需要独立书房、书桌+书柜组合、双人办公位"></textarea></div>
-        <div><label>储物间需求</label><textarea id="f-need-storage" placeholder="如：需要独立储物间、入户鞋柜、阳台储物柜"></textarea></div>
+      <textarea id="f-need-kitchen" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 主卧 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">主卧</div>
+      <div class="checkbox-group" id="cg-masterbed">
+        <label class="cb-item"><input type="checkbox" value="衣帽间/步入式衣柜" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 衣帽间/步入式衣柜</label>
+        <label class="cb-item"><input type="checkbox" value="梳妆台" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 梳妆台</label>
+        <label class="cb-item"><input type="checkbox" value="飘窗改造" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 飘窗改造</label>
+        <label class="cb-item"><input type="checkbox" value="独立卫生间" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 独立卫生间</label>
+        <label class="cb-item"><input type="checkbox" value="小书房/工作区" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 小书房/工作区</label>
+        <label class="cb-item"><input type="checkbox" value="智能窗帘" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 智能窗帘</label>
+        <label class="cb-item"><input type="checkbox" value="保留电视" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 保留电视</label>
+        <label class="cb-item"><input type="checkbox" value="去电视化" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 去电视化</label>
       </div>
-      <div class="grid2">
-        <div><label>玄关需求</label><textarea id="f-need-hallway" placeholder="如：需要换鞋凳、穿衣镜、挂衣区、底部悬空鞋柜"></textarea></div>
-        <div><label>阳台需求</label><textarea id="f-need-balcony" placeholder="如：生活阳台（洗衣柜+晾晒）、休闲阳台（养花+茶台）"></textarea></div>
+      <textarea id="f-need-masterbed" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 次卧 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">次卧</div>
+      <div class="checkbox-group" id="cg-secondbed">
+        <label class="cb-item"><input type="checkbox" value="儿童房（男孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 儿童房（男孩）</label>
+        <label class="cb-item"><input type="checkbox" value="儿童房（女孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 儿童房（女孩）</label>
+        <label class="cb-item"><input type="checkbox" value="老人房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 老人房</label>
+        <label class="cb-item"><input type="checkbox" value="客房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 客房</label>
+        <label class="cb-item"><input type="checkbox" value="多功能房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 多功能房</label>
+        <label class="cb-item"><input type="checkbox" value="榻榻米" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 榻榻米</label>
+        <label class="cb-item"><input type="checkbox" value="书桌+衣柜一体" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 书桌+衣柜一体</label>
       </div>
-      <div><label>智能家居需求</label><textarea id="f-need-smarthome" placeholder="如：需要智能灯光、电动窗帘、智能门锁、全屋智能控制"></textarea></div>
+      <textarea id="f-need-secondbed" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 卫生间 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">卫生间</div>
+      <div class="checkbox-group" id="cg-bathroom">
+        <label class="cb-item"><input type="checkbox" value="干湿分离" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 干湿分离</label>
+        <label class="cb-item"><input type="checkbox" value="浴缸" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 浴缸</label>
+        <label class="cb-item"><input type="checkbox" value="智能马桶" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 智能马桶</label>
+        <label class="cb-item"><input type="checkbox" value="双台盆" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 双台盆</label>
+        <label class="cb-item"><input type="checkbox" value="电热毛巾架" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 电热毛巾架</label>
+        <label class="cb-item"><input type="checkbox" value="壁挂马桶" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 壁挂马桶</label>
+        <label class="cb-item"><input type="checkbox" value="淋浴房" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 淋浴房</label>
+        <label class="cb-item"><input type="checkbox" value="壁龛/收纳" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 壁龛/收纳</label>
+        <label class="cb-item"><input type="checkbox" value="防滑地面" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 防滑地面</label>
+      </div>
+      <textarea id="f-need-bathroom" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 书房/办公区 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">书房/办公区</div>
+      <div class="checkbox-group" id="cg-study">
+        <label class="cb-item"><input type="checkbox" value="独立书房" onchange="updateTextarea('f-need-study','cg-study')"> 独立书房</label>
+        <label class="cb-item"><input type="checkbox" value="书桌+书柜组合" onchange="updateTextarea('f-need-study','cg-study')"> 书桌+书柜组合</label>
+        <label class="cb-item"><input type="checkbox" value="双人办公位" onchange="updateTextarea('f-need-study','cg-study')"> 双人办公位</label>
+        <label class="cb-item"><input type="checkbox" value="榻榻米+书桌" onchange="updateTextarea('f-need-study','cg-study')"> 榻榻米+书桌</label>
+        <label class="cb-item"><input type="checkbox" value="隔音处理" onchange="updateTextarea('f-need-study','cg-study')"> 隔音处理</label>
+        <label class="cb-item"><input type="checkbox" value="展示柜/手办柜" onchange="updateTextarea('f-need-study','cg-study')"> 展示柜/手办柜</label>
+      </div>
+      <textarea id="f-need-study" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 储物间 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">储物间</div>
+      <div class="checkbox-group" id="cg-storage">
+        <label class="cb-item"><input type="checkbox" value="独立储物间" onchange="updateTextarea('f-need-storage','cg-storage')"> 独立储物间</label>
+        <label class="cb-item"><input type="checkbox" value="入户鞋柜" onchange="updateTextarea('f-need-storage','cg-storage')"> 入户鞋柜</label>
+        <label class="cb-item"><input type="checkbox" value="阳台储物柜" onchange="updateTextarea('f-need-storage','cg-storage')"> 阳台储物柜</label>
+        <label class="cb-item"><input type="checkbox" value="衣柜到顶" onchange="updateTextarea('f-need-storage','cg-storage')"> 衣柜到顶</label>
+        <label class="cb-item"><input type="checkbox" value="榻榻米储物" onchange="updateTextarea('f-need-storage','cg-storage')"> 榻榻米储物</label>
+        <label class="cb-item"><input type="checkbox" value="床底储物" onchange="updateTextarea('f-need-storage','cg-storage')"> 床底储物</label>
+      </div>
+      <textarea id="f-need-storage" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 玄关 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">玄关</div>
+      <div class="checkbox-group" id="cg-hallway">
+        <label class="cb-item"><input type="checkbox" value="换鞋凳" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 换鞋凳</label>
+        <label class="cb-item"><input type="checkbox" value="穿衣镜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 穿衣镜</label>
+        <label class="cb-item"><input type="checkbox" value="挂衣区" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 挂衣区</label>
+        <label class="cb-item"><input type="checkbox" value="底部悬空鞋柜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 底部悬空鞋柜</label>
+        <label class="cb-item"><input type="checkbox" value="感应灯" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 感应灯</label>
+        <label class="cb-item"><input type="checkbox" value="全身镜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 全身镜</label>
+        <label class="cb-item"><input type="checkbox" value="钥匙/快递收纳" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 钥匙/快递收纳</label>
+      </div>
+      <textarea id="f-need-hallway" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 阳台 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">阳台</div>
+      <div class="checkbox-group" id="cg-balcony">
+        <label class="cb-item"><input type="checkbox" value="生活阳台（洗衣柜+晾晒）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 生活阳台（洗衣柜+晾晒）</label>
+        <label class="cb-item"><input type="checkbox" value="休闲阳台（养花+茶台）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 休闲阳台（养花+茶台）</label>
+        <label class="cb-item"><input type="checkbox" value="阳台封窗" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 阳台封窗</label>
+        <label class="cb-item"><input type="checkbox" value="洗衣烘干一体" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 洗衣烘干一体</label>
+        <label class="cb-item"><input type="checkbox" value="阳台储物柜" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 阳台储物柜</label>
+        <label class="cb-item"><input type="checkbox" value="阳台花园" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 阳台花园</label>
+      </div>
+      <textarea id="f-need-balcony" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
+      
+      <!-- 智能家居 -->
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">智能家居</div>
+      <div class="checkbox-group" id="cg-smarthome">
+        <label class="cb-item"><input type="checkbox" value="智能灯光" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能灯光</label>
+        <label class="cb-item"><input type="checkbox" value="电动窗帘" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 电动窗帘</label>
+        <label class="cb-item"><input type="checkbox" value="智能门锁" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能门锁</label>
+        <label class="cb-item"><input type="checkbox" value="全屋智能控制" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 全屋智能控制</label>
+        <label class="cb-item"><input type="checkbox" value="智能安防" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能安防</label>
+        <label class="cb-item"><input type="checkbox" value="语音助手" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 语音助手</label>
+        <label class="cb-item"><input type="checkbox" value="智能空调控制" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能空调控制</label>
+        <label class="cb-item"><input type="checkbox" value="智能净水/热水" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能净水/热水</label>
+      </div>
+      <textarea id="f-need-smarthome" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       <!-- 水电暖气 -->
       <div class="section-title">水电暖通</div>
       <div class="grid3">
@@ -605,6 +736,18 @@ function editRecord(id) {
       var el = document.getElementById(fid);
       if (el) el.value = c[fid] || '';
     });
+    // 回显功能区 checkbox
+    setCheckboxesFromTextarea('f-need-livingroom','cg-livingroom');
+    setCheckboxesFromTextarea('f-need-dining','cg-dining');
+    setCheckboxesFromTextarea('f-need-kitchen','cg-kitchen');
+    setCheckboxesFromTextarea('f-need-masterbed','cg-masterbed');
+    setCheckboxesFromTextarea('f-need-secondbed','cg-secondbed');
+    setCheckboxesFromTextarea('f-need-bathroom','cg-bathroom');
+    setCheckboxesFromTextarea('f-need-study','cg-study');
+    setCheckboxesFromTextarea('f-need-storage','cg-storage');
+    setCheckboxesFromTextarea('f-need-hallway','cg-hallway');
+    setCheckboxesFromTextarea('f-need-balcony','cg-balcony');
+    setCheckboxesFromTextarea('f-need-smarthome','cg-smarthome');
     document.getElementById('form-title').textContent = '编辑客户资料 — ' + (c['f-name'] || '');
     navigate('form');
   });
@@ -685,10 +828,40 @@ function resetForm() {
     var el = document.getElementById(fid);
     if (el) el.value = '';
   });
+  // 取消所有功能区 checkbox 勾选
+  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome'];
+  cgIds.forEach(function(gid) {
+    var g = document.getElementById(gid);
+    if (!g) return;
+    var cbs = g.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < cbs.length; i++) cbs[i].checked = false;
+  });
   document.getElementById('form-title').textContent = '新建客户资料';
 }
 
-// ========== Toast 提示 ==========
+// ========== 功能区多选框 -> 自动填入 textarea ==========
+function updateTextarea(textareaId, groupId) {
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var checked = group.querySelectorAll('input[type="checkbox"]:checked');
+  var values = [];
+  for (var i = 0; i < checked.length; i++) values.push(checked[i].value);
+  var ta = document.getElementById(textareaId);
+  if (ta) ta.value = values.join('、');
+}
+
+// 根据 textarea 内容反选 checkbox（编辑时回显）
+function setCheckboxesFromTextarea(textareaId, groupId) {
+  var ta = document.getElementById(textareaId);
+  if (!ta || !ta.value) return;
+  var group = document.getElementById(groupId);
+  if (!group) return;
+  var vals = ta.value.split(/[、,，]/).map(function(s){return s.trim();}).filter(Boolean);
+  var cbs = group.querySelectorAll('input[type="checkbox"]');
+  for (var i = 0; i < cbs.length; i++) {
+    cbs[i].checked = vals.indexOf(cbs[i].value) !== -1;
+  }
+}
 function showToast(msg, type) {
   var el = document.getElementById('toast');
   el.textContent = msg;
