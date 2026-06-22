@@ -94,20 +94,13 @@ textarea { resize:vertical; min-height:60px; }
 </div>
 
 <div class="container">
-  <!-- 首页仪表盘 -->
+  <!-- 首页（仅显示欢迎页+二维码） -->
   <div id="page-dashboard" class="page">
-    <div class="stats">
-      <div class="stat-card"><div class="num" id="stat-total">0</div><div class="label">客户总数</div></div>
-      <div class="stat-card"><div class="num" id="stat-month">0</div><div class="label">本月新增</div></div>
-      <div class="stat-card"><div class="num" id="stat-budget">0</div><div class="label">预算均值(万)</div></div>
-      <div class="stat-card"><div class="num" id="stat-area">0</div><div class="label">面积均值(m²)</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">最近添加的客户</div>
-      <div id="recent-list"></div>
-      <div id="recent-empty" class="empty" style="display:none;">
-        <div class="icon">📋</div>
-        <div>暂无客户资料，点击"新建客户"开始录入</div>
+    <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+      <div style="text-align:center;max-width:400px;">
+        <img src="qrcode.png" alt="微信二维码" style="width:280px;height:280px;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);margin-bottom:20px;">
+        <p style="font-size:15px;color:var(--gray-600);margin-bottom:8px;">扫码添加微信，咨询装修服务</p>
+        <p style="font-size:13px;color:var(--gray-400);">蜂云装饰 · 专业家装服务</p>
       </div>
     </div>
   </div>
@@ -551,50 +544,9 @@ function clearLocalData() {
   localStorage.removeItem(LS_KEY);
 }
 
-// ========== 仪表盘 ==========
-// 手机号脱敏：138xxxx0000
-function maskPhone(phone) {
-  if (!phone) return '';
-  var s = String(phone).replace(/\D/g, '');
-  if (s.length >= 7) return s.slice(0, 3) + '****' + s.slice(-4);
-  return s.slice(0, 3) + '****';
-}
-
+// ========== 仪表盘（首页已简化为欢迎页） ==========
 function renderDashboard() {
-  var list = allCustomers;
-  document.getElementById('stat-total').textContent = list.length;
-  var now = new Date(), curMonth = now.getMonth(), curYear = now.getFullYear();
-  var thisMonth = list.filter(function(c) {
-    var d = c._created_at ? new Date(c._created_at) : null;
-    return d && d.getMonth() === curMonth && d.getFullYear() === curYear;
-  });
-  document.getElementById('stat-month').textContent = thisMonth.length;
-  var budgets = list.map(function(c) {
-    var b = c['f-budget'] || '';
-    var m = b.match(/(\d+)/); return m ? parseInt(m[1]) : null;
-  }).filter(function(n) { return n; });
-  var avgBudget = budgets.length ? Math.round(budgets.reduce(function(a,b){return a+b;},0)/budgets.length) : 0;
-  document.getElementById('stat-budget').textContent = avgBudget;
-  var areas = list.map(function(c) { return parseInt(c['f-area']); }).filter(function(n) { return n; });
-  var avgArea = areas.length ? Math.round(areas.reduce(function(a,b){return a+b;},0)/areas.length) : 0;
-  document.getElementById('stat-area').textContent = avgArea;
-  // 最近6条
-  var recent = list.slice(0, 6);
-  var container = document.getElementById('recent-list');
-  var empty = document.getElementById('recent-empty');
-  if (recent.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  container.innerHTML = recent.map(function(c) {
-    var name = c['f-name'] || '未填写';
-    var phone = maskPhone(c['f-phone']);
-    var area = c['f-area'] ? c['f-area'] + 'm²' : '';
-    var budget = c['f-budget'] || '';
-    var style = c['f-style'] || '';
-    return '<div class="customer-card"><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
-      (budget ? '<span class="tag tag-orange">' + budget + '</span>' : '') +
-      (style ? '<span class="tag tag-blue">' + style + '</span>' : '') +
-      '</div></div>';
-  }).join('');
+  // 首页仅显示二维码，无需渲染数据
 }
 
 // ========== 客户列表 ==========
