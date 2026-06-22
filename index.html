@@ -122,21 +122,31 @@ textarea { resize:vertical; min-height:60px; }
         <div><label>性别</label><select id="f-gender"><option value="">请选择</option><option>男</option><option>女</option></select></div>
       </div>
       <div class="grid3">
-        <div><label>年龄区间</label><select id="f-age"><option value="">请选择</option><option>20-30岁</option><option>30-40岁</option><option>40-50岁</option><option>50岁以上</option></select></div>
-        <div><label>职业</label><input id="f-job" placeholder="如：教师、工程师"></div>
-        <div><label>推荐来源</label><select id="f-source"><option value="">请选择</option><option>朋友推荐</option><option>线上推广</option><option>门店到访</option><option>其他</option></select></div>
+        <div><label>年龄区间</label><select id="f-age"><option value="">请选择</option><option>20-25岁</option><option>25-30岁</option><option>30-35岁</option><option>35-40岁</option><option>40-50岁</option><option>50-60岁</option><option>60岁以上</option></select></div>
+        <div><label>职业</label><input id="f-job" placeholder="如：教师、医生、IT、自由职业"></div>
+        <div><label>推荐来源</label><select id="f-source"><option value="">请选择</option><option>朋友推荐</option><option>老客户转介绍</option><option>抖音/小红书</option><option>微信朋友圈</option><option>百度/搜索广告</option><option>小区推广</option><option>门店到访</option><option>装修平台</option><option>其他</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>是否养宠物</label><select id="f-pet"><option value="">请选择</option><option>是</option><option>否</option></select></div>
+        <div><label>宠物类型</label><select id="f-petdetail"><option value="">请选择</option><option>无</option><option>狗</option><option>猫</option><option>猫+狗</option><option>其他小宠</option></select></div>
+        <div><label>紧急程度</label><select id="f-urgency"><option value="">请选择</option><option>非常急（一周内）</option><option>较急（一个月内）</option><option>三个月内</option><option>半年内</option><option>不着急，先了解</option></select></div>
       </div>
       <!-- 房屋信息 -->
       <div class="section-title">房屋信息</div>
       <div class="grid3">
         <div><label>房屋面积(m²)</label><input id="f-area" type="number" placeholder="如：120"></div>
-        <div><label>户型</label><select id="f-housetype"><option value="">请选择</option><option>一居</option><option>两居</option><option>三居</option><option>四居</option><option>复式</option><option>别墅</option></select></div>
-        <div><label>房屋类型</label><select id="f-propertytype"><option value="">请选择</option><option>新房</option><option>二手房</option><option>老房翻新</option></select></div>
+        <div><label>户型</label><select id="f-housetype"><option value="">请选择</option><option>一居室</option><option>两居室</option><option>三居室一厅</option><option>三居室两厅</option><option>四居室</option><option>五居室及以上</option><option>复式</option><option>别墅</option><option>LOFT</option></select></div>
+        <div><label>房屋类型</label><select id="f-propertytype"><option value="">请选择</option><option>新房（毛坯）</option><option>新房（精装）</option><option>二手房翻新</option><option>老房改造</option><option>局部翻新</option></select></div>
       </div>
       <div class="grid3">
-        <div><label>装修地址</label><input id="f-address" placeholder="详细地址"></div>
+        <div><label>装修地址</label><input id="f-address" placeholder="详细地址（小区名称）"></div>
         <div><label>楼层</label><input id="f-floor" placeholder="如：6层/共18层"></div>
-        <div><label>朝向</label><select id="f-direction"><option value="">请选择</option><option>南北通透</option><option>朝南</option><option>朝东</option><option>朝西</option><option>其他</option></select></div>
+        <div><label>朝向</label><select id="f-direction"><option value="">请选择</option><option>南北通透</option><option>朝南</option><option>朝东南</option><option>朝东</option><option>朝西</option><option>朝北</option><option>东西向</option><option>其他</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>房屋年限</label><select id="f-houseage"><option value="">请选择</option><option>新房未入住</option><option>1-3年</option><option>3-5年</option><option>5-10年</option><option>10-15年</option><option>15年以上</option></select></div>
+        <div><label>层高(m)</label><input id="f-floorheight" type="number" step="0.1" placeholder="如：2.8"></div>
+        <div><label>是否有电梯</label><select id="f-elevator"><option value="">请选择</option><option>有</option><option>无</option><option>多层无电梯</option></select></div>
       </div>
       <!-- 家庭成员 -->
       <div class="section-title">家庭成员</div>
@@ -149,43 +159,62 @@ textarea { resize:vertical; min-height:60px; }
       <!-- 风格偏好 -->
       <div class="section-title">风格偏好</div>
       <div class="grid3">
-        <div><label>装修风格</label><select id="f-style"><option value="">请选择</option><option>现代简约</option><option>北欧风</option><option>新中式</option><option>美式</option><option>法式</option><option>日式</option><option>混搭</option><option>其他</option></select></div>
-        <div><label>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>浅色系</option><option>深色系</option><option>彩色系</option><option>无偏好</option></select></div>
-        <div><label>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>是</option><option>否</option><option>待定</option></select></div>
+        <div><label>装修风格</label><select id="f-style"><option value="">请选择</option><option>现代简约</option><option>北欧风</option><option>新中式</option><option>轻奢风</option><option>美式</option><option>法式</option><option>日式/原木</option><option>工业风</option><option>地中海</option><option>混搭</option><option>奶油风</option><option>侘寂风</option><option>其他</option></select></div>
+        <div><label>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>浅色系（白/米/灰）</option><option>深色系（黑/灰/棕）</option><option>暖色系（橙/黄/红）</option><option>冷色系（蓝/绿/紫）</option><option>黑白灰极简</option><option>无特别偏好</option></select></div>
+        <div><label>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>是，全部定制</option><option>是，部分定制</option><option>否，成品家具</option><option>待定</option></select></div>
       </div>
+      <div><label>参考风格/案例描述</label><textarea id="f-reference" placeholder="如：喜欢小红书上的XX博主风格、参考了XX酒店的装修、偏好简约但不冷清"></textarea></div>
       <!-- 功能区需求 -->
       <div class="section-title">功能区需求</div>
       <div class="grid2">
-        <div><label>客厅需求</label><textarea id="f-need-livingroom" placeholder="如：需要投影仪、拒绝繁杂吊顶"></textarea></div>
-        <div><label>餐厅需求</label><textarea id="f-need-dining" placeholder="如：需要餐边柜、吧台"></textarea></div>
+        <div><label>客厅需求</label><textarea id="f-need-livingroom" placeholder="如：需要投影仪/电视墙、拒绝繁杂吊顶、想要无主灯设计"></textarea></div>
+        <div><label>餐厅需求</label><textarea id="f-need-dining" placeholder="如：需要餐边柜、吧台、岛台一体、圆桌/长桌"></textarea></div>
       </div>
       <div class="grid2">
-        <div><label>厨房需求</label><textarea id="f-need-kitchen" placeholder="如：开放式厨房、需要中岛台"></textarea></div>
-        <div><label>主卧需求</label><textarea id="f-need-masterbed" placeholder="如：需要衣帽间、看书区"></textarea></div>
+        <div><label>厨房需求</label><textarea id="f-need-kitchen" placeholder="如：开放式/封闭式、需要中岛台、双开门冰箱、集成灶"></textarea></div>
+        <div><label>主卧需求</label><textarea id="f-need-masterbed" placeholder="如：需要衣帽间/步入式衣柜、梳妆台、飘窗改造"></textarea></div>
       </div>
       <div class="grid2">
-        <div><label>次卧需求</label><textarea id="f-need-secondbed" placeholder="如：儿童房、老人房"></textarea></div>
-        <div><label>卫生间需求</label><textarea id="f-need-bathroom" placeholder="如：干湿分离、需要浴缸"></textarea></div>
+        <div><label>次卧需求</label><textarea id="f-need-secondbed" placeholder="如：儿童房（性别/年龄）、老人房、客房"></textarea></div>
+        <div><label>卫生间需求</label><textarea id="f-need-bathroom" placeholder="如：干湿分离、需要浴缸/智能马桶、双台盆"></textarea></div>
       </div>
-      <div><label>阳台需求</label><textarea id="f-need-balcony" placeholder="如：需要洗衣柜、养花区"></textarea></div>
+      <div class="grid2">
+        <div><label>书房/办公区</label><textarea id="f-need-study" placeholder="如：需要独立书房、书桌+书柜组合、双人办公位"></textarea></div>
+        <div><label>储物间需求</label><textarea id="f-need-storage" placeholder="如：需要独立储物间、入户鞋柜、阳台储物柜"></textarea></div>
+      </div>
+      <div class="grid2">
+        <div><label>玄关需求</label><textarea id="f-need-hallway" placeholder="如：需要换鞋凳、穿衣镜、挂衣区、底部悬空鞋柜"></textarea></div>
+        <div><label>阳台需求</label><textarea id="f-need-balcony" placeholder="如：生活阳台（洗衣柜+晾晒）、休闲阳台（养花+茶台）"></textarea></div>
+      </div>
+      <div><label>智能家居需求</label><textarea id="f-need-smarthome" placeholder="如：需要智能灯光、电动窗帘、智能门锁、全屋智能控制"></textarea></div>
       <!-- 水电暖气 -->
-      <div class="section-title">水电暖气</div>
+      <div class="section-title">水电暖通</div>
       <div class="grid3">
-        <div><label>冷水</label><select id="f-water-cold"><option value="">请选择</option><option>已接通</option><option>未接通</option></select></div>
-        <div><label>热水</label><select id="f-water-hot"><option value="">请选择</option><option>燃气热水器</option><option>电热水器</option><option>太阳能</option><option>集中供暖热水</option><option>无</option></select></div>
-        <div><label>自来水水质</label><select id="f-water-quality"><option value="">请选择</option><option>良好</option><option>一般</option><option>较差（需加装过滤器）</option></select></div>
+        <div><label>冷水</label><select id="f-water-cold"><option value="">请选择</option><option>已接通</option><option>未接通（需改造）</option></select></div>
+        <div><label>热水</label><select id="f-water-hot"><option value="">请选择</option><option>燃气热水器</option><option>电热水器</option><option>太阳能热水器</option><option>空气能热水器</option><option>集中供暖热水</option><option>无</option></select></div>
+        <div><label>自来水水质</label><select id="f-water-quality"><option value="">请选择</option><option>良好</option><option>一般（建议安装前置过滤器）</option><option>较差（需加装全屋净水）</option></select></div>
       </div>
       <div class="grid3">
-        <div><label>强电</label><select id="f-electric"><option value="">请选择</option><option>已接通</option><option>未接通</option><option>需增容</option></select></div>
+        <div><label>净水系统</label><select id="f-water-purifier"><option value="">请选择</option><option>已有</option><option>需要安装（厨下RO）</option><option>需要安装（全屋净水）</option><option>不需要</option></select></div>
+        <div><label>强电</label><select id="f-electric"><option value="">请选择</option><option>已接通，够用</option><option>已接通，需增容</option><option>未接通</option><option>需全屋改电</option></select></div>
         <div><label>弱电（网络/电视）</label><select id="f-weak-electric"><option value="">请选择</option><option>已接通</option><option>未接通</option></select></div>
+      </div>
+      <div class="grid3">
         <div><label>暖气</label><select id="f-heating"><option value="">请选择</option><option>集中供暖</option><option>自采暖（壁挂炉）</option><option>空调采暖</option><option>无</option></select></div>
+        <div><label>地暖</label><select id="f-floor-heating"><option value="">请选择</option><option>已有地暖</option><option>需要安装地暖</option><option>不需要</option></select></div>
+        <div><label>空调类型</label><select id="f-ac-type"><option value="">请选择</option><option>中央空调</option><option>分体空调</option><option>风管机</option><option>中央+分体组合</option><option>不需要</option></select></div>
       </div>
       <!-- 预算与工期 -->
       <div class="section-title">预算与工期</div>
       <div class="grid3">
-        <div><label>装修预算</label><select id="f-budget"><option value="">请选择</option><option>5万以下</option><option>5-10万</option><option>10-15万</option><option>15-20万</option><option>20-30万</option><option>30万以上</option></select></div>
+        <div><label>装修预算</label><select id="f-budget"><option value="">请选择</option><option>5万以下</option><option>5-10万</option><option>10-15万</option><option>15-20万</option><option>20-25万</option><option>25-30万</option><option>30-40万</option><option>40-50万</option><option>50万以上</option></select></div>
         <div><label>预计开工时间</label><input id="f-date" type="date"></div>
-        <div><label>工期要求</label><select id="f-duration"><option value="">请选择</option><option>1-2个月</option><option>2-3个月</option><option>3-4个月</option><option>4个月以上</option><option>不急</option></select></div>
+        <div><label>工期要求</label><select id="f-duration"><option value="">请选择</option><option>1-2个月</option><option>2-3个月</option><option>3-4个月</option><option>4-5个月</option><option>5个月以上</option><option>不急，质量优先</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>付款方式偏好</label><select id="f-payment"><option value="">请选择</option><option>全款一次性付清</option><option>分期付款（节点支付）</option><option>贷款/装修贷</option><option>待沟通</option></select></div>
+        <div></div>
+        <div></div>
       </div>
       <!-- 其他需求 -->
       <div class="section-title">其他需求</div>
@@ -537,7 +566,7 @@ function saveRecord() {
     if (!name || !phone) { showToast('请填写客户姓名和联系电话', 'error'); return; }
     var id = document.getElementById('f-id').value || ('c' + Date.now() + Math.random().toString(36).substr(2,5));
     var record = {};
-    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
+    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-pet','f-petdetail','f-urgency','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-houseage','f-floorheight','f-elevator','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-reference','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-study','f-need-storage','f-need-hallway','f-need-balcony','f-need-smarthome','f-water-cold','f-water-hot','f-water-quality','f-water-purifier','f-electric','f-weak-electric','f-heating','f-floor-heating','f-ac-type','f-budget','f-date','f-duration','f-payment','f-other'];
     ids.forEach(function(fid) {
       var el = document.getElementById(fid);
       if (el) record[fid] = el.value;
@@ -571,7 +600,7 @@ function editRecord(id) {
     var c = allCustomers.find(function(x) { return x.id === id; });
     if (!c) { alert('客户不存在'); return; }
     document.getElementById('f-id').value = c.id;
-    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
+    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-pet','f-petdetail','f-urgency','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-houseage','f-floorheight','f-elevator','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-reference','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-study','f-need-storage','f-need-hallway','f-need-balcony','f-need-smarthome','f-water-cold','f-water-hot','f-water-quality','f-water-purifier','f-electric','f-weak-electric','f-heating','f-floor-heating','f-ac-type','f-budget','f-date','f-duration','f-payment','f-other'];
     ids.forEach(function(fid) {
       var el = document.getElementById(fid);
       if (el) el.value = c[fid] || '';
@@ -620,13 +649,13 @@ function exportAllData() {
     var list = allCustomers;
     if (list.length === 0) { showToast('没有数据可导出', 'error'); return; }
     var FIELD_MAP = {
-      'f-name':{label:'客户姓名'},'f-phone':{label:'联系电话'},'f-gender':{label:'性别'},'f-age':{label:'年龄区间'},'f-job':{label:'职业'},'f-source':{label:'推荐来源'},
-      'f-area':{label:'房屋面积'},'f-housetype':{label:'户型'},'f-propertytype':{label:'房屋类型'},'f-address':{label:'装修地址'},'f-floor':{label:'楼层'},'f-direction':{label:'朝向'},
+      'f-name':{label:'客户姓名'},'f-phone':{label:'联系电话'},'f-gender':{label:'性别'},'f-age':{label:'年龄区间'},'f-job':{label:'职业'},'f-source':{label:'推荐来源'},'f-pet':{label:'是否养宠物'},'f-petdetail':{label:'宠物类型'},'f-urgency':{label:'紧急程度'},
+      'f-area':{label:'房屋面积'},'f-housetype':{label:'户型'},'f-propertytype':{label:'房屋类型'},'f-address':{label:'装修地址'},'f-floor':{label:'楼层'},'f-direction':{label:'朝向'},'f-houseage':{label:'房屋年限'},'f-floorheight':{label:'层高'},'f-elevator':{label:'是否有电梯'},
       'f-familycount':{label:'家庭成员数'},'f-haselderly':{label:'是否有老人'},'f-haschildren':{label:'是否有小孩'},'f-familynote':{label:'家庭成员备注'},
-      'f-style':{label:'装修风格'},'f-color':{label:'色彩偏好'},'f-custom':{label:'全屋定制'},
-      'f-need-livingroom':{label:'客厅需求'},'f-need-dining':{label:'餐厅需求'},'f-need-kitchen':{label:'厨房需求'},'f-need-masterbed':{label:'主卧需求'},'f-need-secondbed':{label:'次卧需求'},'f-need-bathroom':{label:'卫生间需求'},'f-need-balcony':{label:'阳台需求'},
-      'f-water-cold':{label:'冷水'},'f-water-hot':{label:'热水'},'f-water-quality':{label:'自来水水质'},'f-electric':{label:'强电'},'f-weak-electric':{label:'弱电'},'f-heating':{label:'暖气'},
-      'f-budget':{label:'装修预算'},'f-date':{label:'预计开工时间'},'f-duration':{label:'工期要求'},'f-other':{label:'特殊需求'}
+      'f-style':{label:'装修风格'},'f-color':{label:'色彩偏好'},'f-custom':{label:'全屋定制'},'f-reference':{label:'参考风格'},
+      'f-need-livingroom':{label:'客厅需求'},'f-need-dining':{label:'餐厅需求'},'f-need-kitchen':{label:'厨房需求'},'f-need-masterbed':{label:'主卧需求'},'f-need-secondbed':{label:'次卧需求'},'f-need-bathroom':{label:'卫生间需求'},'f-need-study':{label:'书房需求'},'f-need-storage':{label:'储物需求'},'f-need-hallway':{label:'玄关需求'},'f-need-balcony':{label:'阳台需求'},'f-need-smarthome':{label:'智能家居'},
+      'f-water-cold':{label:'冷水'},'f-water-hot':{label:'热水'},'f-water-quality':{label:'自来水水质'},'f-water-purifier':{label:'净水系统'},'f-electric':{label:'强电'},'f-weak-electric':{label:'弱电'},'f-heating':{label:'暖气'},'f-floor-heating':{label:'地暖'},'f-ac-type':{label:'空调类型'},
+      'f-budget':{label:'装修预算'},'f-date':{label:'预计开工时间'},'f-duration':{label:'工期要求'},'f-payment':{label:'付款方式'},'f-other':{label:'特殊需求'}
     };
     var fids = Object.keys(FIELD_MAP);
     var header = fids.map(function(fid) { return FIELD_MAP[fid].label; });
