@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蜂云装饰客户资料管理系统</title>
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+:root {
+  --primary: #e8531a; --primary-dark: #c94310; --primary-light: #fff0eb;
+  --secondary: #2d6cdf; --secondary-light: #eaf1ff;
+  --success: #1a9e5e; --success-light: #e6f7ef;
+  --warning: #e6a817; --warning-light: #fdf6e3;
+  --danger: #d63838; --danger-light: #ffeded;
+  --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+  --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280;
+  --gray-600: #4b5563; --gray-700: #374151; --gray-800: #1f2937;
+  --radius: 12px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+body { font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height:1.6; }
+.header { background: #fff; border-bottom: 3px solid var(--primary); padding: 16px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.header h1 { font-size:20px; color:var(--primary); }
+.header h1 span { color:var(--gray-600); font-weight:400; font-size:14px; margin-left:8px; }
+.nav { display:flex; gap:6px; }
+.nav-btn { padding:8px 18px; border:2px solid var(--gray-200); border-radius:20px; background:#fff; cursor:pointer; font-size:13px; transition:all .2s; }
+.nav-btn:hover, .nav-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.container { max-width:1100px; margin:24px auto; padding:0 16px; }
+.card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; margin-bottom:20px; }
+.card-title { font-size:16px; font-weight:600; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+label { display:block; font-size:13px; font-weight:500; color:var(--gray-600); margin-bottom:4px; }
+input, select, textarea { width:100%; padding:10px 12px; border:1.5px solid var(--gray-200); border-radius:8px; font-size:14px; transition:border .2s; background:#fff; }
+input:focus, select:focus, textarea:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
+textarea { resize:vertical; min-height:60px; }
+.btn { padding:10px 24px; border:none; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; transition:all .2s; }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:var(--primary-dark); }
+.btn-outline { background:#fff; color:var(--gray-700); border:1.5px solid var(--gray-200); }
+.btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+.btn-danger { background:var(--danger); color:#fff; }
+.btn-danger:hover { background:#b91c1c; }
+.btn-sm { padding:6px 14px; font-size:12px; }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
+.stat-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; text-align:center; }
+.stat-card .num { font-size:28px; font-weight:700; color:var(--primary); }
+.stat-card .label { font-size:12px; color:var(--gray-500); margin-top:4px; }
+.customer-card { background:#fff; border:1.5px solid var(--gray-100); border-radius:var(--radius); padding:16px; margin-bottom:12px; transition:all .2s; }
+.customer-card:hover { border-color:var(--primary); box-shadow:0 4px 16px rgba(232,83,26,0.10); }
+.customer-card .name { font-size:16px; font-weight:600; color:var(--gray-800); }
+.customer-card .meta { font-size:12px; color:var(--gray-400); margin:4px 0 8px; }
+.customer-card .tags { display:flex; gap:6px; flex-wrap:wrap; }
+.tag { padding:3px 10px; border-radius:12px; font-size:11px; }
+.tag-orange { background:var(--warning-light); color:#b7791f; }
+.tag-blue { background:var(--secondary-light); color:var(--secondary); }
+.tag-green { background:var(--success-light); color:var(--success); }
+.search-box { width:100%; padding:10px 16px; border:1.5px solid var(--gray-200); border-radius:8px; font-size:14px; margin-bottom:16px; }
+.search-box:focus { outline:none; border-color:var(--primary); }
+.empty { text-align:center; padding:48px 20px; color:var(--gray-400); }
+.empty .icon { font-size:48px; margin-bottom:12px; }
+.toast { position:fixed; top:20px; right:20px; padding:14px 24px; border-radius:8px; font-size:14px; font-weight:500; z-index:9999; opacity:0; transition:all .3s; pointer-events:none; }
+.toast.show { opacity:1; pointer-events:auto; }
+.toast-success { background:var(--success); color:#fff; }
+.toast-error { background:var(--danger); color:#fff; }
+.toast-warning { background:var(--warning); color:#fff; }
+.section-title { font-size:14px; font-weight:600; color:var(--primary); margin:20px 0 10px; padding-left:10px; border-left:3px solid var(--primary); }
+.form-actions { display:flex; gap:12px; margin-top:24px; }
+.header-actions { display:flex; gap:8px; }
+.db-status { font-size:12px; padding:4px 10px; border-radius:12px; background:var(--gray-100); }
+@media(max-width:768px){
+  .grid2,.grid3 { grid-template-columns:1fr; }
+  .stats { grid-template-columns:repeat(2,1fr); }
+  .header { flex-direction:column; gap:10px; }
+  .header-actions { flex-wrap:wrap; }
+}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>蜂云装饰客户资料管理系统 <span class="db-status" id="db-status">检测中...</span></h1>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="btn btn-outline btn-sm" onclick="syncToCloud()" id="btn-sync" style="display:none;" title="将本地数据同步到云端">☁️ 同步</button>
+    <div class="nav">
+      <button class="nav-btn active" onclick="navigate('dashboard')">首页</button>
+      <button class="nav-btn" onclick="navigate('form')">新建客户</button>
+      <button class="nav-btn" onclick="requireAuth(function(){ navigate('list'); })">客户列表</button>
+      <button class="nav-btn" onclick="requireAuth(function(){ navigate('backup'); })">备份恢复</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 首页仪表盘 -->
+  <div id="page-dashboard" class="page">
+    <div class="stats">
+      <div class="stat-card"><div class="num" id="stat-total">0</div><div class="label">客户总数</div></div>
+      <div class="stat-card"><div class="num" id="stat-month">0</div><div class="label">本月新增</div></div>
+      <div class="stat-card"><div class="num" id="stat-budget">0</div><div class="label">预算均值(万)</div></div>
+      <div class="stat-card"><div class="num" id="stat-area">0</div><div class="label">面积均值(m²)</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">最近添加的客户</div>
+      <div id="recent-list"></div>
+      <div id="recent-empty" class="empty" style="display:none;">
+        <div class="icon">📋</div>
+        <div>暂无客户资料，点击"新建客户"开始录入</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新建/编辑客户 -->
+  <div id="page-form" class="page" style="display:none;">
+    <div class="card">
+      <div class="card-title" id="form-title">新建客户资料</div>
+      <input type="hidden" id="f-id">
+      <!-- 基本信息 -->
+      <div class="section-title">基本信息</div>
+      <div class="grid3">
+        <div><label>客户姓名 *</label><input id="f-name" placeholder="必填"></div>
+        <div><label>联系电话 *</label><input id="f-phone" placeholder="必填"></div>
+        <div><label>性别</label><select id="f-gender"><option value="">请选择</option><option>男</option><option>女</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>年龄区间</label><select id="f-age"><option value="">请选择</option><option>20-30岁</option><option>30-40岁</option><option>40-50岁</option><option>50岁以上</option></select></div>
+        <div><label>职业</label><input id="f-job" placeholder="如：教师、工程师"></div>
+        <div><label>推荐来源</label><select id="f-source"><option value="">请选择</option><option>朋友推荐</option><option>线上推广</option><option>门店到访</option><option>其他</option></select></div>
+      </div>
+      <!-- 房屋信息 -->
+      <div class="section-title">房屋信息</div>
+      <div class="grid3">
+        <div><label>房屋面积(m²)</label><input id="f-area" type="number" placeholder="如：120"></div>
+        <div><label>户型</label><select id="f-housetype"><option value="">请选择</option><option>一居</option><option>两居</option><option>三居</option><option>四居</option><option>复式</option><option>别墅</option></select></div>
+        <div><label>房屋类型</label><select id="f-propertytype"><option value="">请选择</option><option>新房</option><option>二手房</option><option>老房翻新</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>装修地址</label><input id="f-address" placeholder="详细地址"></div>
+        <div><label>楼层</label><input id="f-floor" placeholder="如：6层/共18层"></div>
+        <div><label>朝向</label><select id="f-direction"><option value="">请选择</option><option>南北通透</option><option>朝南</option><option>朝东</option><option>朝西</option><option>其他</option></select></div>
+      </div>
+      <!-- 家庭成员 -->
+      <div class="section-title">家庭成员</div>
+      <div class="grid3">
+        <div><label>家庭成员数</label><input id="f-familycount" type="number" placeholder="几口人"></div>
+        <div><label>是否有老人</label><select id="f-haselderly"><option value="">请选择</option><option>是</option><option>否</option></select></div>
+        <div><label>是否有小孩</label><select id="f-haschildren"><option value="">请选择</option><option>是（0-3岁）</option><option>是（3-12岁）</option><option>是（12岁以上）</option><option>否</option></select></div>
+      </div>
+      <div><label>家庭成员备注</label><textarea id="f-familynote" placeholder="如：老人需无障碍设施，小孩需防撞设计"></textarea></div>
+      <!-- 风格偏好 -->
+      <div class="section-title">风格偏好</div>
+      <div class="grid3">
+        <div><label>装修风格</label><select id="f-style"><option value="">请选择</option><option>现代简约</option><option>北欧风</option><option>新中式</option><option>美式</option><option>法式</option><option>日式</option><option>混搭</option><option>其他</option></select></div>
+        <div><label>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>浅色系</option><option>深色系</option><option>彩色系</option><option>无偏好</option></select></div>
+        <div><label>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>是</option><option>否</option><option>待定</option></select></div>
+      </div>
+      <!-- 功能区需求 -->
+      <div class="section-title">功能区需求</div>
+      <div class="grid2">
+        <div><label>客厅需求</label><textarea id="f-need-livingroom" placeholder="如：需要投影仪、拒绝繁杂吊顶"></textarea></div>
+        <div><label>餐厅需求</label><textarea id="f-need-dining" placeholder="如：需要餐边柜、吧台"></textarea></div>
+      </div>
+      <div class="grid2">
+        <div><label>厨房需求</label><textarea id="f-need-kitchen" placeholder="如：开放式厨房、需要中岛台"></textarea></div>
+        <div><label>主卧需求</label><textarea id="f-need-masterbed" placeholder="如：需要衣帽间、看书区"></textarea></div>
+      </div>
+      <div class="grid2">
+        <div><label>次卧需求</label><textarea id="f-need-secondbed" placeholder="如：儿童房、老人房"></textarea></div>
+        <div><label>卫生间需求</label><textarea id="f-need-bathroom" placeholder="如：干湿分离、需要浴缸"></textarea></div>
+      </div>
+      <div><label>阳台需求</label><textarea id="f-need-balcony" placeholder="如：需要洗衣柜、养花区"></textarea></div>
+      <!-- 水电暖气 -->
+      <div class="section-title">水电暖气</div>
+      <div class="grid3">
+        <div><label>冷水</label><select id="f-water-cold"><option value="">请选择</option><option>已接通</option><option>未接通</option></select></div>
+        <div><label>热水</label><select id="f-water-hot"><option value="">请选择</option><option>燃气热水器</option><option>电热水器</option><option>太阳能</option><option>集中供暖热水</option><option>无</option></select></div>
+        <div><label>自来水水质</label><select id="f-water-quality"><option value="">请选择</option><option>良好</option><option>一般</option><option>较差（需加装过滤器）</option></select></div>
+      </div>
+      <div class="grid3">
+        <div><label>强电</label><select id="f-electric"><option value="">请选择</option><option>已接通</option><option>未接通</option><option>需增容</option></select></div>
+        <div><label>弱电（网络/电视）</label><select id="f-weak-electric"><option value="">请选择</option><option>已接通</option><option>未接通</option></select></div>
+        <div><label>暖气</label><select id="f-heating"><option value="">请选择</option><option>集中供暖</option><option>自采暖（壁挂炉）</option><option>空调采暖</option><option>无</option></select></div>
+      </div>
+      <!-- 预算与工期 -->
+      <div class="section-title">预算与工期</div>
+      <div class="grid3">
+        <div><label>装修预算</label><select id="f-budget"><option value="">请选择</option><option>5万以下</option><option>5-10万</option><option>10-15万</option><option>15-20万</option><option>20-30万</option><option>30万以上</option></select></div>
+        <div><label>预计开工时间</label><input id="f-date" type="date"></div>
+        <div><label>工期要求</label><select id="f-duration"><option value="">请选择</option><option>1-2个月</option><option>2-3个月</option><option>3-4个月</option><option>4个月以上</option><option>不急</option></select></div>
+      </div>
+      <!-- 其他需求 -->
+      <div class="section-title">其他需求</div>
+      <div><label>特殊需求备注</label><textarea id="f-other" placeholder="如：环保要求高（有小孩）、需要智能家居"></textarea></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveRecord()">💾 保存客户资料</button>
+        <button class="btn btn-outline" onclick="resetForm()">🔄 重置表单</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 客户列表 -->
+  <div id="page-list" class="page" style="display:none;">
+    <div class="card">
+      <div class="card-title">客户列表
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="navigate('form')">➕ 新建客户</button>
+          <button class="btn btn-outline" onclick="exportAllData()">📤 导出数据</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteAllCustomers()">🗑️ 删除所有客户</button>
+        </div>
+      </div>
+      <input class="search-box" id="search-input" placeholder="🔍 搜索客户姓名、电话..." oninput="renderList()">
+      <div id="customer-list"></div>
+      <div id="list-empty" class="empty" style="display:none;">
+        <div class="icon">🔍</div>
+        <div>未找到匹配的客户</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 备份恢复 -->
+  <div id="page-backup" class="page" style="display:none;">
+    <div class="card">
+      <div class="card-title">📦 数据备份与恢复</div>
+      <p style="color:var(--gray-500);margin-bottom:16px;">您的数据同时保存在浏览器本地和百度网盘，双重保障永不丢失。</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <button class="btn btn-primary" onclick="backupToJson()">📥 导出备份文件（JSON）</button>
+        <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">📤 从备份文件恢复</button>
+        <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importFromJson(event)">
+        <button class="btn btn-outline" onclick="backupToBaiduNetdisk()">☁️ 备份到百度网盘</button>
+        <button class="btn btn-outline" onclick="restoreFromBaiduNetdisk()">📦 从百度网盘恢复</button>
+      </div>
+      <div id="backup-status" style="padding:12px;background:var(--gray-50);border-radius:8px;font-size:13px;color:var(--gray-600);"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ========== 全局变量 ==========
+var allCustomers = [];
+var AUTH_PWD = '131313';
+var authed = false;
+var LS_KEY = 'fengyun_customers_data';
+
+// ========== 密码保护 ==========
+function requireAuth(callback) {
+  if (authed) { callback(); return; }
+  var pwd = prompt('请输入访问密码：');
+  if (pwd === AUTH_PWD) { authed = true; callback(); }
+  else if (pwd !== null) { alert('密码错误！'); }
+}
+
+// ========== 导航 ==========
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(function(p) { p.style.display = 'none'; });
+  document.getElementById('page-' + page).style.display = 'block';
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (event && event.target) event.target.classList.add('active');
+  if (page === 'dashboard') renderDashboard();
+  if (page === 'list') requireAuth(function() { renderList(); });
+}
+
+// ========== 云同步 API ==========
+var cloudOnline = false;
+
+async function api(method, path, body) {
+  var opts = { method: method, headers: {} };
+  if (body) {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  var resp = await fetch('/api' + path, opts);
+  if (!resp.ok) {
+    var err = await resp.text();
+    throw new Error(err || 'HTTP ' + resp.status);
+  }
+  return resp.json();
+}
+
+async function checkCloudHealth() {
+  try { var r = await api('GET', '/health'); cloudOnline = r.online === true; return cloudOnline; }
+  catch(e) { cloudOnline = false; return false; }
+}
+
+async function saveToCloud(record) {
+  try { await api('POST', '/customers', record); return true; }
+  catch(e) { console.error('云端保存失败:', e.message); return false; }
+}
+
+async function loadFromCloud() {
+  try { var data = await api('GET', '/customers'); cloudOnline = true; return data; }
+  catch(e) { console.error('云端加载失败:', e.message); cloudOnline = false; return null; }
+}
+
+async function deleteFromCloud(id) {
+  try { await api('DELETE', '/customers/' + id); return true; }
+  catch(e) { console.error('云端删除失败:', e.message); return false; }
+}
+
+async function deleteAllFromCloud() {
+  try { await api('DELETE', '/customers/all'); return true; }
+  catch(e) { console.error('云端删除全部失败:', e.message); return false; }
+}
+
+function updateCloudStatus() {
+  var el = document.getElementById('db-status');
+  var syncBtn = document.getElementById('btn-sync');
+  if (!el) return;
+  if (cloudOnline) {
+    el.textContent = '✅ 云端已连接 | ' + allCustomers.length + ' 条数据';
+    el.style.color = '#1a9e5e'; el.style.background = '#e6f7ef';
+    if (syncBtn) syncBtn.style.display = 'none';
+  } else {
+    el.textContent = '⚠️ 离线模式 | ' + allCustomers.length + ' 条数据';
+    el.style.color = '#b7791f'; el.style.background = '#fdf6e3';
+    if (syncBtn) syncBtn.style.display = 'inline-block';
+  }
+}
+
+async function syncToCloud() {
+  var localData = loadFromLocal();
+  if (localData.length === 0) { showToast('没有需要同步的数据', 'error'); return; }
+  showToast('正在同步 ' + localData.length + ' 条数据...', 'warning');
+  var ok = 0, fail = 0;
+  for (var i = 0; i < localData.length; i++) {
+    var s = await saveToCloud(localData[i]);
+    if (s) ok++; else fail++;
+  }
+  if (fail === 0) { cloudOnline = true; updateCloudStatus(); showToast('✅ 全部 ' + ok + ' 条已同步', 'success'); }
+  else { showToast('⚠️ ' + ok + ' 成功, ' + fail + ' 失败', 'warning'); }
+}
+
+// ========== 本地存储操作 ==========
+function saveToLocal(record) {
+  var data = loadFromLocal();
+  var idx = data.findIndex(function(c) { return c.id === record.id; });
+  if (idx >= 0) data[idx] = record;
+  else data.unshift(record);
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  return data;
+}
+
+function loadFromLocal() {
+  try { var raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : []; }
+  catch(e) { return []; }
+}
+
+function deleteFromLocal(id) {
+  var data = loadFromLocal().filter(function(c) { return c.id !== id; });
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+}
+
+function clearLocalData() {
+  localStorage.removeItem(LS_KEY);
+}
+
+// ========== 仪表盘 ==========
+function renderDashboard() {
+  var list = allCustomers;
+  document.getElementById('stat-total').textContent = list.length;
+  var now = new Date(), curMonth = now.getMonth(), curYear = now.getFullYear();
+  var thisMonth = list.filter(function(c) {
+    var d = c._created_at ? new Date(c._created_at) : null;
+    return d && d.getMonth() === curMonth && d.getFullYear() === curYear;
+  });
+  document.getElementById('stat-month').textContent = thisMonth.length;
+  var budgets = list.map(function(c) {
+    var b = c['f-budget'] || '';
+    var m = b.match(/(\d+)/); return m ? parseInt(m[1]) : null;
+  }).filter(function(n) { return n; });
+  var avgBudget = budgets.length ? Math.round(budgets.reduce(function(a,b){return a+b;},0)/budgets.length) : 0;
+  document.getElementById('stat-budget').textContent = avgBudget;
+  var areas = list.map(function(c) { return parseInt(c['f-area']); }).filter(function(n) { return n; });
+  var avgArea = areas.length ? Math.round(areas.reduce(function(a,b){return a+b;},0)/areas.length) : 0;
+  document.getElementById('stat-area').textContent = avgArea;
+  // 最近6条
+  var recent = list.slice(0, 6);
+  var container = document.getElementById('recent-list');
+  var empty = document.getElementById('recent-empty');
+  if (recent.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  container.innerHTML = recent.map(function(c) {
+    var name = c['f-name'] || '未填写';
+    var phone = c['f-phone'] || '';
+    var area = c['f-area'] ? c['f-area'] + 'm²' : '';
+    var budget = c['f-budget'] || '';
+    var style = c['f-style'] || '';
+    return '<div class="customer-card"><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
+      (budget ? '<span class="tag tag-orange">' + budget + '</span>' : '') +
+      (style ? '<span class="tag tag-blue">' + style + '</span>' : '') +
+      '</div></div>';
+  }).join('');
+}
+
+// ========== 客户列表 ==========
+function renderList() {
+  var kw = (document.getElementById('search-input').value || '').trim().toLowerCase();
+  var list = allCustomers.filter(function(c) {
+    if (!kw) return true;
+    return (c['f-name']||'').toLowerCase().includes(kw) || (c['f-phone']||'').includes(kw);
+  });
+  var container = document.getElementById('customer-list');
+  var empty = document.getElementById('list-empty');
+  if (list.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  container.innerHTML = list.map(function(c) {
+    var name = c['f-name'] || '未填写';
+    var phone = c['f-phone'] || '';
+    var area = c['f-area'] ? c['f-area'] + 'm²' : '';
+    var budget = c['f-budget'] || '';
+    var style = c['f-style'] || '';
+    return '<div class="customer-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
+      (budget ? '<span class="tag tag-orange">' + budget + '</span>' : '') +
+      (style ? '<span class="tag tag-blue">' + style + '</span>' : '') +
+      '</div></div><div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="editRecord(\'' + c.id + '\')">✏️ 编辑</button><button class="btn btn-danger btn-sm" onclick="deleteRecord(\'' + c.id + '\')">🗑️ 删除</button></div></div></div>';
+  }).join('');
+}
+
+// ========== 本地存储操作 ==========
+function saveToLocal(record) {
+  var data = loadFromLocal();
+  var idx = data.findIndex(function(c) { return c.id === record.id; });
+  if (idx >= 0) data[idx] = record;
+  else data.unshift(record);
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  return data;
+}
+
+function loadFromLocal() {
+  try {
+    var raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function deleteFromLocal(id) {
+  var data = loadFromLocal().filter(function(c) { return c.id !== id; });
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+}
+
+function clearLocalData() {
+  localStorage.removeItem(LS_KEY);
+}
+
+// ========== 备份与恢复 ==========
+function backupToJson() {
+  var data = loadFromLocal();
+  if (data.length === 0) {
+    showToast('没有数据可备份', 'error');
+    return;
+  }
+  var backup = {
+    version: '1.0',
+    backupTime: new Date().toISOString(),
+    totalCount: data.length,
+    data: data
+  };
+  var json = JSON.stringify(backup, null, 2);
+  var blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = '蜂云装饰_备份_' + new Date().toISOString().slice(0,10) + '.json';
+  link.click();
+  showToast('✅ 已导出备份文件（' + data.length + ' 条数据）', 'success');
+  document.getElementById('backup-status').innerHTML = '✅ 备份成功：' + data.length + ' 条客户数据已导出为 JSON 文件<br>💡 提示：将此文件上传到百度网盘可永久保存';
+}
+
+function importFromJson(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var content = JSON.parse(e.target.result);
+      var records = [];
+      if (content.data && Array.isArray(content.data)) {
+        records = content.data;
+      } else if (Array.isArray(content)) {
+        records = content;
+      } else {
+        showToast('文件格式不正确', 'error');
+        return;
+      }
+      if (records.length === 0) {
+        showToast('备份文件中没有数据', 'error');
+        return;
+      }
+      if (!confirm('确定要恢复备份吗？\n备份包含 ' + records.length + ' 条客户数据\n（现有数据不会被删除，只会增加新数据）')) return;
+      var imported = 0;
+      records.forEach(function(rec) {
+        if (!rec.id) return;
+        saveToLocal(rec);
+        if (cloudOnline) saveToCloud(rec).catch(function(){});
+        imported++;
+      });
+      // 重新加载
+      allCustomers = loadFromLocal();
+      renderDashboard();
+      showToast('✅ 已恢复 ' + imported + ' 条客户数据', 'success');
+      document.getElementById('backup-status').innerHTML = '✅ 恢复成功：' + imported + ' 条客户数据已导入';
+    } catch(err) {
+      showToast('文件解析失败：' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function backupToBaiduNetdisk() {
+  showToast('请先导出备份文件（JSON），然后告诉我"帮我把备份文件上传到百度网盘"，我会帮您完成上传。', 'warning');
+}
+
+function restoreFromBaiduNetdisk() {
+  showToast('请告诉我"帮我从百度网盘下载备份文件"，我会帮您下载并恢复数据。', 'warning');
+}
+
+// ========== 保存（纯本地存储） ==========
+function saveRecord() {
+  try {
+    var name = document.getElementById('f-name').value.trim();
+    var phone = document.getElementById('f-phone').value.trim();
+    if (!name || !phone) { showToast('请填写客户姓名和联系电话', 'error'); return; }
+    var id = document.getElementById('f-id').value || ('c' + Date.now() + Math.random().toString(36).substr(2,5));
+    var record = {};
+    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
+    ids.forEach(function(fid) {
+      var el = document.getElementById(fid);
+      if (el) record[fid] = el.value;
+    });
+    record.id = id;
+
+    // 1. 保存到 localStorage（永远可靠）
+    saveToLocal(record);
+    // 更新内存缓存
+    var idx = allCustomers.findIndex(function(c) { return c.id === record.id; });
+    if (idx >= 0) allCustomers[idx] = record;
+    else allCustomers.unshift(record);
+    renderDashboard();
+    resetForm();
+    // 2. 同步到云端
+    showToast('正在同步云端...', 'warning');
+    saveToCloud(record).then(function(ok) {
+      if (ok) { updateCloudStatus(); showToast('✅ 保存成功（已同步云端）', 'success'); }
+      else { updateCloudStatus(); showToast('⚠️ 已保存到本地，云端同步失败', 'warning'); }
+    });
+    setTimeout(function() { navigate('dashboard'); }, 1000);
+  } catch(e) {
+    console.error('saveRecord 异常:', e.message || e);
+    showToast('保存失败: ' + (e.message || '未知错误'), 'error');
+  }
+}
+
+// ========== 编辑 ==========
+function editRecord(id) {
+  requireAuth(function() {
+    var c = allCustomers.find(function(x) { return x.id === id; });
+    if (!c) { alert('客户不存在'); return; }
+    document.getElementById('f-id').value = c.id;
+    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
+    ids.forEach(function(fid) {
+      var el = document.getElementById(fid);
+      if (el) el.value = c[fid] || '';
+    });
+    document.getElementById('form-title').textContent = '编辑客户资料 — ' + (c['f-name'] || '');
+    navigate('form');
+  });
+}
+
+// ========== 删除 ==========
+function deleteRecord(id) {
+  requireAuth(function() {
+    var c = allCustomers.find(function(x) { return x.id === id; });
+    var name = c ? (c['f-name'] || '未命名') : '';
+    if (!confirm('确定要删除客户「' + name + '」的资料吗？')) return;
+    deleteFromLocal(id);
+    allCustomers = allCustomers.filter(function(x) { return x.id !== id; });
+    renderList();
+    renderDashboard();
+    showToast('🗑️ 客户资料已删除', 'success');
+    if (cloudOnline) {
+      deleteFromCloud(id).then(function(ok) { updateCloudStatus(); });
+    }
+  });
+}
+
+// ========== 删除所有 ==========
+function deleteAllCustomers() {
+  requireAuth(function() {
+    if (allCustomers.length === 0) { showToast('当前没有客户资料', 'error'); return; }
+    if (!confirm('⚠️ 警告：确定要删除全部 ' + allCustomers.length + ' 条客户资料吗？\n此操作不可恢复！')) return;
+    clearLocalData();
+    allCustomers = [];
+    renderList();
+    renderDashboard();
+    showToast('🗑️ 所有客户资料已删除', 'success');
+    if (cloudOnline) {
+      deleteAllFromCloud().then(function(ok) { updateCloudStatus(); });
+    }
+  });
+}
+
+// ========== 导出 CSV ==========
+function exportAllData() {
+  requireAuth(function() {
+    var list = allCustomers;
+    if (list.length === 0) { showToast('没有数据可导出', 'error'); return; }
+    var FIELD_MAP = {
+      'f-name':{label:'客户姓名'},'f-phone':{label:'联系电话'},'f-gender':{label:'性别'},'f-age':{label:'年龄区间'},'f-job':{label:'职业'},'f-source':{label:'推荐来源'},
+      'f-area':{label:'房屋面积'},'f-housetype':{label:'户型'},'f-propertytype':{label:'房屋类型'},'f-address':{label:'装修地址'},'f-floor':{label:'楼层'},'f-direction':{label:'朝向'},
+      'f-familycount':{label:'家庭成员数'},'f-haselderly':{label:'是否有老人'},'f-haschildren':{label:'是否有小孩'},'f-familynote':{label:'家庭成员备注'},
+      'f-style':{label:'装修风格'},'f-color':{label:'色彩偏好'},'f-custom':{label:'全屋定制'},
+      'f-need-livingroom':{label:'客厅需求'},'f-need-dining':{label:'餐厅需求'},'f-need-kitchen':{label:'厨房需求'},'f-need-masterbed':{label:'主卧需求'},'f-need-secondbed':{label:'次卧需求'},'f-need-bathroom':{label:'卫生间需求'},'f-need-balcony':{label:'阳台需求'},
+      'f-water-cold':{label:'冷水'},'f-water-hot':{label:'热水'},'f-water-quality':{label:'自来水水质'},'f-electric':{label:'强电'},'f-weak-electric':{label:'弱电'},'f-heating':{label:'暖气'},
+      'f-budget':{label:'装修预算'},'f-date':{label:'预计开工时间'},'f-duration':{label:'工期要求'},'f-other':{label:'特殊需求'}
+    };
+    var fids = Object.keys(FIELD_MAP);
+    var header = fids.map(function(fid) { return FIELD_MAP[fid].label; });
+    var rows = [header.join(',')];
+    for (var i = 0; i < list.length; i++) {
+      var row = [];
+      for (var j = 0; j < fids.length; j++) {
+        row.push('"' + (list[i][fids[j]] || '').replace(/"/g, '""') + '"');
+      }
+      rows.push(row.join(','));
+    }
+    var csv = '\uFEFF' + rows.join('\n');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = '蜂云装饰客户资料_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+    showToast('📤 数据已导出为CSV文件', 'success');
+  });
+}
+
+// ========== 重置表单 ==========
+function resetForm() {
+  document.getElementById('f-id').value = '';
+  var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
+  ids.forEach(function(fid) {
+    var el = document.getElementById(fid);
+    if (el) el.value = '';
+  });
+  document.getElementById('form-title').textContent = '新建客户资料';
+}
+
+// ========== Toast 提示 ==========
+function showToast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast toast-' + type + ' show';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+// ========== 页面初始化 ==========
+window.addEventListener('DOMContentLoaded', function() {
+  // 先用本地数据渲染
+  allCustomers = loadFromLocal();
+  updateCloudStatus();
+  renderDashboard();
+  // 后台检查云端连接并加载
+  checkCloudHealth().then(function(online) {
+    if (online) {
+      return loadFromCloud().then(function(cloudData) {
+        if (cloudData && cloudData.length > 0) {
+          allCustomers = cloudData;
+          // 同步到本地
+          localStorage.setItem(LS_KEY, JSON.stringify(cloudData));
+        } else {
+          // 云端无数据，但本地有，推送本地到云端
+          if (allCustomers.length > 0) syncToCloud();
+        }
+        updateCloudStatus();
+        renderDashboard();
+        showToast('✅ 云端已连接，共 ' + allCustomers.length + ' 条客户资料', 'success');
+      });
+    } else {
+      updateCloudStatus();
+      showToast('⚠️ 云端不可用，使用本地数据（' + allCustomers.length + ' 条）', 'warning');
+    }
+  }).catch(function() {
+    updateCloudStatus();
+  });
+});
+</script>
+</body>
+</html>
