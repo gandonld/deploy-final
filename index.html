@@ -360,6 +360,14 @@ function clearLocalData() {
 }
 
 // ========== 仪表盘 ==========
+// 手机号脱敏：138xxxx0000
+function maskPhone(phone) {
+  if (!phone) return '';
+  var s = String(phone).replace(/\D/g, '');
+  if (s.length >= 7) return s.slice(0, 3) + '****' + s.slice(-4);
+  return s.slice(0, 3) + '****';
+}
+
 function renderDashboard() {
   var list = allCustomers;
   document.getElementById('stat-total').textContent = list.length;
@@ -386,7 +394,7 @@ function renderDashboard() {
   empty.style.display = 'none';
   container.innerHTML = recent.map(function(c) {
     var name = c['f-name'] || '未填写';
-    var phone = c['f-phone'] || '';
+    var phone = maskPhone(c['f-phone']);
     var area = c['f-area'] ? c['f-area'] + 'm²' : '';
     var budget = c['f-budget'] || '';
     var style = c['f-style'] || '';
