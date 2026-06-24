@@ -119,7 +119,7 @@ textarea { resize:vertical; min-height:60px; }
       </div>
       <div class="grid3">
         <div><label>年龄区间</label><select id="f-age"><option value="">请选择</option><option>20-25岁</option><option>25-30岁</option><option>30-35岁</option><option>35-40岁</option><option>40-50岁</option><option>50-60岁</option><option>60岁以上</option></select></div>
-        <div><label>职业</label><input id="f-job" placeholder="如：教师、医生、IT、自由职业"></div>
+        <div><label>职业</label><select id="f-job"><option value="">请选择</option><option>教师/教育</option><option>医生/医疗</option><option>IT/互联网</option><option>公务员/事业单位</option><option>企业管理</option><option>销售/商贸</option><option>金融/银行/保险</option><option>建筑/工程</option><option>设计/广告/传媒</option><option>律师/法律</option><option>自由职业</option><option>个体经营</option><option>工厂/制造业</option><option>餐饮/服务业</option><option>退休</option><option>其他</option></select></div>
         <div><label>推荐来源</label><select id="f-source"><option value="">请选择</option><option>朋友推荐</option><option>老客户转介绍</option><option>抖音/小红书</option><option>微信朋友圈</option><option>百度/搜索广告</option><option>小区推广</option><option>门店到访</option><option>装修平台</option><option>其他</option></select></div>
       </div>
       <div class="grid3">
@@ -130,18 +130,18 @@ textarea { resize:vertical; min-height:60px; }
       <!-- 房屋信息 -->
       <div class="section-title">房屋信息</div>
       <div class="grid3">
-        <div><label>房屋面积(m²)</label><input id="f-area" type="number" placeholder="如：120"></div>
+        <div><label>房屋面积(m²)</label><select id="f-area"><option value="">请选择</option><option>50m²以下</option><option>50-70m²</option><option>70-90m²</option><option>90-110m²</option><option>110-130m²</option><option>130-150m²</option><option>150-200m²</option><option>200-300m²</option><option>300m²以上</option></select></div>
         <div><label>户型</label><select id="f-housetype"><option value="">请选择</option><option>一居室</option><option>两居室</option><option>三居室一厅</option><option>三居室两厅</option><option>四居室</option><option>五居室及以上</option><option>复式</option><option>别墅</option><option>LOFT</option></select></div>
         <div><label>房屋类型</label><select id="f-propertytype"><option value="">请选择</option><option>新房（毛坯）</option><option>新房（精装）</option><option>二手房翻新</option><option>老房改造</option><option>局部翻新</option></select></div>
       </div>
       <div class="grid3">
-        <div><label>装修地址</label><input id="f-address" placeholder="详细地址（小区名称）"></div>
-        <div><label>楼层</label><input id="f-floor" placeholder="如：6层/共18层"></div>
+        <div><label>装修地址（小区）</label><input id="f-address" placeholder="输入小区名称或详细地址"></div>
+        <div><label>楼层</label><select id="f-floor"><option value="">请选择</option><option>1层（地面层）</option><option>2-3层（低层）</option><option>4-6层（多层）</option><option>7-9层（小高层低区）</option><option>10-15层（小高层中区）</option><option>16-20层（小高层高区）</option><option>21-25层（高层低区）</option><option>26-30层（高层中区）</option><option>30层以上（超高层）</option><option>顶层</option><option>复式/跃层</option></select></div>
         <div><label>朝向</label><select id="f-direction"><option value="">请选择</option><option>南北通透</option><option>朝南</option><option>朝东南</option><option>朝东</option><option>朝西</option><option>朝北</option><option>东西向</option><option>其他</option></select></div>
       </div>
       <div class="grid3">
         <div><label>房屋年限</label><select id="f-houseage"><option value="">请选择</option><option>新房未入住</option><option>1-3年</option><option>3-5年</option><option>5-10年</option><option>10-15年</option><option>15年以上</option></select></div>
-        <div><label>层高(m)</label><input id="f-floorheight" type="number" step="0.1" placeholder="如：2.8"></div>
+        <div><label>层高(m)</label><select id="f-floorheight"><option value="">请选择</option><option>2.5m以下（较低）</option><option>2.6m</option><option>2.7m</option><option>2.8m（标准）</option><option>2.9m</option><option>3.0m（较高）</option><option>3.1-3.5m（挑高）</option><option>3.5m以上（LOFT/别墅）</option></select></div>
         <div><label>是否有电梯</label><select id="f-elevator"><option value="">请选择</option><option>有</option><option>无</option><option>多层无电梯</option></select></div>
       </div>
       <!-- 家庭成员 -->
@@ -174,7 +174,19 @@ textarea { resize:vertical; min-height:60px; }
         <div><label>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>浅色系（白/米/灰）</option><option>深色系（黑/灰/棕）</option><option>暖色系（橙/黄/红）</option><option>冷色系（蓝/绿/紫）</option><option>黑白灰极简</option><option>无特别偏好</option></select></div>
         <div><label>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>是，全部定制</option><option>是，部分定制</option><option>否，成品家具</option><option>待定</option></select></div>
       </div>
-      <div><label>参考风格/案例描述</label><textarea id="f-reference" placeholder="如：喜欢小红书上的XX博主风格、参考了XX酒店的装修、偏好简约但不冷清"></textarea></div>
+      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);margin-top:0;">参考风格/案例来源</div>
+      <div class="checkbox-group" id="cg-reference">
+        <label class="cb-item"><input type="checkbox" value="小红书博主案例" onchange="updateTextarea('f-reference','cg-reference')"> 小红书博主案例</label>
+        <label class="cb-item"><input type="checkbox" value="抖音视频参考" onchange="updateTextarea('f-reference','cg-reference')"> 抖音视频参考</label>
+        <label class="cb-item"><input type="checkbox" value="朋友家装修参考" onchange="updateTextarea('f-reference','cg-reference')"> 朋友家装修参考</label>
+        <label class="cb-item"><input type="checkbox" value="样板间/展厅参考" onchange="updateTextarea('f-reference','cg-reference')"> 样板间/展厅参考</label>
+        <label class="cb-item"><input type="checkbox" value="酒店/民宿风格参考" onchange="updateTextarea('f-reference','cg-reference')"> 酒店/民宿风格参考</label>
+        <label class="cb-item"><input type="checkbox" value="Pinterest图片参考" onchange="updateTextarea('f-reference','cg-reference')"> Pinterest图片参考</label>
+        <label class="cb-item"><input type="checkbox" value="品牌家具风格（如宜家/曲美）" onchange="updateTextarea('f-reference','cg-reference')"> 品牌家具风格（如宜家/曲美）</label>
+        <label class="cb-item"><input type="checkbox" value="设计杂志/书籍参考" onchange="updateTextarea('f-reference','cg-reference')"> 设计杂志/书籍参考</label>
+        <label class="cb-item"><input type="checkbox" value="无具体参考，交由设计师把控" onchange="updateTextarea('f-reference','cg-reference')"> 无具体参考，交由设计师把控</label>
+      </div>
+      <textarea id="f-reference" placeholder="已选项目将自动填入，也可补充具体案例链接或描述"></textarea>
       <!-- 功能区需求 -->
       <div class="section-title">功能区需求</div>
       
@@ -347,7 +359,7 @@ textarea { resize:vertical; min-height:60px; }
       <div class="section-title">预算与工期</div>
       <div class="grid3">
         <div><label>装修预算</label><select id="f-budget"><option value="">请选择</option><option>5万以下</option><option>5-10万</option><option>10-15万</option><option>15-20万</option><option>20-25万</option><option>25-30万</option><option>30-40万</option><option>40-50万</option><option>50万以上</option></select></div>
-        <div><label>预计开工时间</label><input id="f-date" type="date"></div>
+        <div><label>预计开工时间</label><select id="f-date"><option value="">请选择</option><option>一个月内</option><option>1-2个月后</option><option>2-3个月后（本季度内）</option><option>3-6个月后</option><option>半年后</option><option>一年内</option><option>暂未确定</option></select></div>
         <div><label>工期要求</label><select id="f-duration"><option value="">请选择</option><option>1-2个月</option><option>2-3个月</option><option>3-4个月</option><option>4-5个月</option><option>5个月以上</option><option>不急，质量优先</option></select></div>
       </div>
       <div class="grid3">
@@ -734,6 +746,7 @@ function editRecord(id) {
     setCheckboxesFromTextarea('f-need-smarthome','cg-smarthome');
     setCheckboxesFromTextarea('f-familynote','cg-familynote');
     setCheckboxesFromTextarea('f-other','cg-other');
+    setCheckboxesFromTextarea('f-reference','cg-reference');
     document.getElementById('form-title').textContent = '编辑客户资料 — ' + (c['f-name'] || '');
     navigate('form');
   });
@@ -815,7 +828,7 @@ function resetForm() {
     if (el) el.value = '';
   });
   // 取消所有功能区 checkbox 勾选
-  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome','cg-familynote','cg-other'];
+  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome','cg-familynote','cg-other','cg-reference'];
   cgIds.forEach(function(gid) {
     var g = document.getElementById(gid);
     if (!g) return;
