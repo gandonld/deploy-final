@@ -2,1103 +2,1609 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>蜂云装饰客户资料管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>蜂云装饰 · 客户资料管理系统</title>
   <style>
-*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-:root {
-  --pri-1: #d44a1a; --pri-2: #f05a28; --pri-3: #ff7b50;
-  --pri-l: #fff3ee; --pri-xl: #fff9f6;
-  --sec-1: #1a3a5c; --sec-2: #2c5f8a; --sec-3: #4a90c4;
-  --gold-1: #c8943e; --gold-2: #d4a84b; --gold-l: #fdf6e8;
-  --suc: #2d8a56; --suc-l: #eaf6f0;
-  --warn: #d4891a; --warn-l: #fef8ee;
-  --dan: #c0392b; --dan-l: #fef0ef;
-  --g1: #fafaf9; --g2: #f5f3f0; --g3: #ebe7e2; --g4: #d5cfc8; --g5: #a09890; --g6: #6b6360; --g7: #3d3835; --g8: #1c1917;
-  --r: 14px; --sh: 0 2px 16px rgba(28,25,23,0.06); --sh-lg: 0 8px 40px rgba(28,25,23,0.10);
-  --font: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
-  --tab-1: #e85d2a; --tab-2: #3b82f6; --tab-3: #10b981; --tab-4: #f59e0b;
-  --tab-5: #8b5cf6; --tab-6: #06b6d4; --tab-7: #ef4444; --tab-8: #6b7280;
-}
-body { font-family: var(--font); color: var(--g7); line-height:1.7; -webkit-font-smoothing:antialiased; min-height:100vh;
-  background: linear-gradient(160deg, #fefaf6 0%, #faf5f0 25%, #f8f2eb 50%, #faf6f2 75%, #fdfaf7 100%);
-  background-attachment: fixed;
-}
-body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(ellipse 900px 600px at 5% 10%, rgba(212,74,26,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 700px 500px at 90% 20%, rgba(26,58,92,0.03) 0%, transparent 55%),
-    radial-gradient(ellipse 800px 700px at 50% 80%, rgba(200,148,62,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 400px 400px at 15% 60%, rgba(212,74,26,0.02) 0%, transparent 50%),
-    radial-gradient(ellipse 500px 500px at 80% 70%, rgba(74,144,196,0.02) 0%, transparent 50%);
-}
-body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.015;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(28,25,23,0.5) 40px, rgba(28,25,23,0.5) 41px),
-    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(28,25,23,0.5) 40px, rgba(28,25,23,0.5) 41px);
-}
+    /* ============================================================
+       ENTREPRISE DESIGN SYSTEM — 蜂云装饰 CRM
+       Inspired by: SAP Fiori, Salesforce Lightning, Oracle ERP
+       ============================================================ */
 
-/* ===== 顶部导航 ===== */
-.header { background: linear-gradient(135deg, #1c1917 0%, #2d2622 40%, #1c1917 100%); padding: 8px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
-.header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
-  background: linear-gradient(90deg, var(--pri-1), var(--gold-1), var(--pri-2), var(--gold-2)); }
-.header h1 { font-size:17px; font-weight:700; color:#fff; letter-spacing:1px; display:flex; align-items:center; gap:8px; }
-.header h1::before { content:'🏠'; font-size:20px; }
-.header h1 span { color:rgba(255,255,255,0.5); font-weight:400; font-size:12px; margin-left:8px; }
-.nav-desktop { display:flex; gap:4px; }
-.nav-btn { padding:8px 18px; border:1px solid rgba(255,255,255,0.15); border-radius:20px; background:transparent; cursor:pointer; font-size:13px; font-weight:500; transition:all .25s; white-space:nowrap; color:rgba(255,255,255,0.8); backdrop-filter:blur(4px); }
-.nav-btn:hover { border-color:var(--pri-3); color:var(--pri-3); background:rgba(212,74,26,0.1); }
-.nav-btn.active { background:linear-gradient(135deg, var(--pri-1), var(--pri-2)); color:#fff; border-color:transparent; box-shadow:0 2px 12px rgba(212,74,26,0.35); }
+    /* --- Reset & Root --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* 企业级色彩体系 */
+      --side-bg:    #0f172a;   /* 侧边栏深蓝黑   */
+      --side-hover: #1e293b;   /* 侧边栏悬停     */
+      --side-active:#1d4ed8;   /* 侧边栏选中     */
+      --head-bg:    #ffffff;   /* 顶部栏背景     */
+      --body-bg:    #f1f5f9;   /* 页面背景灰     */
+      --card-bg:    #ffffff;   /* 卡片白         */
+      --pri:        #1d4ed8;   /* 品牌蓝         */
+      --pri-light:  #dbeafe;   /* 品牌蓝浅底     */
+      --pri-dark:   #1e40af;   /* 品牌蓝深       */
+      --suc:        #059669;   /* 成功绿         */
+      --suc-light:  #d1fae5;
+      --war:        #d97706;   /* 警告琥珀       */
+      --war-light:  #fef3c7;
+      --dan:        #dc2626;   /* 危险红         */
+      --dan-light:  #fee2e2;
+      --inf:        #0891b2;   /* 信息青         */
+      --inf-light:  #cffafe;
+      --g50: #f8fafc; --g100: #f1f5f9; --g200: #e2e8f0;
+      --g300: #cbd5e1; --g400: #94a3b8; --g500: #64748b;
+      --g600: #475569; --g700: #334155; --g800: #1e293b;
+      --g900: #0f172a;
 
-/* ===== 底部导航(手机) ===== */
-.nav-mobile { display:none; position:fixed; bottom:0; left:0; right:0; background:linear-gradient(0deg, rgba(28,25,23,0.98), rgba(28,25,23,0.95)); backdrop-filter:blur(20px); border-top:1px solid rgba(255,255,255,0.08); padding:6px 4px; z-index:100; padding-bottom:max(6px, env(safe-area-inset-bottom)); }
-.nav-m-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 4px; border:none; background:none; cursor:pointer; font-size:10px; color:rgba(255,255,255,0.5); flex:1; transition:all .2s; border-radius:10px; min-width:0; }
-.nav-m-item.active { color:var(--pri-3); }
-.nav-m-icon { font-size:20px; line-height:1; }
+      --r:       10px;        /* 圆角基准       */
+      --r-lg:    16px;        /* 大圆角         */
+      --shadow:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg:0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+      --shadow-xl:0 20px 40px rgba(0,0,0,0.12);
+      --font: 'PingFang SC', 'Microsoft YaHei', -apple-system, 'Segoe UI', system-ui, sans-serif;
+      --side-w:   240px;      /* 侧边栏宽度     */
+      --head-h:   56px;       /* 顶部栏高度     */
+      --trans:    .2s cubic-bezier(.4,0,.2,1);
+    }
 
-/* ===== 内容区 ===== */
-.container { max-width:1200px; margin:0 auto; padding:20px; position:relative; z-index:1; }
-.card { background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-radius:var(--r); box-shadow:var(--sh); padding:24px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.6); position:relative; overflow:hidden; }
-.card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--pri-1), var(--gold-1)); opacity:0; transition:opacity .3s; }
-.card:hover::before { opacity:1; }
-.card-title { font-size:16px; font-weight:600; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--g3); display:flex; justify-content:space-between; align-items:center; color:var(--g7); }
+    html { font-size: 14px; }
+    body {
+      font-family: var(--font); color: var(--g800); background: var(--body-bg);
+      line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+      display: flex; overflow-x: hidden;
+    }
 
-/* ===== 网格 ===== */
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+    /* --- 侧边栏 --- */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: var(--side-w);
+      background: var(--side-bg); color: #cbd5e1; z-index: 200;
+      display: flex; flex-direction: column; transition: transform var(--trans);
+      overflow-y: auto; overflow-x: hidden; scrollbar-width: thin;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
 
-/* ===== 表单元素 ===== */
-.form-label { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--g6); margin-bottom:5px; letter-spacing:0.3px; }
-.form-label .fi { font-size:15px; line-height:1; }
-input, select, textarea { width:100%; padding:12px 14px; border:1.5px solid var(--g3); border-radius:11px; font-size:14px; transition:all .25s; background:var(--g1); font-family:var(--font); color:var(--g7); -webkit-appearance:none; }
-input:hover, select:hover, textarea:hover { border-color:var(--g4); }
-input:focus, select:focus, textarea:focus { outline:none; border-color:var(--pri-2); box-shadow:0 0 0 4px var(--pri-l), 0 2px 8px rgba(212,74,26,0.08); background:#fff; }
-textarea { resize:vertical; min-height:60px; }
-/* 自定义下拉箭头 */
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6360' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; appearance:none; -webkit-appearance:none; }
+    .side-logo {
+      padding: 18px 20px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+    }
+    .side-logo .logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .side-logo .logo-text { font-size: 15px; font-weight: 700; color: #f1f5f9; letter-spacing: 0.5px; }
+    .side-logo .logo-sub  { font-size: 11px; color: #64748b; font-weight: 400; }
 
-/* ===== 按钮 ===== */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:12px 26px; border:none; border-radius:11px; font-size:14px; font-weight:600; cursor:pointer; transition:all .25s; font-family:var(--font); letter-spacing:0.3px; }
-.btn-primary { background:linear-gradient(135deg, var(--pri-1), var(--pri-2)); color:#fff; box-shadow:0 2px 12px rgba(212,74,26,0.25); }
-.btn-primary:hover { transform:translateY(-1px); box-shadow:0 4px 20px rgba(212,74,26,0.35); }
-.btn-primary:active { transform:translateY(0) scale(0.98); }
-.btn-outline { background:rgba(255,255,255,0.9); color:var(--g7); border:1.5px solid var(--g3); }
-.btn-outline:hover { border-color:var(--pri-2); color:var(--pri-2); background:#fff; }
-.btn-danger { background:linear-gradient(135deg, #c0392b, #e74c3c); color:#fff; box-shadow:0 2px 12px rgba(192,57,43,0.2); }
-.btn-danger:hover { transform:translateY(-1px); box-shadow:0 4px 18px rgba(192,57,43,0.3); }
-.btn-sm { padding:7px 16px; font-size:12px; border-radius:8px; }
-.btn-block { width:100%; }
-.header .btn-outline { border-color:rgba(255,255,255,0.2); color:rgba(255,255,255,0.8); background:transparent; }
-.header .btn-outline:hover { border-color:var(--pri-3); color:var(--pri-3); background:rgba(212,74,26,0.1); }
+    .side-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
+    .side-label { font-size: 11px; color: #475569; padding: 16px 12px 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .side-item {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      border-radius: 8px; cursor: pointer; transition: all var(--trans);
+      font-size: 13.5px; font-weight: 500; color: #94a3b8; position: relative;
+    }
+    .side-item:hover { background: var(--side-hover); color: #e2e8f0; }
+    .side-item.active {
+      background: rgba(29,78,216,0.25); color: #60a5fa; font-weight: 600;
+    }
+    .side-item.active::before {
+      content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px;
+      border-radius: 0 3px 3px 0; background: var(--pri);
+    }
+    .side-item .si-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+    .side-item .si-badge {
+      margin-left: auto; background: var(--dan); color: #fff;
+      font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px; min-width: 20px; text-align: center;
+    }
 
-/* ===== 首页欢迎区 ===== */
-.welcome-wrap { display:flex; align-items:center; justify-content:center; min-height:65vh; padding:20px; position:relative; }
-.welcome-wrap::before { content:''; position:absolute; width:300px; height:300px; border-radius:50%;
-  background:radial-gradient(circle, var(--pri-l) 0%, transparent 70%); top:10%; left:calc(50% - 150px); animation:float 8s ease-in-out infinite; }
-@keyframes float { 0%,100% { transform:translateY(0) scale(1); } 50% { transform:translateY(-15px) scale(1.03); } }
-.welcome-box { text-align:center; max-width:360px; position:relative; z-index:1; }
-.welcome-box img { width:220px; height:220px; border-radius:20px; box-shadow:0 8px 40px rgba(28,25,23,0.12), 0 0 0 1px rgba(0,0,0,0.04); margin-bottom:24px; transition:transform .3s; }
-.welcome-box img:hover { transform:scale(1.03); }
-.welcome-title { font-size:17px; color:var(--g7); margin-bottom:8px; font-weight:600; letter-spacing:0.5px; }
-.welcome-sub { font-size:13px; color:var(--g5); }
-.welcome-deco { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:24px; }
-.welcome-deco span { width:40px; height:1px; background:linear-gradient(90deg, transparent, var(--g4), transparent); }
-.welcome-deco .dot { width:6px; height:6px; border-radius:50%; background:var(--pri-2); }
+    .side-footer {
+      padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .side-footer .avatar {
+      width: 34px; height: 34px; border-radius: 50%; background: var(--pri);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff; font-weight: 700; flex-shrink: 0;
+    }
+    .side-footer .user-info { flex: 1; min-width: 0; }
+    .side-footer .user-name { font-size: 13px; color: #e2e8f0; font-weight: 600; }
+    .side-footer .user-role { font-size: 11px; color: #64748b; }
 
-/* ===== 客户卡片 ===== */
-.customer-card { background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.5); border-radius:var(--r); padding:16px; margin-bottom:10px; transition:all .25s; display:flex; justify-content:space-between; align-items:center; gap:12px; }
-.customer-card:hover { transform:translateX(3px); border-color:var(--pri-3); box-shadow:0 4px 20px rgba(212,74,26,0.06); }
-.customer-card .c-info { flex:1; min-width:0; }
-.customer-card .name { font-size:15px; font-weight:600; color:var(--g7); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.customer-card .meta { font-size:12px; color:var(--g5); margin:3px 0 6px; }
-.customer-card .tags { display:flex; gap:5px; flex-wrap:wrap; }
-.customer-card .c-actions { display:flex; gap:6px; flex-shrink:0; }
-.tag { padding:3px 10px; border-radius:10px; font-size:11px; font-weight:500; }
-.tag-orange { background:var(--warn-l); color:#a0620a; }
-.tag-blue { background:rgba(74,144,196,0.1); color:var(--sec-2); }
-.tag-green { background:var(--suc-l); color:var(--suc); }
+    /* --- 主内容区 --- */
+    .main-wrap { margin-left: var(--side-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ===== 搜索 ===== */
-.search-box { width:100%; padding:12px 18px; border:1.5px solid var(--g3); border-radius:12px; font-size:14px; margin-bottom:16px; background:var(--g1); transition:all .25s; }
-.search-box:focus { outline:none; border-color:var(--pri-2); background:#fff; box-shadow:0 0 0 4px var(--pri-l); }
+    /* --- 顶部栏 --- */
+    .topbar {
+      height: var(--head-h); background: var(--head-bg);
+      border-bottom: 1px solid var(--g200); padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .topbar-page-title { font-size: 16px; font-weight: 700; color: var(--g800); }
+    .topbar-page-sub  { font-size: 12px; color: var(--g400); margin-top: 1px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-search {
+      position: relative;
+    }
+    .topbar-search input {
+      width: 220px; padding: 7px 14px 7px 34px; border: 1px solid var(--g200);
+      border-radius: 8px; font-size: 13px; background: var(--g50);
+      transition: all var(--trans); color: var(--g700);
+    }
+    .topbar-search input:focus { outline: none; border-color: var(--pri); background: #fff; width: 280px; box-shadow: 0 0 0 3px var(--pri-light); }
+    .topbar-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--g400); }
+    .topbar-btn {
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--g200);
+      background: #fff; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; transition: all var(--trans); color: var(--g500);
+    }
+    .topbar-btn:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
 
-/* ===== 空状态 ===== */
-.empty { text-align:center; padding:56px 20px; color:var(--g5); }
-.empty .icon { font-size:56px; margin-bottom:16px; opacity:0.3; filter:grayscale(0.5); }
+    /* --- 内容容器 --- */
+    .content { flex: 1; padding: 24px; max-width: 1400px; width: 100%; }
+    .content-fluid { max-width: 100%; }
 
-/* ===== Toast ===== */
-.toast { position:fixed; top:24px; left:50%; transform:translateX(-50%); padding:14px 28px; border-radius:12px; font-size:13px; font-weight:600; z-index:9999; opacity:0; transition:all .35s; pointer-events:none; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-width:90vw; text-align:center; backdrop-filter:blur(12px); }
-.toast.show { opacity:1; pointer-events:auto; }
-.toast-success { background:linear-gradient(135deg, #1e7a4a, #2d8a56); color:#fff; }
-.toast-error { background:linear-gradient(135deg, #a93226, #c0392b); color:#fff; }
-.toast-warning { background:linear-gradient(135deg, #b9780a, #d4891a); color:#fff; }
+    /* --- 页面切换 --- */
+    .page { display: none; }
+    .page.show { display: block; animation: pageIn .3s ease; }
+    @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===== 表单操作 ===== */
-.form-actions { display:flex; gap:12px; margin-top:24px; flex-wrap:wrap; justify-content:center; }
-.header-actions { display:flex; gap:8px; flex-wrap:wrap; }
-.db-status { font-size:11px; padding:3px 12px; border-radius:12px; font-weight:500; background:rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); }
+    /* --- 卡片 --- */
+    .card {
+      background: var(--card-bg); border-radius: var(--r-lg); padding: 20px;
+      box-shadow: var(--shadow); border: 1px solid var(--g200);
+      transition: box-shadow var(--trans);
+    }
+    .card:hover { box-shadow: var(--shadow-lg); }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--g100);
+    }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--g800); display: flex; align-items: center; gap: 8px; }
+    .card-title .ct-icon { font-size: 18px; color: var(--pri); }
 
-/* ===== 复选框组 ===== */
-.checkbox-group { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
-.cb-item { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--g6); cursor:pointer; background:rgba(255,255,255,0.7); padding:8px 14px; border-radius:22px; border:1.5px solid var(--g3); transition:all .2s; white-space:nowrap; user-select:none; }
-.cb-item:hover { background:#fff; border-color:var(--pri-2); box-shadow:0 2px 8px rgba(212,74,26,0.06); }
-.cb-item:has(input:checked) { background:linear-gradient(135deg, var(--pri-l), #fff); border-color:var(--pri-2); color:var(--pri-1); font-weight:600; box-shadow:0 1px 6px rgba(212,74,26,0.12); }
-.cb-item input[type="checkbox"] { accent-color:var(--pri-1); cursor:pointer; width:15px; height:15px; }
+    /* --- 统计卡片 --- */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--card-bg); border-radius: var(--r-lg); padding: 20px;
+      box-shadow: var(--shadow); border: 1px solid var(--g200);
+      display: flex; align-items: flex-start; gap: 16px; transition: all var(--trans);
+      position: relative; overflow: hidden;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .stat-card::after {
+      content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
+      border-radius: 50%; opacity: 0.06; transform: translate(20px, -20px);
+    }
+    .stat-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+    }
+    .stat-body { flex: 1; }
+    .stat-label { font-size: 13px; color: var(--g500); font-weight: 500; margin-bottom: 4px; }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--g900); line-height: 1.1; }
+    .stat-trend { font-size: 12px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+    .stat-trend.up   { color: var(--suc); }
+    .stat-trend.down { color: var(--dan); }
 
-/* ===== 备份页 ===== */
-.backup-info { color:var(--g5); margin-bottom:16px; font-size:13px; }
-.backup-buttons { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
-.backup-status-box { padding:14px; background:var(--g2); border-radius:10px; font-size:12px; color:var(--g6); border:1px solid var(--g3); }
+    /* --- 数据表格 --- */
+    .data-table-wrap { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--g200); background: #fff; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .data-table thead { background: var(--g50); }
+    .data-table th {
+      padding: 12px 16px; text-align: left; font-weight: 600; color: var(--g600);
+      border-bottom: 1px solid var(--g200); white-space: nowrap; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .data-table td {
+      padding: 14px 16px; border-bottom: 1px solid var(--g100); color: var(--g700);
+      vertical-align: middle;
+    }
+    .data-table tbody tr { transition: background var(--trans); }
+    .data-table tbody tr:hover { background: var(--g50); }
+    .data-table tbody tr:last-child td { border-bottom: none; }
 
-/* ===== 认证弹窗 ===== */
-.auth-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; }
-.auth-overlay.show { display:flex; }
-.auth-box { background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-radius:var(--r); padding:32px; width:320px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
-.auth-box h3 { font-size:18px; margin-bottom:6px; color:var(--g7); }
-.auth-box p { font-size:13px; color:var(--g5); margin-bottom:18px; }
-.auth-box input { text-align:center; font-size:20px; letter-spacing:8px; }
+    /* --- 标签/Badge --- */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
+      border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap;
+    }
+    .badge-blue   { background: var(--pri-light); color: var(--pri-dark); }
+    .badge-green  { background: var(--suc-light); color: var(--suc); }
+    .badge-amber  { background: var(--war-light); color: var(--war); }
+    .badge-red    { background: var(--dan-light); color: var(--dan); }
+    .badge-gray   { background: var(--g100);      color: var(--g500); }
 
-/* ==================== 标签页设计 ==================== */
-.tab-progress { display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:20px; padding:0 8px; }
-.tab-progress .dot { width:8px; height:8px; border-radius:50%; background:var(--g3); transition:all .3s; }
-.tab-progress .dot.done { background:var(--suc); transform:scale(1.3); }
-.tab-progress .dot.active { background:var(--pri-2); transform:scale(1.5); box-shadow:0 0 8px rgba(212,74,26,0.4); }
+    /* --- 按钮体系 --- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 9px 20px; border: none; border-radius: 8px; font-size: 13.5px;
+      font-weight: 600; cursor: pointer; transition: all var(--trans);
+      font-family: var(--font); letter-spacing: 0.2px; white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--pri); color: #fff; box-shadow: 0 1px 3px rgba(29,78,216,0.3);
+    }
+    .btn-primary:hover { background: var(--pri-dark); box-shadow: 0 4px 12px rgba(29,78,216,0.3); transform: translateY(-1px); }
+    .btn-outline {
+      background: #fff; color: var(--g700); border: 1px solid var(--g300);
+    }
+    .btn-outline:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
+    .btn-danger  { background: var(--dan); color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-ghost {
+      background: transparent; color: var(--g500); padding: 9px 12px;
+    }
+    .btn-ghost:hover { background: var(--g100); color: var(--g800); }
+    .btn-sm { padding: 6px 14px; font-size: 12.5px; }
+    .btn-icon {
+      width: 36px; height: 36px; padding: 0; border-radius: 8px;
+      border: 1px solid var(--g200); background: #fff; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 15px; transition: all var(--trans); color: var(--g500);
+    }
+    .btn-icon:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
+    .btn-block { width: 100%; }
 
-.tab-nav { display:flex; gap:6px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; -ms-overflow-style:none; flex-wrap:nowrap; }
-.tab-nav::-webkit-scrollbar { display:none; }
-.tab-pill { display:flex; align-items:center; gap:6px; padding:10px 16px; border-radius:24px; border:2px solid var(--g3); background:rgba(255,255,255,0.8); cursor:pointer; font-size:13px; font-weight:600; color:var(--g5); transition:all .3s; white-space:nowrap; flex-shrink:0; letter-spacing:0.3px; }
-.tab-pill:hover { border-color:var(--g4); background:#fff; transform:translateY(-1px); }
-.tab-pill.active { color:#fff; border-color:transparent; transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
-.tab-pill.active.tab-1 { background:linear-gradient(135deg, #e85d2a, #f05a28); }
-.tab-pill.active.tab-2 { background:linear-gradient(135deg, #2563eb, #3b82f6); }
-.tab-pill.active.tab-3 { background:linear-gradient(135deg, #059669, #10b981); }
-.tab-pill.active.tab-4 { background:linear-gradient(135deg, #d97706, #f59e0b); }
-.tab-pill.active.tab-5 { background:linear-gradient(135deg, #7c3aed, #8b5cf6); }
-.tab-pill.active.tab-6 { background:linear-gradient(135deg, #0891b2, #06b6d4); }
-.tab-pill.active.tab-7 { background:linear-gradient(135deg, #dc2626, #ef4444); }
-.tab-pill.active.tab-8 { background:linear-gradient(135deg, #4b5563, #6b7280); }
-.tab-pill .tp-icon { font-size:18px; line-height:1; }
-.tab-pill .tp-num { font-size:10px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; font-weight:700; }
-.tab-pill.active .tp-num { background:rgba(255,255,255,0.3); }
+    /* --- 表单 --- */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label {
+      font-size: 13px; font-weight: 600; color: var(--g600); display: flex;
+      align-items: center; gap: 5px;
+    }
+    .form-label .req { color: var(--dan); font-weight: 700; }
+    input, select, textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--g200);
+      border-radius: 8px; font-size: 13.5px; background: #fff;
+      font-family: var(--font); color: var(--g800); transition: all var(--trans);
+    }
+    input:hover, select:hover, textarea:hover { border-color: var(--g300); }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--pri); background: #fff;
+      box-shadow: 0 0 0 3px var(--pri-light);
+    }
+    textarea { resize: vertical; min-height: 60px; }
+    select {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+    }
 
-.tab-panel { display:none; animation:tabFadeIn .4s ease; }
-.tab-panel.show { display:block; }
-@keyframes tabFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    /* --- 复选框组 --- */
+    .cb-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cb-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--g200);
+      background: #fff; cursor: pointer; font-size: 13px; color: var(--g600);
+      transition: all var(--trans); user-select: none; white-space: nowrap;
+    }
+    .cb-chip:hover { border-color: var(--g300); background: var(--g50); }
+    .cb-chip input { display: none; }
+    .cb-chip .cb-dot {
+      width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--g300);
+      display: flex; align-items: center; justify-content: center; transition: all var(--trans); flex-shrink: 0;
+    }
+    .cb-chip:has(input:checked) { border-color: var(--pri); background: var(--pri-light); color: var(--pri-dark); font-weight: 600; }
+    .cb-chip:has(input:checked) .cb-dot { background: var(--pri); border-color: var(--pri); }
+    .cb-chip:has(input:checked) .cb-dot::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; }
 
-.tab-section { margin-bottom:18px; }
-.tab-section-title { font-size:14px; font-weight:700; color:var(--g6); margin-bottom:10px; display:flex; align-items:center; gap:8px; padding-bottom:8px; border-bottom:2px solid var(--g3); }
-.tab-section-title .ts-icon { font-size:18px; }
+    /* ============================================================
+       标签页表单（新建客户）
+       ============================================================ */
+    .form-tabs-wrap { margin-bottom: 24px; }
+    .form-progress {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 20px;
+    }
+    .form-progress .fp-dot {
+      width: 10px; height: 10px; border-radius: 50%; background: var(--g200);
+      transition: all var(--trans);
+    }
+    .form-progress .fp-dot.done  { background: var(--suc); transform: scale(1.2); }
+    .form-progress .fp-dot.active {
+      background: var(--pri); transform: scale(1.4);
+      box-shadow: 0 0 0 4px var(--pri-light);
+    }
 
-/* ===== 图标选项包装 ===== */
-.icon-field { position:relative; }
-.icon-select option { padding:8px; font-size:14px; }
+    .form-tabs {
+      display: flex; gap: 4px; background: var(--g100); padding: 4px;
+      border-radius: 12px; overflow-x: auto; scrollbar-width: none;
+    }
+    .form-tabs::-webkit-scrollbar { display: none; }
+    .form-tab {
+      flex: 1; min-width: 90px; padding: 10px 8px; border-radius: 10px;
+      text-align: center; cursor: pointer; transition: all var(--trans);
+      font-size: 12.5px; font-weight: 600; color: var(--g500); white-space: nowrap;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .form-tab:hover { color: var(--g700); background: rgba(255,255,255,0.6); }
+    .form-tab.active { background: #fff; color: var(--pri); box-shadow: var(--shadow); }
+    .form-tab .ft-icon { font-size: 18px; }
+    .form-tab .ft-num {
+      width: 18px; height: 18px; border-radius: 50%; background: var(--g200);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: var(--g500); transition: all var(--trans);
+    }
+    .form-tab.active .ft-num { background: var(--pri); color: #fff; }
 
-/* ===== 手机适配 ===== */
-@media(max-width:768px){
-  .header { padding:8px 14px; }
-  .header h1 { font-size:14px; }
-  .header h1 span { display:none; }
-  .nav-desktop { display:none; }
-  .nav-mobile { display:flex; }
-  .container { padding:12px; padding-bottom:100px; }
-  .grid2, .grid3 { grid-template-columns:1fr; gap:10px; }
-  .card { padding:14px; margin-bottom:12px; border-radius:11px; }
-  .card-title { font-size:14px; margin-bottom:10px; }
-  input, select, textarea { padding:13px 14px; font-size:16px; }
-  .form-label { font-size:14px; }
-  .btn { padding:13px 20px; font-size:14px; }
-  .btn-sm { padding:8px 14px; font-size:12px; }
-  .form-actions { flex-direction:column; }
-  .form-actions .btn { width:100%; }
-  .checkbox-group { gap:6px; }
-  .cb-item { font-size:13px; padding:9px 15px; }
-  .customer-card { flex-direction:column; align-items:stretch; gap:8px; }
-  .customer-card .c-actions { justify-content:flex-end; }
-  .header-actions { flex-wrap:wrap; }
-  .header-actions .btn { font-size:12px; }
-  .welcome-wrap { min-height:50vh; }
-  .welcome-box img { width:180px; height:180px; }
-  .backup-buttons { flex-direction:column; }
-  .backup-buttons .btn { width:100%; }
-  .db-status { font-size:10px; padding:2px 8px; }
-  body::before, body::after { display:none; }
-  .tab-pill { padding:8px 12px; font-size:12px; }
-  .tab-pill .tp-icon { font-size:16px; }
-}
-</style>
+    .form-tab-panel { display: none; animation: tabIn .3s ease; }
+    .form-tab-panel.show { display: block; }
+    @keyframes tabIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+
+    .form-section {
+      background: #fff; border: 1px solid var(--g200); border-radius: var(--r-lg);
+      padding: 20px; margin-bottom: 16px;
+    }
+    .form-section-title {
+      font-size: 14px; font-weight: 700; color: var(--g800); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px; padding-bottom: 10px;
+      border-bottom: 2px solid var(--g100);
+    }
+    .form-section-title .fst-icon { font-size: 18px; color: var(--pri); }
+
+    .form-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+
+    /* ============================================================
+       仪表盘
+       ============================================================ */
+    .dash-welcome {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 50%, #1e3a8a 100%);
+      border-radius: var(--r-lg); padding: 28px 32px; margin-bottom: 24px;
+      color: #fff; display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(29,78,216,0.3); position: relative; overflow: hidden;
+    }
+    .dash-welcome::after {
+      content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px;
+      border-radius: 50%; background: rgba(255,255,255,0.06);
+    }
+    .dash-welcome-text h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .dash-welcome-text p { font-size: 13px; opacity: 0.75; }
+    .dash-welcome-action { flex-shrink: 0; }
+    .dash-welcome-action .btn { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
+    .dash-welcome-action .btn:hover { background: rgba(255,255,255,0.3); }
+
+    .dash-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .dash-grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+    .recent-list { display: flex; flex-direction: column; gap: 2px; }
+    .recent-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      border-radius: 8px; transition: background var(--trans); cursor: pointer;
+    }
+    .recent-item:hover { background: var(--g50); }
+    .recent-item .ri-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .recent-item .ri-body { flex: 1; min-width: 0; }
+    .recent-item .ri-name { font-size: 13.5px; font-weight: 600; color: var(--g800); }
+    .recent-item .ri-desc { font-size: 12px; color: var(--g400); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .recent-item .ri-time { font-size: 11px; color: var(--g400); flex-shrink: 0; }
+
+    /* --- 备份页面 --- */
+    .backup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .backup-card {
+      background: #fff; border: 1px solid var(--g200); border-radius: var(--r-lg);
+      padding: 24px; text-align: center; transition: all var(--trans);
+    }
+    .backup-card:hover { border-color: var(--pri); box-shadow: var(--shadow-lg); }
+    .backup-card .bc-icon { font-size: 40px; margin-bottom: 12px; }
+    .backup-card .bc-title { font-size: 15px; font-weight: 700; color: var(--g800); margin-bottom: 6px; }
+    .backup-card .bc-desc { font-size: 12.5px; color: var(--g500); margin-bottom: 16px; }
+
+    /* --- 空状态 --- */
+    .empty-state { text-align: center; padding: 60px 20px; }
+    .empty-state .es-icon { font-size: 56px; opacity: 0.3; margin-bottom: 16px; }
+    .empty-state .es-title { font-size: 16px; font-weight: 700; color: var(--g700); margin-bottom: 6px; }
+    .empty-state .es-desc { font-size: 13px; color: var(--g400); }
+
+    /* --- Toast --- */
+    .toast {
+      position: fixed; top: 20px; right: 20px; padding: 14px 24px;
+      border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 9999;
+      opacity: 0; transition: all .35s ease; pointer-events: none;
+      box-shadow: var(--shadow-xl); display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { opacity: 1; pointer-events: auto; transform: translateX(0); }
+    .toast-success { background: var(--suc); color: #fff; }
+    .toast-error   { background: var(--dan); color: #fff; }
+    .toast-warning { background: var(--war); color: #fff; }
+
+    /* --- 认证弹窗 --- */
+    .auth-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px); z-index: 999; align-items: center; justify-content: center;
+    }
+    .auth-overlay.show { display: flex; }
+    .auth-box {
+      background: #fff; border-radius: var(--r-lg); padding: 40px; width: 360px;
+      text-align: center; box-shadow: var(--shadow-xl);
+    }
+    .auth-box h3 { font-size: 20px; color: var(--g800); margin-bottom: 6px; }
+    .auth-box p { font-size: 13px; color: var(--g500); margin-bottom: 24px; }
+    .auth-box input {
+      text-align: center; font-size: 24px; letter-spacing: 12px; padding: 14px;
+      border-radius: 10px;
+    }
+
+    /* ============================================================
+       手机适配
+       ============================================================ */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-xl); }
+      .main-wrap { margin-left: 0; }
+      .mobile-overlay {
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        z-index: 199;
+      }
+      .mobile-overlay.show { display: block; }
+      .mobile-menu-btn { display: flex !important; }
+
+      .content { padding: 16px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .dash-grid-2, .dash-grid-3 { grid-template-columns: 1fr; }
+      .backup-grid { grid-template-columns: 1fr; }
+      .topbar-search input { width: 140px; }
+      .topbar-search input:focus { width: 180px; }
+      .dash-welcome { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .form-tabs { gap: 2px; padding: 3px; }
+      .form-tab { min-width: 70px; padding: 8px 4px; font-size: 11px; }
+    }
+
+    .mobile-menu-btn {
+      display: none; width: 36px; height: 36px; border: 1px solid var(--g200);
+      border-radius: 8px; background: #fff; cursor: pointer; align-items: center;
+      justify-content: center; font-size: 18px; color: var(--g600);
+    }
+
+    /* --- 工具类 --- */
+    .text-muted { color: var(--g400); }
+    .text-sm { font-size: 12.5px; }
+    .font-mono { font-family: 'SF Mono', 'Fira Code', monospace; }
+    .mt-8  { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-8  { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .gap-8  { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  <div style="display:flex;align-items:center;gap:8px;">
-    <h1>蜂云装饰客户资料管理系统</h1>
-    <span class="db-status" id="db-status">检测中...</span>
-  </div>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <button class="btn btn-outline btn-sm" onclick="syncToCloud()" id="btn-sync" style="display:none;" title="将本地数据同步到云端">☁️ 同步</button>
-    <div class="nav-desktop" id="nav-desktop">
-      <button class="nav-btn active" onclick="navigate('dashboard')">🏠 首页</button>
-      <button class="nav-btn" onclick="navigate('form')">➕ 新建客户</button>
-      <button class="nav-btn" onclick="requireAuth(function(){ navigate('list'); })">📋 客户列表</button>
-      <button class="nav-btn" onclick="requireAuth(function(){ navigate('backup'); })">💾 备份恢复</button>
-    </div>
-  </div>
-</div>
-
-<!-- 手机底部导航 -->
-<div class="nav-mobile" id="nav-mobile">
-  <button class="nav-m-item active" onclick="navigate('dashboard')"><span class="nav-m-icon">🏠</span>首页</button>
-  <button class="nav-m-item" onclick="navigate('form')"><span class="nav-m-icon">➕</span>新建客户</button>
-  <button class="nav-m-item" onclick="requireAuth(function(){ navigate('list'); })"><span class="nav-m-icon">📋</span>客户列表</button>
-  <button class="nav-m-item" onclick="requireAuth(function(){ navigate('backup'); })"><span class="nav-m-icon">💾</span>备份恢复</button>
-</div>
-
-<div class="container">
-  <!-- 首页（仅显示欢迎页+二维码） -->
-  <div id="page-dashboard" class="page">
-    <div class="welcome-wrap">
-      <div class="welcome-box">
-        <img src="qrcode.png" alt="微信二维码">
-        <div class="welcome-title">扫码添加微信，咨询装修服务</div>
-        <div class="welcome-sub">蜂云装饰 · 专业家装服务</div>
-        <div class="welcome-deco"><span></span><span class="dot"></span><span></span></div>
+  <!-- ===== 侧边栏 ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-logo">
+      <div class="logo-icon">🏠</div>
+      <div>
+        <div class="logo-text">蜂云装饰</div>
+        <div class="logo-sub">CRM 客户管理系统</div>
       </div>
     </div>
+    <nav class="side-nav">
+      <div class="side-label">主菜单</div>
+      <div class="side-item active" onclick="switchPage('dashboard')" id="nav-dashboard">
+        <span class="si-icon">📊</span> 数据看板
+      </div>
+      <div class="side-item" onclick="switchPage('form');openForm()" id="nav-form">
+        <span class="si-icon">➕</span> 新建客户
+      </div>
+      <div class="side-item" onclick="switchPage('list')" id="nav-list">
+        <span class="si-icon">📋</span> 客户列表
+        <span class="si-badge" id="side-cust-count">0</span>
+      </div>
+
+      <div class="side-label">系统</div>
+      <div class="side-item" onclick="switchPage('backup')" id="nav-backup">
+        <span class="si-icon">💾</span> 备份恢复
+      </div>
+    </nav>
+    <div class="side-footer">
+      <div class="avatar">管</div>
+      <div class="user-info">
+        <div class="user-name">管理员</div>
+        <div class="user-role">系统管理员</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 手机侧边栏遮罩 -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ===== 主内容区 ===== -->
+  <div class="main-wrap">
+
+    <!-- 顶部栏 -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" onclick="openSidebar()">☰</button>
+        <div>
+          <div class="topbar-page-title" id="topbarTitle">数据看板</div>
+          <div class="topbar-page-sub" id="topbarSub">欢迎回来，以下是今日数据概览</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="搜索客户..." id="topbarSearch" oninput="handleTopbarSearch(this.value)">
+        </div>
+        <button class="topbar-btn" title="刷新数据" onclick="loadCustomers()">🔄</button>
+        <button class="topbar-btn" title="通知" style="position:relative;">
+          🔔
+          <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid #fff;"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <main class="content" id="mainContent">
+
+      <!-- ========== 页面1: 数据看板 ========== -->
+      <div class="page" id="page-dashboard">
+        <!-- 欢迎横幅 -->
+        <div class="dash-welcome">
+          <div class="dash-welcome-text">
+            <h2 id="welcomeMsg">欢迎回来 👋</h2>
+            <p id="welcomeSub">今天是美好的一天，让我们开始工作吧</p>
+          </div>
+          <div class="dash-welcome-action">
+            <button class="btn" onclick="switchPage('form');openForm()">➕ 新建客户</button>
+          </div>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--pri-light);color:var(--pri);">👥</div>
+            <div class="stat-body">
+              <div class="stat-label">客户总数</div>
+              <div class="stat-value" id="statTotal">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--suc-light);color:var(--suc);">✅</div>
+            <div class="stat-body">
+              <div class="stat-label">今日新增</div>
+              <div class="stat-value" id="statToday">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--war-light);color:var(--war);">⏰</div>
+            <div class="stat-body">
+              <div class="stat-label">待跟进</div>
+              <div class="stat-value" id="statPending">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--inf-light);color:var(--inf);">🏗️</div>
+            <div class="stat-body">
+              <div class="stat-label">施工中</div>
+              <div class="stat-value" id="statActive">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 最近客户 + 快捷操作 -->
+        <div class="dash-grid-3">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><span class="ct-icon">🕐</span> 最近新增</div>
+              <button class="btn btn-ghost btn-sm" onclick="switchPage('list')">查看全部 →</button>
+            </div>
+            <div class="recent-list" id="recentList">
+              <div class="empty-state"><div class="es-icon">📋</div><div class="es-title">暂无数据</div><div class="es-desc">新建客户后将在此显示</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><span class="ct-icon">⚡</span> 快捷操作</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('form');openForm()">➕ 新建客户资料</button>
+              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('list')">📋 查看客户列表</button>
+              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="exportCSV()">📥 导出客户数据</button>
+              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('backup')">💾 数据备份与恢复</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页面2: 新建客户 ========== -->
+      <div class="page" id="page-form">
+        <div class="card" style="max-width:960px;margin:0 auto;">
+          <div class="card-header">
+            <div class="card-title"><span class="ct-icon">📝</span> 新建客户资料</div>
+            <button class="btn btn-ghost btn-sm" onclick="switchPage('dashboard')">✕ 取消</button>
+          </div>
+
+          <!-- 进度指示器 -->
+          <div class="form-progress" id="formProgress"></div>
+
+          <!-- 标签页导航 -->
+          <div class="form-tabs-wrap">
+            <div class="form-tabs" id="formTabs"></div>
+          </div>
+
+          <!-- 表单面板 -->
+          <form id="customerForm" onsubmit="return false;">
+            <!-- Tab1: 基本信息 -->
+            <div class="form-tab-panel" id="ftab-0">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">👤</span> 基本信息</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label"><span class="req">*</span> 客户姓名</label>
+                    <input type="text" id="f-name" placeholder="请输入客户姓名" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label"><span class="req">*</span> 联系电话</label>
+                    <input type="tel" id="f-phone" placeholder="请输入手机号码" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">性别</label>
+                    <select id="f-gender"><option value="">请选择</option><option value="男">👨 男</option><option value="女">👩 女</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">年龄区间</label>
+                    <select id="f-age"><option value="">请选择</option><option value="20-30">🔟 20-30岁</option><option value="30-40">🔟 30-40岁</option><option value="40-50">🔟 40-50岁</option><option value="50-60">🔟 50-60岁</option><option value="60+">🔟 60岁以上</option></select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">职业</label>
+                    <select id="f-job">
+                      <option value="">请选择职业</option>
+                      <option value="企业主/高管">💼 企业主/高管</option>
+                      <option value="公务员/事业单位">🏛️ 公务员/事业单位</option>
+                      <option value="金融/IT/互联网">💻 金融/IT/互联网</option>
+                      <option value="教育/医疗/科研">🎓 教育/医疗/科研</option>
+                      <option value="自由职业/个体户">🎨 自由职业/个体户</option>
+                      <option value="退休">🧓 退休</option>
+                      <option value="其他">📋 其他</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">客户来源</label>
+                    <select id="f-source">
+                      <option value="">请选择来源</option>
+                      <option value="朋友介绍">👥 朋友介绍</option>
+                      <option value="小区推广">🏘️ 小区推广</option>
+                      <option value="网络平台">🌐 网络平台</option>
+                      <option value="社交媒体">📱 社交媒体</option>
+                      <option value="线下活动">🎪 线下活动</option>
+                      <option value="回头客">🔄 回头客/老客户</option>
+                      <option value="其他">📋 其他</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">紧急程度</label>
+                    <select id="f-urgency">
+                      <option value="一般">🟢 一般</option>
+                      <option value="较急">🟡 较急</option>
+                      <option value="很急">🔴 很急</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">是否有宠物</label>
+                    <select id="f-pet">
+                      <option value="否">❌ 否</option>
+                      <option value="是">🐾 是</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns"><div></div><button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button></div>
+            </div>
+
+            <!-- Tab2: 房屋信息 -->
+            <div class="form-tab-panel" id="ftab-1">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">🏠</span> 房屋信息</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">房屋面积</label>
+                    <select id="f-area">
+                      <option value="">请选择面积</option>
+                      <option value="<50㎡">📐 &lt;50㎡</option>
+                      <option value="50-80㎡">📐 50-80㎡</option>
+                      <option value="80-100㎡">📐 80-100㎡</option>
+                      <option value="100-120㎡">📐 100-120㎡</option>
+                      <option value="120-150㎡">📐 120-150㎡</option>
+                      <option value="150-200㎡">📐 150-200㎡</option>
+                      <option value="200-300㎡">📐 200-300㎡</option>
+                      <option value="300㎡以上">📐 300㎡以上</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">户型</label>
+                    <select id="f-type">
+                      <option value="">请选择户型</option>
+                      <option value="一室一厅">🏠 一室一厅</option>
+                      <option value="两室一厅">🏠 两室一厅</option>
+                      <option value="两室两厅">🏠 两室两厅</option>
+                      <option value="三室一厅">🏠 三室一厅</option>
+                      <option value="三室两厅">🏠 三室两厅</option>
+                      <option value="四室两厅">🏠 四室两厅</option>
+                      <option value="复式/loft">🏗️ 复式/loft</option>
+                      <option value="别墅">🏡 别墅</option>
+                      <option value="商铺/办公室">🏢 商铺/办公室</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">房屋类型</label>
+                    <select id="f-housetype">
+                      <option value="新房">🆕 新房</option>
+                      <option value="二手房">🏚️ 二手房</option>
+                      <option value="老房翻新">🔄 老房翻新</option>
+                      <option value="商业空间">🏢 商业空间</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">楼层</label>
+                    <select id="f-floor">
+                      <option value="">请选择楼层</option>
+                      <option value="1层">1️⃣ 1层</option>
+                      <option value="2-5层">2️⃣ 2-5层</option>
+                      <option value="6-10层">3️⃣ 6-10层</option>
+                      <option value="11-20层">4️⃣ 11-20层</option>
+                      <option value="21-30层">5️⃣ 21-30层</option>
+                      <option value="30层以上">6️⃣ 30层以上</option>
+                      <option value="顶层">🔝 顶层</option>
+                      <option value="负一层">⬇️ 负一层</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">朝向</label>
+                    <select id="f-direction">
+                      <option value="南">⬇️ 南</option>
+                      <option value="北">⬆️ 北</option>
+                      <option value="东">▶️ 东</option>
+                      <option value="西">◀️ 西</option>
+                      <option value="南北通透">↕️ 南北通透</option>
+                      <option value="东西">↔️ 东西</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">建筑年限</label>
+                    <select id="f-buildyear">
+                      <option value="<5年">🆕 5年内</option>
+                      <option value="5-10年">🏗️ 5-10年</option>
+                      <option value="10-20年">🏚️ 10-20年</option>
+                      <option value="20年以上">🏛️ 20年以上</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">层高</label>
+                    <select id="f-floorheight">
+                      <option value="<2.8m">📏 &lt;2.8m（普通）</option>
+                      <option value="2.8-3.0m">📏 2.8-3.0m（标准）</option>
+                      <option value="3.0-3.3m">📏 3.0-3.3m（舒适）</option>
+                      <option value=">3.3m">📏 &gt;3.3m（豪华/loft）</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">是否有电梯</label>
+                    <select id="f-elevator">
+                      <option value="是">✅ 有电梯</option>
+                      <option value="否">❌ 无电梯</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label">房屋地址</label>
+                    <input type="text" id="f-address" placeholder="请输入详细地址">
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab3: 家庭成员 -->
+            <div class="form-tab-panel" id="ftab-2">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">👨‍👩‍👧‍👦</span> 家庭成员</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">家庭人数</label>
+                    <select id="f-members">
+                      <option value="1人">👤 1人</option>
+                      <option value="2人">👥 2人</option>
+                      <option value="3人">👨‍👩‍👦 3人</option>
+                      <option value="4人">👨‍👩‍👧‍👦 4人</option>
+                      <option value="5人及以上">👪 5人及以上</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">是否有老人</label>
+                    <select id="f-elderly">
+                      <option value="否">❌ 否</option>
+                      <option value="是">👴 是</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">是否有小孩</label>
+                    <select id="f-children">
+                      <option value="否">❌ 否</option>
+                      <option value="幼儿(0-3岁)">🍼 幼儿(0-3岁)</option>
+                      <option value="儿童(3-12岁)">👶 儿童(3-12岁)</option>
+                      <option value="青少年(12-18岁)">🧒 青少年(12-18岁)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">小孩数量</label>
+                    <select id="f-childcount">
+                      <option value="0">0️⃣ 0个</option>
+                      <option value="1">1️⃣ 1个</option>
+                      <option value="2">2️⃣ 2个</option>
+                      <option value="3+">3️⃣ 3个及以上</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label">家庭成员备注</label>
+                    <div class="cb-group">
+                      <label class="cb-chip">在家办公<input type="checkbox" value="在家办公" class="cg-membnote"></label>
+                      <label class="cb-chip">经常出差<input type="checkbox" value="经常出差" class="cg-membnote"></label>
+                      <label class="cb-chip">居家办公<input type="checkbox" value="居家办公" class="cg-membnote"></label>
+                      <label class="cb-chip">有保姆/月嫂<input type="checkbox" value="有保姆/月嫂" class="cg-membnote"></label>
+                      <label class="cb-chip">有宠物<input type="checkbox" value="有宠物" class="cg-membnote"></label>
+                      <label class="cb-chip">其他<input type="checkbox" value="其他" class="cg-membnote"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab4: 风格偏好 -->
+            <div class="form-tab-panel" id="ftab-3">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">🎨</span> 风格偏好</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">装修风格</label>
+                    <select id="f-style">
+                      <option value="">请选择风格</option>
+                      <option value="现代简约">🏢 现代简约</option>
+                      <option value="北欧风">🌲 北欧风</option>
+                      <option value="中式/新中式">🏮 中式/新中式</option>
+                      <option value="美式/欧式">🏛️ 美式/欧式</option>
+                      <option value="日式/原木风">🪵 日式/原木风</option>
+                      <option value="轻奢风">💎 轻奢风</option>
+                      <option value="工业风">🏭 工业风</option>
+                      <option value="法式/田园">🌸 法式/田园</option>
+                      <option value="混搭">🎲 混搭</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">主色调</label>
+                    <select id="f-color">
+                      <option value="">请选择主色调</option>
+                      <option value="白色/米色系">⬜ 白色/米色系</option>
+                      <option value="灰色系">⬛ 灰色系</option>
+                      <option value="木色/原木色">🪵 木色/原木色</option>
+                      <option value="暖色系(橙/黄)">🧡 暖色系(橙/黄)</option>
+                      <option value="冷色系(蓝/绿)">💙 冷色系(蓝/绿)</option>
+                      <option value="多彩混搭">🌈 多彩混搭</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">定制化需求</label>
+                    <select id="f-custom">
+                      <option value="无">❌ 无</option>
+                      <option value="全屋定制">📐 全屋定制</option>
+                      <option value="部分定制">✂️ 部分定制</option>
+                      <option value="成品+定制结合">🔀 成品+定制结合</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">参考来源</label>
+                    <div class="cb-group">
+                      <label class="cb-chip">小红书<input type="checkbox" value="小红书" class="cg-reference"></label>
+                      <label class="cb-chip">抖音/短视频<input type="checkbox" value="抖音/短视频" class="cg-reference"></label>
+                      <label class="cb-chip">微信/朋友圈<input type="checkbox" value="微信/朋友圈" class="cg-reference"></label>
+                      <label class="cb-chip">装修公司案例<input type="checkbox" value="装修公司案例" class="cg-reference"></label>
+                      <label class="cb-chip">朋友家参观<input type="checkbox" value="朋友家参观" class="cg-reference"></label>
+                      <label class="cb-chip">设计师推荐<input type="checkbox" value="设计师推荐" class="cg-reference"></label>
+                      <label class="cb-chip">其他途径<input type="checkbox" value="其他" class="cg-reference"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab5: 功能需求 -->
+            <div class="form-tab-panel" id="ftab-4">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">🏗️</span> 功能区需求</div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label">请选择需要设计的区域（可多选）</label>
+                    <div class="cb-group">
+                      <label class="cb-chip">🛋️ 客厅<input type="checkbox" value="客厅" class="cg-function"></label>
+                      <label class="cb-chip">🍽️ 餐厅<input type="checkbox" value="餐厅" class="cg-function"></label>
+                      <label class="cb-chip">🛏️ 主卧<input type="checkbox" value="主卧" class="cg-function"></label>
+                      <label class="cb-chip">🛏️ 次卧<input type="checkbox" value="次卧" class="cg-function"></label>
+                      <label class="cb-chip">📚 书房<input type="checkbox" value="书房" class="cg-function"></label>
+                      <label class="cb-chip">🍳 厨房<input type="checkbox" value="厨房" class="cg-function"></label>
+                      <label class="cb-chip">🚿 卫生间<input type="checkbox" value="卫生间" class="cg-function"></label>
+                      <label class="cb-chip">👕 衣帽间/衣柜<input type="checkbox" value="衣帽间/衣柜" class="cg-function"></label>
+                      <label class="cb-chip">🧺 阳台/洗衣房<input type="checkbox" value="阳台/洗衣房" class="cg-function"></label>
+                      <label class="cb-chip">🎮 娱乐/影音室<input type="checkbox" value="娱乐/影音室" class="cg-function"></label>
+                      <label class="cb-chip">🏋️ 健身房<input type="checkbox" value="健身房" class="cg-function"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">智能家居需求</label>
+                    <select id="f-smarthome">
+                      <option value="无">❌ 无</option>
+                      <option value="灯光智能">💡 灯光智能</option>
+                      <option value="窗帘智能">🪟 窗帘智能</option>
+                      <option value="安防智能">🔒 安防智能</option>
+                      <option value="全屋智能">🏠 全屋智能</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab6: 水电暖通 -->
+            <div class="form-tab-panel" id="ftab-5">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">🔧</span> 水电暖通</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">给排水</label>
+                    <select id="f-water"><option value="普通">🚿 普通</option><option value="净水系统">💧 净水系统</option><option value="软水系统">💧 软水系统</option><option value="全屋净水">💧 全屋净水</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">电气</label>
+                    <select id="f-electric"><option value="常规">⚡ 常规</option><option value="增加插座">🔌 增加插座</option><option value="智能家居布线">🏠 智能家居布线</option><option value="全屋智能电气">💡 全屋智能电气</option></select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">暖通空调</label>
+                    <select id="f-hvac">
+                      <option value="分体空调">❄️ 分体空调</option>
+                      <option value="中央空调">🌀 中央空调</option>
+                      <option value="地暖">🔥 地暖</option>
+                      <option value="中央空调+地暖">🌡️ 中央空调+地暖</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">新风系统</label>
+                    <select id="f-ventilation">
+                      <option value="无">❌ 无</option>
+                      <option value="单向流新风">🌬️ 单向流新风</option>
+                      <option value="双向流新风">🌪️ 双向流新风</option>
+                      <option value="全热交换新风">🔄 全热交换新风</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab7: 预算工期 -->
+            <div class="form-tab-panel" id="ftab-6">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">💰</span> 预算与工期</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">装修预算</label>
+                    <select id="f-budget">
+                      <option value="<5万">💰 &lt;5万</option>
+                      <option value="5-10万">💰 5-10万</option>
+                      <option value="10-20万">💰 10-20万</option>
+                      <option value="20-50万">💰 20-50万</option>
+                      <option value="50-100万">💰 50-100万</option>
+                      <option value="100万以上">💎 100万以上</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">期望开工时间</label>
+                    <select id="f-date">
+                      <option value="立即开工">🚀 立即开工</option>
+                      <option value="1个月内">📅 1个月内</option>
+                      <option value="3个月内">📅 3个月内</option>
+                      <option value="6个月内">📅 6个月内</option>
+                      <option value="1年内">📅 1年内</option>
+                      <option value="暂不确定">❓ 暂不确定</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">预计工期</label>
+                    <select id="f-duration">
+                      <option value="<1个月">⏱️ &lt;1个月</option>
+                      <option value="1-2个月">⏱️ 1-2个月</option>
+                      <option value="2-3个月">⏱️ 2-3个月</option>
+                      <option value="3-6个月">⏱️ 3-6个月</option>
+                      <option value="6个月以上">⏱️ 6个月以上</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">付款方式</label>
+                    <select id="f-paytype">
+                      <option value="按进度付款">📊 按进度付款</option>
+                      <option value="一次性付款">💵 一次性付款</option>
+                      <option value="分期付款">📆 分期付款</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+              </div>
+            </div>
+
+            <!-- Tab8: 其他需求 -->
+            <div class="form-tab-panel" id="ftab-7">
+              <div class="form-section">
+                <div class="form-section-title"><span class="fst-icon">📝</span> 其他需求</div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label">特殊需求备注（可多选）</label>
+                    <div class="cb-group">
+                      <label class="cb-chip">环保材料优先<input type="checkbox" value="环保材料优先" class="cg-special"></label>
+                      <label class="cb-chip">噪音隔离要求高<input type="checkbox" value="噪音隔离要求高" class="cg-special"></label>
+                      <label class="cb-chip">采光要求高<input type="checkbox" value="采光要求高" class="cg-special"></label>
+                      <label class="cb-chip">储物空间尽量多<input type="checkbox" value="储物空间尽量多" class="cg-special"></label>
+                      <label class="cb-chip"> wants开放式厨房<input type="checkbox" value="开放式厨房" class="cg-special"></label>
+                      <label class="cb-chip">需要家政间<input type="checkbox" value="需要家政间" class="cg-special"></label>
+                      <label class="cb-chip">需要酒柜/吧台<input type="checkbox" value="酒柜/吧台" class="cg-special"></label>
+                      <label class="cb-chip">需要儿童玩耍区<input type="checkbox" value="儿童玩耍区" class="cg-special"></label>
+                      <label class="cb-chip">需要老人房特殊设计<input type="checkbox" value="老人房特殊设计" class="cg-special"></label>
+                      <label class="cb-chip">需要无障碍设计<input type="checkbox" value="无障碍设计" class="cg-special"></label>
+                      <label class="cb-chip">希望尽量省钱<input type="checkbox" value="尽量省钱" class="cg-special"></label>
+                      <label class="cb-chip">希望效果好不计成本<input type="checkbox" value="效果好不计成本" class="cg-special"></label>
+                      <label class="cb-chip">需要设计师全程跟进<input type="checkbox" value="设计师全程跟进" class="cg-special"></label>
+                      <label class="cb-chip">需要快速完工<input type="checkbox" value="快速完工" class="cg-special"></label>
+                      <label class="cb-chip">其他特殊要求<input type="checkbox" value="其他" class="cg-special"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row full">
+                  <div class="form-group">
+                    <label class="form-label">补充备注</label>
+                    <textarea id="f-notes" rows="4" placeholder="请输入其他需要补充说明的内容..."></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="form-nav-btns">
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
+                <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="padding:12px 32px;">💾 保存客户资料</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ========== 页面3: 客户列表 ========== -->
+      <div class="page" id="page-list">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="ct-icon">📋</span> 客户列表</div>
+            <div class="gap-8" style="display:flex;">
+              <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 导出</button>
+              <button class="btn btn-primary btn-sm" onclick="switchPage('form');openForm()">➕ 新建</button>
+            </div>
+          </div>
+          <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索客户姓名、电话、户型..." oninput="renderList()">
+          <div class="data-table-wrap">
+            <table class="data-table" id="customerTable">
+              <thead>
+                <tr>
+                  <th>客户姓名</th>
+                  <th>联系电话</th>
+                  <th>户型</th>
+                  <th>面积</th>
+                  <th>预算</th>
+                  <th>风格</th>
+                  <th>来源</th>
+                  <th>创建时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="customerBody">
+                <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--g400);">暂无客户数据</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页面4: 备份恢复 ========== -->
+      <div class="page" id="page-backup">
+        <div style="max-width:720px;margin:0 auto;">
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+              <div class="card-title"><span class="ct-icon">💾</span> 数据备份与恢复</div>
+            </div>
+            <p class="text-muted text-sm mb-16">系统使用浏览器本地存储，定期备份可防止数据丢失。建议每周备份一次。</p>
+            <div class="backup-grid">
+              <div class="backup-card">
+                <div class="bc-icon">📤</div>
+                <div class="bc-title">导出备份</div>
+                <div class="bc-desc">将所有客户数据导出为 JSON 文件，保存至本地</div>
+                <button class="btn btn-primary" onclick="backupExport()">导出 JSON</button>
+              </div>
+              <div class="backup-card">
+                <div class="bc-icon">📥</div>
+                <div class="bc-title">导入恢复</div>
+                <div class="bc-desc">从之前导出的 JSON 文件恢复客户数据</div>
+                <button class="btn btn-outline" onclick="backupImport()">选择文件</button>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><span class="ct-icon">📊</span> 存储信息</div>
+            </div>
+            <div id="storageInfo" style="font-size:13px;color:var(--g600);line-height:2;">
+              <p>📦 当前客户数：<strong id="infoCount">0</strong> 条</p>
+              <p>💾 存储方式：浏览器 localStorage（本地）</p>
+              <p>⚠️ 建议定期导出备份，避免数据丢失</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
 
-  <!-- ==================== 新建客户（标签页版） ==================== -->
-  <div id="page-form" class="page" style="display:none;">
-    <div class="card">
-      <div class="card-title" id="form-title">📝 新建客户资料</div>
-      <input type="hidden" id="f-id">
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
-      <!-- 步骤进度条 -->
-      <div class="tab-progress" id="tab-progress"></div>
-
-      <!-- 标签导航 -->
-      <div class="tab-nav" id="tab-nav">
-        <button class="tab-pill active tab-1" onclick="switchTab(1)"><span class="tp-num">1</span><span class="tp-icon">👤</span>基本信息</button>
-        <button class="tab-pill tab-2" onclick="switchTab(2)"><span class="tp-num">2</span><span class="tp-icon">🏠</span>房屋信息</button>
-        <button class="tab-pill tab-3" onclick="switchTab(3)"><span class="tp-num">3</span><span class="tp-icon">👨‍👩‍👧‍👦</span>家庭成员</button>
-        <button class="tab-pill tab-4" onclick="switchTab(4)"><span class="tp-num">4</span><span class="tp-icon">🎨</span>风格偏好</button>
-        <button class="tab-pill tab-5" onclick="switchTab(5)"><span class="tp-num">5</span><span class="tp-icon">🏗️</span>功能需求</button>
-        <button class="tab-pill tab-6" onclick="switchTab(6)"><span class="tp-num">6</span><span class="tp-icon">🔧</span>水电暖通</button>
-        <button class="tab-pill tab-7" onclick="switchTab(7)"><span class="tp-num">7</span><span class="tp-icon">💰</span>预算工期</button>
-        <button class="tab-pill tab-8" onclick="switchTab(8)"><span class="tp-num">8</span><span class="tp-icon">📝</span>其他需求</button>
-      </div>
-
-      <!-- Tab 1: 基本信息 -->
-      <div class="tab-panel show" id="tab-1">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">👤</span>基本信息 <span style="color:var(--dan);font-size:12px;">*必填项</span></div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">👤</span>客户姓名 *</label><input id="f-name" placeholder="请输入客户姓名（必填）"></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">📱</span>联系电话 *</label><input id="f-phone" placeholder="请输入联系电话（必填）"></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">👥</span>性别</label><select id="f-gender"><option value="">请选择</option><option>👨 男</option><option>👩 女</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">🎂</span>年龄区间</label><select id="f-age"><option value="">请选择</option><option>🌱 20-25岁</option><option>🌿 25-30岁</option><option>🌳 30-35岁</option><option>🍂 35-40岁</option><option>🏔️ 40-50岁</option><option>🗻 50-60岁</option><option>⛰️ 60岁以上</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">💼</span>职业</label><select id="f-job"><option value="">请选择</option><option>👨‍🏫 教师/教育</option><option>👨‍⚕️ 医生/医疗</option><option>💻 IT/互联网</option><option>🏛️ 公务员/事业单位</option><option>👔 企业管理</option><option>🤝 销售/商贸</option><option>💰 金融/银行/保险</option><option>🏗️ 建筑/工程</option><option>🎨 设计/广告/传媒</option><option>⚖️ 律师/法律</option><option>🕊️ 自由职业</option><option>🏪 个体经营</option><option>🏭 工厂/制造业</option><option>🍽️ 餐饮/服务业</option><option>🌅 退休</option><option>📌 其他</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">📌</span>推荐来源</label><select id="f-source"><option value="">请选择</option><option>🤝 朋友推荐</option><option>🔄 老客户转介绍</option><option>📱 抖音/小红书</option><option>💬 微信朋友圈</option><option>🔍 百度/搜索广告</option><option>🏘️ 小区推广</option><option>🚶 门店到访</option><option>🏗️ 装修平台</option><option>📌 其他</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">🐾</span>是否养宠物</label><select id="f-pet"><option value="">请选择</option><option>🐾 是</option><option>✖️ 否</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🐱</span>宠物类型</label><select id="f-petdetail"><option value="">请选择</option><option>🚫 无</option><option>🐕 狗</option><option>🐈 猫</option><option>🐕🐈 猫+狗</option><option>🐹 其他小宠</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">⏰</span>紧急程度</label><select id="f-urgency"><option value="">请选择</option><option>🔥 非常急（一周内）</option><option>⚡ 较急（一个月内）</option><option>📅 三个月内</option><option>🗓️ 半年内</option><option>☕ 不着急，先了解</option></select></div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="switchTab(2)">下一步 🏠 房屋信息 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 2: 房屋信息 -->
-      <div class="tab-panel" id="tab-2">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">📐</span>房屋基本信息</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">📐</span>房屋面积(m²)</label><select id="f-area"><option value="">请选择</option><option>📦 50m²以下</option><option>🏠 50-70m²</option><option>🏡 70-90m²</option><option>🏘️ 90-110m²</option><option>🏢 110-130m²</option><option>🏗️ 130-150m²</option><option>🏰 150-200m²</option><option>🏯 200-300m²</option><option>🏛️ 300m²以上</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🏠</span>户型</label><select id="f-housetype"><option value="">请选择</option><option>🚪 一居室</option><option>🚪🚪 两居室</option><option>🏠 三居室一厅</option><option>🏡 三居室两厅</option><option>🏘️ 四居室</option><option>🏢 五居室及以上</option><option>🏗️ 复式</option><option>🏰 别墅</option><option>🏯 LOFT</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🏷️</span>房屋类型</label><select id="f-propertytype"><option value="">请选择</option><option>🆕 新房（毛坯）</option><option>✨ 新房（精装）</option><option>🔄 二手房翻新</option><option>🔧 老房改造</option><option>🛠️ 局部翻新</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">📍</span>装修地址（小区）</label><input id="f-address" placeholder="输入小区名称或详细地址"></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🏢</span>楼层</label><select id="f-floor"><option value="">请选择</option><option>🌍 1层（地面层）</option><option>🌿 2-3层（低层）</option><option>🌳 4-6层（多层）</option><option>🏗️ 7-9层（小高层低区）</option><option>🏢 10-15层（小高层中区）</option><option>🏙️ 16-20层（小高层高区）</option><option>🌆 21-25层（高层低区）</option><option>🏬 26-30层（高层中区）</option><option>🗼 30层以上（超高层）</option><option>🔝 顶层</option><option>🏗️ 复式/跃层</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🧭</span>朝向</label><select id="f-direction"><option value="">请选择</option><option>🧭 南北通透</option><option>☀️ 朝南</option><option>🌅 朝东南</option><option>🌄 朝东</option><option>🌇 朝西</option><option>🌑 朝北</option><option>↔️ 东西向</option><option>📌 其他</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">📅</span>房屋年限</label><select id="f-houseage"><option value="">请选择</option><option>🆕 新房未入住</option><option>1️⃣ 1-3年</option><option>3️⃣ 3-5年</option><option>5️⃣ 5-10年</option><option>🔟 10-15年</option><option>1️⃣5️⃣ 15年以上</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">📏</span>层高(m)</label><select id="f-floorheight"><option value="">请选择</option><option>📏 2.5m以下（较低）</option><option>📐 2.6m</option><option>📐 2.7m</option><option>📏 2.8m（标准）</option><option>📐 2.9m</option><option>📏 3.0m（较高）</option><option>🏗️ 3.1-3.5m（挑高）</option><option>🏰 3.5m以上（LOFT/别墅）</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🛗</span>是否有电梯</label><select id="f-elevator"><option value="">请选择</option><option>✅ 有</option><option>❌ 无</option><option>🏃 多层无电梯</option></select></div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(1)">← 基本信息</button>
-          <button class="btn btn-primary" onclick="switchTab(3)">下一步 👨‍👩‍👧‍👦 家庭成员 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 3: 家庭成员 -->
-      <div class="tab-panel" id="tab-3">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">👨‍👩‍👧‍👦</span>家庭成员情况</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">👥</span>家庭成员数</label><input id="f-familycount" type="number" placeholder="例如：3口人"></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">👴</span>是否有老人</label><select id="f-haselderly"><option value="">请选择</option><option>👴 是</option><option>✖️ 否</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">👶</span>是否有小孩</label><select id="f-haschildren"><option value="">请选择</option><option>👶 是（0-3岁）</option><option>🧒 是（3-12岁）</option><option>🧑 是（12岁以上）</option><option>✖️ 否</option></select></div>
-          </div>
-        </div>
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">📋</span>成员特殊需求 <span style="font-size:11px;color:var(--g5);font-weight:400;">（可多选）</span></div>
-          <div class="checkbox-group" id="cg-familynote">
-            <label class="cb-item"><input type="checkbox" value="老人需无障碍设施" onchange="updateTextarea('f-familynote','cg-familynote')"> ♿ 老人需无障碍设施</label>
-            <label class="cb-item"><input type="checkbox" value="小孩需防撞设计" onchange="updateTextarea('f-familynote','cg-familynote')"> 🛡️ 小孩需防撞设计</label>
-            <label class="cb-item"><input type="checkbox" value="有孕妇/备孕" onchange="updateTextarea('f-familynote','cg-familynote')"> 🤰 有孕妇/备孕</label>
-            <label class="cb-item"><input type="checkbox" value="过敏体质（需环保材料）" onchange="updateTextarea('f-familynote','cg-familynote')"> 🌿 过敏体质（需环保材料）</label>
-            <label class="cb-item"><input type="checkbox" value="老人房需紧急呼叫按钮" onchange="updateTextarea('f-familynote','cg-familynote')"> 🆘 老人房需紧急呼叫按钮</label>
-            <label class="cb-item"><input type="checkbox" value="需要儿童安全防护" onchange="updateTextarea('f-familynote','cg-familynote')"> 👶 需要儿童安全防护</label>
-            <label class="cb-item"><input type="checkbox" value="对噪音敏感" onchange="updateTextarea('f-familynote','cg-familynote')"> 🔇 对噪音敏感</label>
-            <label class="cb-item"><input type="checkbox" value="需要隔音处理" onchange="updateTextarea('f-familynote','cg-familynote')"> 🔕 需要隔音处理</label>
-            <label class="cb-item"><input type="checkbox" value="养宠物（需耐磨地面）" onchange="updateTextarea('f-familynote','cg-familynote')"> 🐾 养宠物（需耐磨地面）</label>
-            <label class="cb-item"><input type="checkbox" value="需要独立衣帽间" onchange="updateTextarea('f-familynote','cg-familynote')"> 👗 需要独立衣帽间</label>
-            <label class="cb-item"><input type="checkbox" value="成员有长期居家办公" onchange="updateTextarea('f-familynote','cg-familynote')"> 💻 成员有长期居家办公</label>
-            <label class="cb-item"><input type="checkbox" value="经常有老人来访小住" onchange="updateTextarea('f-familynote','cg-familynote')"> 👴 经常有老人来访小住</label>
-          </div>
-          <textarea id="f-familynote" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(2)">← 房屋信息</button>
-          <button class="btn btn-primary" onclick="switchTab(4)">下一步 🎨 风格偏好 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 4: 风格偏好 -->
-      <div class="tab-panel" id="tab-4">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">🎨</span>风格与色彩偏好</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">🎨</span>装修风格</label><select id="f-style"><option value="">请选择</option><option>🎯 现代简约</option><option>❄️ 北欧风</option><option>🏮 新中式</option><option>✨ 轻奢风</option><option>🗽 美式</option><option>🥐 法式</option><option>🍵 日式/原木</option><option>⚙️ 工业风</option><option>🌊 地中海</option><option>🎪 混搭</option><option>🍦 奶油风</option><option>🧘 侘寂风</option><option>📌 其他</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🎨</span>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>⚪ 浅色系（白/米/灰）</option><option>⚫ 深色系（黑/灰/棕）</option><option>🔴 暖色系（橙/黄/红）</option><option>🔵 冷色系（蓝/绿/紫）</option><option>◼️ 黑白灰极简</option><option>🤷 无特别偏好</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🛋️</span>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>✅ 是，全部定制</option><option>📦 是，部分定制</option><option>🪑 否，成品家具</option><option>⏳ 待定</option></select></div>
-          </div>
-        </div>
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">📌</span>参考风格/案例来源 <span style="font-size:11px;color:var(--g5);font-weight:400;">（可多选）</span></div>
-          <div class="checkbox-group" id="cg-reference">
-            <label class="cb-item"><input type="checkbox" value="小红书博主案例" onchange="updateTextarea('f-reference','cg-reference')"> 📕 小红书博主案例</label>
-            <label class="cb-item"><input type="checkbox" value="抖音视频参考" onchange="updateTextarea('f-reference','cg-reference')"> 🎵 抖音视频参考</label>
-            <label class="cb-item"><input type="checkbox" value="朋友家装修参考" onchange="updateTextarea('f-reference','cg-reference')"> 🤝 朋友家装修参考</label>
-            <label class="cb-item"><input type="checkbox" value="样板间/展厅参考" onchange="updateTextarea('f-reference','cg-reference')"> 🏠 样板间/展厅参考</label>
-            <label class="cb-item"><input type="checkbox" value="酒店/民宿风格参考" onchange="updateTextarea('f-reference','cg-reference')"> 🏨 酒店/民宿风格参考</label>
-            <label class="cb-item"><input type="checkbox" value="Pinterest图片参考" onchange="updateTextarea('f-reference','cg-reference')"> 📌 Pinterest图片参考</label>
-            <label class="cb-item"><input type="checkbox" value="品牌家具风格（如宜家/曲美）" onchange="updateTextarea('f-reference','cg-reference')"> 🪑 品牌家具风格（如宜家/曲美）</label>
-            <label class="cb-item"><input type="checkbox" value="设计杂志/书籍参考" onchange="updateTextarea('f-reference','cg-reference')"> 📚 设计杂志/书籍参考</label>
-            <label class="cb-item"><input type="checkbox" value="无具体参考，交由设计师把控" onchange="updateTextarea('f-reference','cg-reference')"> 🎨 无具体参考，交由设计师把控</label>
-          </div>
-          <textarea id="f-reference" placeholder="已选项目将自动填入，也可补充具体案例链接或描述"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(3)">← 家庭成员</button>
-          <button class="btn btn-primary" onclick="switchTab(5)">下一步 🏗️ 功能需求 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 5: 功能需求 -->
-      <div class="tab-panel" id="tab-5">
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🛋️</span>客厅</div>
-          <div class="checkbox-group" id="cg-livingroom">
-            <label class="cb-item"><input type="checkbox" value="无主灯设计" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 💡 无主灯设计</label>
-            <label class="cb-item"><input type="checkbox" value="投影仪/电视墙" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 📺 投影仪/电视墙</label>
-            <label class="cb-item"><input type="checkbox" value="大落地窗/采光好" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 🪟 大落地窗/采光好</label>
-            <label class="cb-item"><input type="checkbox" value="拒绝繁杂吊顶" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> ⬆️ 拒绝繁杂吊顶</label>
-            <label class="cb-item"><input type="checkbox" value="沙发背景墙" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 🛋️ 沙发背景墙</label>
-            <label class="cb-item"><input type="checkbox" value="客厅阳台打通" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 🌿 客厅阳台打通</label>
-            <label class="cb-item"><input type="checkbox" value="储物柜/展示柜" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 🗄️ 储物柜/展示柜</label>
-            <label class="cb-item"><input type="checkbox" value="预留空调位" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> ❄️ 预留空调位</label>
-          </div>
-          <textarea id="f-need-livingroom" placeholder="已选项目将自动填入"></textarea></div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🍽️</span>餐厅</div>
-          <div class="checkbox-group" id="cg-dining">
-            <label class="cb-item"><input type="checkbox" value="餐边柜" onchange="updateTextarea('f-need-dining','cg-dining')"> 🗄️ 餐边柜</label>
-            <label class="cb-item"><input type="checkbox" value="吧台" onchange="updateTextarea('f-need-dining','cg-dining')"> 🍸 吧台</label>
-            <label class="cb-item"><input type="checkbox" value="岛台一体" onchange="updateTextarea('f-need-dining','cg-dining')"> 🏝️ 岛台一体</label>
-            <label class="cb-item"><input type="checkbox" value="圆桌" onchange="updateTextarea('f-need-dining','cg-dining')"> ⭕ 圆桌</label>
-            <label class="cb-item"><input type="checkbox" value="长桌" onchange="updateTextarea('f-need-dining','cg-dining')"> ⬛ 长桌</label>
-            <label class="cb-item"><input type="checkbox" value="酒柜" onchange="updateTextarea('f-need-dining','cg-dining')"> 🍷 酒柜</label>
-            <label class="cb-item"><input type="checkbox" value="卡座" onchange="updateTextarea('f-need-dining','cg-dining')"> 🛋️ 卡座</label>
-            <label class="cb-item"><input type="checkbox" value="冰箱位" onchange="updateTextarea('f-need-dining','cg-dining')"> 🧊 冰箱位</label>
-          </div>
-          <textarea id="f-need-dining" placeholder="已选项目将自动填入"></textarea></div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🍳</span>厨房</div>
-          <div class="checkbox-group" id="cg-kitchen">
-            <label class="cb-item"><input type="checkbox" value="开放式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🍳 开放式厨房</label>
-            <label class="cb-item"><input type="checkbox" value="封闭式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🚪 封闭式厨房</label>
-            <label class="cb-item"><input type="checkbox" value="中岛台" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🏝️ 中岛台</label>
-            <label class="cb-item"><input type="checkbox" value="双开门冰箱" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🧊 双开门冰箱</label>
-            <label class="cb-item"><input type="checkbox" value="集成灶" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🔥 集成灶</label>
-            <label class="cb-item"><input type="checkbox" value="洗碗机" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🧼 洗碗机</label>
-            <label class="cb-item"><input type="checkbox" value="垃圾处理器" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🗑️ 垃圾处理器</label>
-            <label class="cb-item"><input type="checkbox" value="净水器" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 💧 净水器</label>
-            <label class="cb-item"><input type="checkbox" value="嵌入式家电" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🔌 嵌入式家电</label>
-            <label class="cb-item"><input type="checkbox" value="凉霸" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 🌬️ 凉霸</label>
-          </div>
-          <textarea id="f-need-kitchen" placeholder="已选项目将自动填入"></textarea></div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🛏️</span>卧室</div>
-          <!-- 主卧 -->
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;">主卧</div>
-          <div class="checkbox-group" id="cg-masterbed">
-            <label class="cb-item"><input type="checkbox" value="衣帽间/步入式衣柜" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 👗 衣帽间/步入式衣柜</label>
-            <label class="cb-item"><input type="checkbox" value="梳妆台" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 💄 梳妆台</label>
-            <label class="cb-item"><input type="checkbox" value="飘窗改造" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 🪟 飘窗改造</label>
-            <label class="cb-item"><input type="checkbox" value="独立卫生间" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 🚿 独立卫生间</label>
-            <label class="cb-item"><input type="checkbox" value="小书房/工作区" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 📚 小书房/工作区</label>
-            <label class="cb-item"><input type="checkbox" value="智能窗帘" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 🪟 智能窗帘</label>
-            <label class="cb-item"><input type="checkbox" value="保留电视" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 📺 保留电视</label>
-            <label class="cb-item"><input type="checkbox" value="去电视化" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 🚫 去电视化</label>
-          </div>
-          <textarea id="f-need-masterbed" placeholder="已选项目将自动填入"></textarea>
-          <!-- 次卧 -->
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;margin-top:10px;">次卧</div>
-          <div class="checkbox-group" id="cg-secondbed">
-            <label class="cb-item"><input type="checkbox" value="儿童房（男孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 👦 儿童房（男孩）</label>
-            <label class="cb-item"><input type="checkbox" value="儿童房（女孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 👧 儿童房（女孩）</label>
-            <label class="cb-item"><input type="checkbox" value="老人房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 👴 老人房</label>
-            <label class="cb-item"><input type="checkbox" value="客房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 🛏️ 客房</label>
-            <label class="cb-item"><input type="checkbox" value="多功能房" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 🔄 多功能房</label>
-            <label class="cb-item"><input type="checkbox" value="榻榻米" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 🛏️ 榻榻米</label>
-            <label class="cb-item"><input type="checkbox" value="书桌+衣柜一体" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 📚 书桌+衣柜一体</label>
-          </div>
-          <textarea id="f-need-secondbed" placeholder="已选项目将自动填入"></textarea>
-        </div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🚿</span>卫生间</div>
-          <div class="checkbox-group" id="cg-bathroom">
-            <label class="cb-item"><input type="checkbox" value="干湿分离" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 💧 干湿分离</label>
-            <label class="cb-item"><input type="checkbox" value="浴缸" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🛁 浴缸</label>
-            <label class="cb-item"><input type="checkbox" value="智能马桶" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🚽 智能马桶</label>
-            <label class="cb-item"><input type="checkbox" value="双台盆" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🪞 双台盆</label>
-            <label class="cb-item"><input type="checkbox" value="电热毛巾架" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🔥 电热毛巾架</label>
-            <label class="cb-item"><input type="checkbox" value="壁挂马桶" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🚽 壁挂马桶</label>
-            <label class="cb-item"><input type="checkbox" value="淋浴房" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 🚿 淋浴房</label>
-            <label class="cb-item"><input type="checkbox" value="壁龛/收纳" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 📦 壁龛/收纳</label>
-            <label class="cb-item"><input type="checkbox" value="防滑地面" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> ⚠️ 防滑地面</label>
-          </div>
-          <textarea id="f-need-bathroom" placeholder="已选项目将自动填入"></textarea></div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">📚</span>书房 / 储物 / 玄关 / 阳台</div>
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;">📚 书房/办公区</div>
-          <div class="checkbox-group" id="cg-study">
-            <label class="cb-item"><input type="checkbox" value="独立书房" onchange="updateTextarea('f-need-study','cg-study')"> 📚 独立书房</label>
-            <label class="cb-item"><input type="checkbox" value="书桌+书柜组合" onchange="updateTextarea('f-need-study','cg-study')"> 📖 书桌+书柜组合</label>
-            <label class="cb-item"><input type="checkbox" value="双人办公位" onchange="updateTextarea('f-need-study','cg-study')"> 👫 双人办公位</label>
-            <label class="cb-item"><input type="checkbox" value="榻榻米+书桌" onchange="updateTextarea('f-need-study','cg-study')"> 🛏️ 榻榻米+书桌</label>
-            <label class="cb-item"><input type="checkbox" value="隔音处理" onchange="updateTextarea('f-need-study','cg-study')"> 🔇 隔音处理</label>
-            <label class="cb-item"><input type="checkbox" value="展示柜/手办柜" onchange="updateTextarea('f-need-study','cg-study')"> 🏆 展示柜/手办柜</label>
-          </div>
-          <textarea id="f-need-study" placeholder="已选项目将自动填入"></textarea>
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;margin-top:10px;">📦 储物间</div>
-          <div class="checkbox-group" id="cg-storage">
-            <label class="cb-item"><input type="checkbox" value="独立储物间" onchange="updateTextarea('f-need-storage','cg-storage')"> 📦 独立储物间</label>
-            <label class="cb-item"><input type="checkbox" value="入户鞋柜" onchange="updateTextarea('f-need-storage','cg-storage')"> 👟 入户鞋柜</label>
-            <label class="cb-item"><input type="checkbox" value="阳台储物柜" onchange="updateTextarea('f-need-storage','cg-storage')"> 🗄️ 阳台储物柜</label>
-            <label class="cb-item"><input type="checkbox" value="衣柜到顶" onchange="updateTextarea('f-need-storage','cg-storage')"> 👔 衣柜到顶</label>
-            <label class="cb-item"><input type="checkbox" value="榻榻米储物" onchange="updateTextarea('f-need-storage','cg-storage')"> 🛏️ 榻榻米储物</label>
-            <label class="cb-item"><input type="checkbox" value="床底储物" onchange="updateTextarea('f-need-storage','cg-storage')"> 🛏️ 床底储物</label>
-          </div>
-          <textarea id="f-need-storage" placeholder="已选项目将自动填入"></textarea>
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;margin-top:10px;">🚪 玄关</div>
-          <div class="checkbox-group" id="cg-hallway">
-            <label class="cb-item"><input type="checkbox" value="换鞋凳" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 🪑 换鞋凳</label>
-            <label class="cb-item"><input type="checkbox" value="穿衣镜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 🪞 穿衣镜</label>
-            <label class="cb-item"><input type="checkbox" value="挂衣区" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 🧥 挂衣区</label>
-            <label class="cb-item"><input type="checkbox" value="底部悬空鞋柜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 👟 底部悬空鞋柜</label>
-            <label class="cb-item"><input type="checkbox" value="感应灯" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 💡 感应灯</label>
-            <label class="cb-item"><input type="checkbox" value="全身镜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 🪞 全身镜</label>
-            <label class="cb-item"><input type="checkbox" value="钥匙/快递收纳" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 🔑 钥匙/快递收纳</label>
-          </div>
-          <textarea id="f-need-hallway" placeholder="已选项目将自动填入"></textarea>
-          <div style="font-size:12px;color:var(--g5);font-weight:600;margin-bottom:8px;margin-top:10px;">🌿 阳台</div>
-          <div class="checkbox-group" id="cg-balcony">
-            <label class="cb-item"><input type="checkbox" value="生活阳台（洗衣柜+晾晒）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 🧺 生活阳台（洗衣柜+晾晒）</label>
-            <label class="cb-item"><input type="checkbox" value="休闲阳台（养花+茶台）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 🍵 休闲阳台（养花+茶台）</label>
-            <label class="cb-item"><input type="checkbox" value="阳台封窗" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 🪟 阳台封窗</label>
-            <label class="cb-item"><input type="checkbox" value="洗衣烘干一体" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 👕 洗衣烘干一体</label>
-            <label class="cb-item"><input type="checkbox" value="阳台储物柜" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 🗄️ 阳台储物柜</label>
-            <label class="cb-item"><input type="checkbox" value="阳台花园" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 🌸 阳台花园</label>
-          </div>
-          <textarea id="f-need-balcony" placeholder="已选项目将自动填入"></textarea>
-        </div>
-        <div class="tab-section"><div class="tab-section-title"><span class="ts-icon">🤖</span>智能家居</div>
-          <div class="checkbox-group" id="cg-smarthome">
-            <label class="cb-item"><input type="checkbox" value="智能灯光" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 💡 智能灯光</label>
-            <label class="cb-item"><input type="checkbox" value="电动窗帘" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 🪟 电动窗帘</label>
-            <label class="cb-item"><input type="checkbox" value="智能门锁" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 🔐 智能门锁</label>
-            <label class="cb-item"><input type="checkbox" value="全屋智能控制" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 🏠 全屋智能控制</label>
-            <label class="cb-item"><input type="checkbox" value="智能安防" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 📹 智能安防</label>
-            <label class="cb-item"><input type="checkbox" value="语音助手" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 🎤 语音助手</label>
-            <label class="cb-item"><input type="checkbox" value="智能空调控制" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 🌡️ 智能空调控制</label>
-            <label class="cb-item"><input type="checkbox" value="智能净水/热水" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 💧 智能净水/热水</label>
-          </div>
-          <textarea id="f-need-smarthome" placeholder="已选项目将自动填入"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(4)">← 风格偏好</button>
-          <button class="btn btn-primary" onclick="switchTab(6)">下一步 🔧 水电暖通 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 6: 水电暖通 -->
-      <div class="tab-panel" id="tab-6">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">💧</span>给排水</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">💧</span>冷水</label><select id="f-water-cold"><option value="">请选择</option><option>✅ 已接通</option><option>🔧 未接通（需改造）</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🔥</span>热水</label><select id="f-water-hot"><option value="">请选择</option><option>🔥 燃气热水器</option><option>⚡ 电热水器</option><option>☀️ 太阳能热水器</option><option>🌬️ 空气能热水器</option><option>🏢 集中供暖热水</option><option>❌ 无</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">🔬</span>自来水水质</label><select id="f-water-quality"><option value="">请选择</option><option>✅ 良好</option><option>⚠️ 一般（建议安装前置过滤器）</option><option>❌ 较差（需加装全屋净水）</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">🚰</span>净水系统</label><select id="f-water-purifier"><option value="">请选择</option><option>✅ 已有</option><option>💧 需要安装（厨下RO）</option><option>🏠 需要安装（全屋净水）</option><option>❌ 不需要</option></select></div>
-          </div>
-        </div>
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">⚡</span>电气系统</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">⚡</span>强电</label><select id="f-electric"><option value="">请选择</option><option>✅ 已接通，够用</option><option>⚡ 已接通，需增容</option><option>❌ 未接通</option><option>🔧 需全屋改电</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">📡</span>弱电（网络/电视）</label><select id="f-weak-electric"><option value="">请选择</option><option>✅ 已接通</option><option>❌ 未接通</option></select></div>
-          </div>
-        </div>
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">🌡️</span>暖通空调</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">🔥</span>暖气</label><select id="f-heating"><option value="">请选择</option><option>🏢 集中供暖</option><option>🏠 自采暖（壁挂炉）</option><option>❄️ 空调采暖</option><option>❌ 无</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">♨️</span>地暖</label><select id="f-floor-heating"><option value="">请选择</option><option>✅ 已有地暖</option><option>🆕 需要安装地暖</option><option>❌ 不需要</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">❄️</span>空调类型</label><select id="f-ac-type"><option value="">请选择</option><option>🏢 中央空调</option><option>📦 分体空调</option><option>🌬️ 风管机</option><option>🔀 中央+分体组合</option><option>❌ 不需要</option></select></div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(5)">← 功能需求</button>
-          <button class="btn btn-primary" onclick="switchTab(7)">下一步 💰 预算工期 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 7: 预算工期 -->
-      <div class="tab-panel" id="tab-7">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">💰</span>预算规划</div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">💰</span>装修预算</label><select id="f-budget"><option value="">请选择</option><option>💵 5万以下</option><option>💵💵 5-10万</option><option>💵💵💵 10-15万</option><option>💴💴 15-20万</option><option>💴💴💴 20-25万</option><option>💶💶 25-30万</option><option>💶💶💶 30-40万</option><option>💷💷 40-50万</option><option>💎 50万以上</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">📅</span>预计开工时间</label><select id="f-date"><option value="">请选择</option><option>🏃 一个月内</option><option>📅 1-2个月后</option><option>🗓️ 2-3个月后（本季度内）</option><option>📆 3-6个月后</option><option>🗓️ 半年后</option><option>📅 一年内</option><option>🤷 暂未确定</option></select></div>
-            <div class="icon-field"><label class="form-label"><span class="fi">⏱️</span>工期要求</label><select id="f-duration"><option value="">请选择</option><option>⚡ 1-2个月</option><option>🏃 2-3个月</option><option>🚶 3-4个月</option><option>🐢 4-5个月</option><option>⏳ 5个月以上</option><option>☕ 不急，质量优先</option></select></div>
-          </div>
-          <div class="grid3">
-            <div class="icon-field"><label class="form-label"><span class="fi">💳</span>付款方式偏好</label><select id="f-payment"><option value="">请选择</option><option>💳 全款一次性付清</option><option>📊 分期付款（节点支付）</option><option>🏦 贷款/装修贷</option><option>💬 待沟通</option></select></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(6)">← 水电暖通</button>
-          <button class="btn btn-primary" onclick="switchTab(8)">下一步 📝 其他需求 →</button>
-        </div>
-      </div>
-
-      <!-- Tab 8: 其他需求 -->
-      <div class="tab-panel" id="tab-8">
-        <div class="tab-section">
-          <div class="tab-section-title"><span class="ts-icon">📝</span>特殊需求 <span style="font-size:11px;color:var(--g5);font-weight:400;">（可多选）</span></div>
-          <div class="checkbox-group" id="cg-other">
-            <label class="cb-item"><input type="checkbox" value="环保要求高（有小孩/孕妇）" onchange="updateTextarea('f-other','cg-other')"> 🌿 环保要求高（有小孩/孕妇）</label>
-            <label class="cb-item"><input type="checkbox" value="需要快速完工" onchange="updateTextarea('f-other','cg-other')"> ⚡ 需要快速完工</label>
-            <label class="cb-item"><input type="checkbox" value="预算有限，优先性价比" onchange="updateTextarea('f-other','cg-other')"> 💰 预算有限，优先性价比</label>
-            <label class="cb-item"><input type="checkbox" value="施工期间需要临时住房" onchange="updateTextarea('f-other','cg-other')"> 🏨 施工期间需要临时住房</label>
-            <label class="cb-item"><input type="checkbox" value="对噪音敏感" onchange="updateTextarea('f-other','cg-other')"> 🔇 对噪音敏感</label>
-            <label class="cb-item"><input type="checkbox" value="需要全屋净水/软水" onchange="updateTextarea('f-other','cg-other')"> 💧 需要全屋净水/软水</label>
-            <label class="cb-item"><input type="checkbox" value="需要新风系统" onchange="updateTextarea('f-other','cg-other')"> 🌬️ 需要新风系统</label>
-            <label class="cb-item"><input type="checkbox" value="需要中央除尘" onchange="updateTextarea('f-other','cg-other')"> 🧹 需要中央除尘</label>
-            <label class="cb-item"><input type="checkbox" value="需要智能家居" onchange="updateTextarea('f-other','cg-other')"> 🤖 需要智能家居</label>
-            <label class="cb-item"><input type="checkbox" value="预留宠物活动空间" onchange="updateTextarea('f-other','cg-other')"> 🐾 预留宠物活动空间</label>
-            <label class="cb-item"><input type="checkbox" value="需要可变形/多功能家具" onchange="updateTextarea('f-other','cg-other')"> 🔄 需要可变形/多功能家具</label>
-            <label class="cb-item"><input type="checkbox" value="希望后期可改造" onchange="updateTextarea('f-other','cg-other')"> 🛠️ 希望后期可改造</label>
-            <label class="cb-item"><input type="checkbox" value="需要代收快递/外卖" onchange="updateTextarea('f-other','cg-other')"> 📦 需要代收快递/外卖（玄关设计）</label>
-            <label class="cb-item"><input type="checkbox" value="希望尽量少用木工现场制作" onchange="updateTextarea('f-other','cg-other')"> 🪚 希望尽量少用木工现场制作</label>
-            <label class="cb-item"><input type="checkbox" value="需要安装监控/安防" onchange="updateTextarea('f-other','cg-other')"> 📹 需要安装监控/安防</label>
-          </div>
-          <textarea id="f-other" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="switchTab(7)">← 预算工期</button>
-          <button class="btn btn-primary" onclick="saveRecord()" style="font-size:16px;padding:14px 40px;">💾 保存客户资料</button>
-        </div>
-      </div>
-
+  <!-- 认证弹窗 -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-box">
+      <h3>🔒 系统登录</h3>
+      <p>请输入访问密码</p>
+      <input type="password" id="authInput" placeholder="••••••" maxlength="6" style="letter-spacing:12px;text-align:center;">
+      <br><br>
+      <button class="btn btn-primary btn-block" onclick="checkAuth()">登 录</button>
     </div>
   </div>
 
-  <!-- 客户列表 -->
-  <div id="page-list" class="page" style="display:none;">
-    <div class="card">
-      <div class="card-title">📋 客户列表
-        <div class="header-actions">
-          <button class="btn btn-primary" onclick="navigate('form')">➕ 新建客户</button>
-          <button class="btn btn-outline" onclick="exportAllData()">📤 导出数据</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteAllCustomers()">🗑️ 删除所有客户</button>
-        </div>
-      </div>
-      <input class="search-box" id="search-input" placeholder="🔍 搜索客户姓名、电话..." oninput="renderList()">
-      <div id="customer-list"></div>
-      <div id="list-empty" class="empty" style="display:none;">
-        <div class="icon">🔍</div>
-        <div>未找到匹配的客户</div>
-      </div>
-    </div>
-  </div>
+  <script>
+  /* ============================================================
+     JS: 核心逻辑（尽量复用原有逻辑，只做必要的适配）
+     ============================================================ */
+  const API = location.hostname.includes('railway.app')
+    ? 'https://diligent-miracle-production-e706.up.railway.app'
+    : '';
+  let customers = JSON.parse(localStorage.getItem('crm_customers') || '[]');
+  let editingId = null;
+  let currentTab = 0;
+  const TAB_NAMES = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期','其他需求'];
 
-  <!-- 备份恢复 -->
-  <div id="page-backup" class="page" style="display:none;">
-    <div class="card">
-      <div class="card-title">📦 数据备份与恢复</div>
-      <p class="backup-info">您的数据同时保存在浏览器本地和云端，双重保障永不丢失。</p>
-      <div class="backup-buttons">
-        <button class="btn btn-primary" onclick="backupToJson()">📥 导出备份文件（JSON）</button>
-        <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">📤 从备份文件恢复</button>
-        <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importFromJson(event)">
-        <button class="btn btn-outline" onclick="backupToBaiduNetdisk()">☁️ 备份到百度网盘</button>
-        <button class="btn btn-outline" onclick="restoreFromBaiduNetdisk()">📦 从百度网盘恢复</button>
-      </div>
-      <div id="backup-status" class="backup-status-box"></div>
-    </div>
-  </div>
-</div>
-
-<div id="toast" class="toast"></div>
-
-<script>
-// ========== 全局变量 ==========
-var allCustomers = [];
-var AUTH_PWD = '131313';
-var authed = false;
-var LS_KEY = 'fengyun_customers_data';
-var currentTab = 1;
-
-// ========== 标签页切换 ==========
-function switchTab(n) {
-  currentTab = n;
-  // 切换面板
-  for (var i = 1; i <= 8; i++) {
-    var panel = document.getElementById('tab-' + i);
-    if (panel) panel.classList.toggle('show', i === n);
-  }
-  // 切换标签按钮
-  var pills = document.querySelectorAll('.tab-pill');
-  for (var j = 0; j < pills.length; j++) {
-    pills[j].classList.toggle('active', j + 1 === n);
-  }
-  // 更新进度条
-  renderProgress();
-  // 滚动标签到可见位置
-  var activePill = pills[n - 1];
-  if (activePill) activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
-
-function renderProgress() {
-  var container = document.getElementById('tab-progress');
-  if (!container) return;
-  var html = '';
-  for (var i = 1; i <= 8; i++) {
-    var cls = 'dot';
-    if (i < currentTab) cls += ' done';
-    else if (i === currentTab) cls += ' active';
-    html += '<span class="' + cls + '"></span>';
-  }
-  container.innerHTML = html;
-}
-
-// ========== 密码保护 ==========
-function requireAuth(callback) {
-  if (authed) { callback(); return; }
-  var pwd = prompt('请输入访问密码：');
-  if (pwd === AUTH_PWD) { authed = true; callback(); }
-  else if (pwd !== null) { alert('密码错误！'); }
-}
-
-// ========== 导航 ==========
-function navigate(page) {
-  document.querySelectorAll('.page').forEach(function(p) { p.style.display = 'none'; });
-  document.getElementById('page-' + page).style.display = 'block';
-  // 切换桌面导航
-  document.querySelectorAll('#nav-desktop .nav-btn').forEach(function(b) { b.classList.remove('active'); });
-  var pages = ['dashboard','form','list','backup'];
-  var idx = pages.indexOf(page);
-  if (idx >= 0) document.querySelectorAll('#nav-desktop .nav-btn')[idx].classList.add('active');
-  // 切换手机导航
-  document.querySelectorAll('#nav-mobile .nav-m-item').forEach(function(b) { b.classList.remove('active'); });
-  if (idx >= 0) document.querySelectorAll('#nav-mobile .nav-m-item')[idx].classList.add('active');
-  if (page === 'dashboard') renderDashboard();
-  if (page === 'list') requireAuth(function() { renderList(); });
-  if (page === 'form') { switchTab(1); renderProgress(); }
-}
-
-// ========== 云同步 API ==========
-var cloudOnline = false;
-var API_BASE = (window.location.hostname === 'diligent-miracle-production-e706.up.railway.app')
-  ? '/api'
-  : 'https://diligent-miracle-production-e706.up.railway.app/api';
-
-async function api(method, path, body) {
-  var opts = { method: method, headers: {} };
-  if (body) {
-    opts.headers['Content-Type'] = 'application/json';
-    opts.body = JSON.stringify(body);
-  }
-  var resp = await fetch(API_BASE + path, opts);
-  if (!resp.ok) {
-    var err = await resp.text();
-    throw new Error(err || 'HTTP ' + resp.status);
-  }
-  return resp.json();
-}
-
-async function checkCloudHealth() {
-  try { var r = await api('GET', '/health'); cloudOnline = r.online === true; return cloudOnline; }
-  catch(e) { cloudOnline = false; return false; }
-}
-
-async function saveToCloud(record) {
-  try { await api('POST', '/customers', record); return true; }
-  catch(e) { console.error('云端保存失败:', e.message); return false; }
-}
-
-async function loadFromCloud() {
-  try { var data = await api('GET', '/customers'); cloudOnline = true; return data; }
-  catch(e) { console.error('云端加载失败:', e.message); cloudOnline = false; return null; }
-}
-
-async function deleteFromCloud(id) {
-  try { await api('DELETE', '/customers/' + id); return true; }
-  catch(e) { console.error('云端删除失败:', e.message); return false; }
-}
-
-async function deleteAllFromCloud() {
-  try { await api('DELETE', '/customers/all'); return true; }
-  catch(e) { console.error('云端删除全部失败:', e.message); return false; }
-}
-
-function updateCloudStatus() {
-  var el = document.getElementById('db-status');
-  var syncBtn = document.getElementById('btn-sync');
-  if (!el) return;
-  if (cloudOnline) {
-    el.textContent = '✅ 云端已连接 | ' + allCustomers.length + ' 条数据';
-    el.style.color = '#1a9e5e'; el.style.background = '#e6f7ef';
-    if (syncBtn) syncBtn.style.display = 'none';
-  } else {
-    el.textContent = '⚠️ 离线模式 | ' + allCustomers.length + ' 条数据';
-    el.style.color = '#b7791f'; el.style.background = '#fdf6e3';
-    if (syncBtn) syncBtn.style.display = 'inline-block';
-  }
-}
-
-async function syncToCloud() {
-  var localData = loadFromLocal();
-  if (localData.length === 0) { showToast('没有需要同步的数据', 'error'); return; }
-  showToast('正在同步 ' + localData.length + ' 条数据...', 'warning');
-  var ok = 0, fail = 0;
-  for (var i = 0; i < localData.length; i++) {
-    var s = await saveToCloud(localData[i]);
-    if (s) ok++; else fail++;
-  }
-  if (fail === 0) { cloudOnline = true; updateCloudStatus(); showToast('✅ 全部 ' + ok + ' 条已同步', 'success'); }
-  else { showToast('⚠️ ' + ok + ' 成功, ' + fail + ' 失败', 'warning'); }
-}
-
-// ========== 本地存储操作 ==========
-function saveToLocal(record) {
-  var data = loadFromLocal();
-  var idx = data.findIndex(function(c) { return c.id === record.id; });
-  if (idx >= 0) data[idx] = record;
-  else data.unshift(record);
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
-  return data;
-}
-
-function loadFromLocal() {
-  try { var raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : []; }
-  catch(e) { return []; }
-}
-
-function deleteFromLocal(id) {
-  var data = loadFromLocal().filter(function(c) { return c.id !== id; });
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
-}
-
-function clearLocalData() {
-  localStorage.removeItem(LS_KEY);
-}
-
-// ========== 仪表盘 ==========
-function renderDashboard() {
-}
-
-// ========== 客户列表 ==========
-function renderList() {
-  var kw = (document.getElementById('search-input').value || '').trim().toLowerCase();
-  var list = allCustomers.filter(function(c) {
-    if (!kw) return true;
-    return (c['f-name']||'').toLowerCase().includes(kw) || (c['f-phone']||'').includes(kw);
-  });
-  var container = document.getElementById('customer-list');
-  var empty = document.getElementById('list-empty');
-  if (list.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  container.innerHTML = list.map(function(c) {
-    var name = c['f-name'] || '未填写';
-    var phone = c['f-phone'] || '';
-    var area = c['f-area'] ? c['f-area'] + 'm²' : '';
-    var budget = c['f-budget'] || '';
-    var style = c['f-style'] || '';
-    return '<div class="customer-card"><div class="c-info"><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
-      (budget ? '<span class="tag tag-orange">' + budget + '</span>' : '') +
-      (style ? '<span class="tag tag-blue">' + style + '</span>' : '') +
-      '</div></div><div class="c-actions"><button class="btn btn-outline btn-sm" onclick="editRecord(\'' + c.id + '\')">✏️ 编辑</button><button class="btn btn-danger btn-sm" onclick="deleteRecord(\'' + c.id + '\')">🗑️ 删除</button></div></div>';
-  }).join('');
-}
-
-// ========== 备份与恢复 ==========
-function backupToJson() {
-  var data = loadFromLocal();
-  if (data.length === 0) { showToast('没有数据可备份', 'error'); return; }
-  var backup = { version: '1.0', backupTime: new Date().toISOString(), totalCount: data.length, data: data };
-  var json = JSON.stringify(backup, null, 2);
-  var blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
-  var link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = '蜂云装饰_备份_' + new Date().toISOString().slice(0,10) + '.json';
-  link.click();
-  showToast('✅ 已导出备份文件（' + data.length + ' 条数据）', 'success');
-}
-
-function importFromJson(event) {
-  var file = event.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      var content = JSON.parse(e.target.result);
-      var records = content.data && Array.isArray(content.data) ? content.data : (Array.isArray(content) ? content : null);
-      if (!records) { showToast('文件格式不正确', 'error'); return; }
-      if (records.length === 0) { showToast('备份文件中没有数据', 'error'); return; }
-      if (!confirm('确定要恢复备份吗？\n备份包含 ' + records.length + ' 条客户数据')) return;
-      var imported = 0;
-      records.forEach(function(rec) { if (!rec.id) return; saveToLocal(rec); if (cloudOnline) saveToCloud(rec).catch(function(){}); imported++; });
-      allCustomers = loadFromLocal();
-      renderDashboard();
-      showToast('✅ 已恢复 ' + imported + ' 条客户数据', 'success');
-    } catch(err) { showToast('文件解析失败：' + err.message, 'error'); }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-function backupToBaiduNetdisk() {
-  showToast('请先导出备份文件（JSON），然后告诉我"帮我把备份文件上传到百度网盘"，我会帮您完成上传。', 'warning');
-}
-
-function restoreFromBaiduNetdisk() {
-  showToast('请告诉我"帮我从百度网盘下载备份文件"，我会帮您下载并恢复数据。', 'warning');
-}
-
-// ========== 保存 ==========
-function saveRecord() {
-  try {
-    var name = document.getElementById('f-name').value.trim();
-    var phone = document.getElementById('f-phone').value.trim();
-    if (!name || !phone) { showToast('请填写客户姓名和联系电话', 'error'); switchTab(1); return; }
-    var id = document.getElementById('f-id').value || ('c' + Date.now() + Math.random().toString(36).substr(2,5));
-    var record = {};
-    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-pet','f-petdetail','f-urgency','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-houseage','f-floorheight','f-elevator','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-reference','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-study','f-need-storage','f-need-hallway','f-need-balcony','f-need-smarthome','f-water-cold','f-water-hot','f-water-quality','f-water-purifier','f-electric','f-weak-electric','f-heating','f-floor-heating','f-ac-type','f-budget','f-date','f-duration','f-payment','f-other'];
-    ids.forEach(function(fid) {
-      var el = document.getElementById(fid);
-      if (el) record[fid] = el.value;
-    });
-    record.id = id;
-    saveToLocal(record);
-    var idx = allCustomers.findIndex(function(c) { return c.id === record.id; });
-    if (idx >= 0) allCustomers[idx] = record;
-    else allCustomers.unshift(record);
-    renderDashboard();
-    resetForm();
-    showToast('正在同步云端...', 'warning');
-    saveToCloud(record).then(function(ok) {
-      if (ok) { updateCloudStatus(); showToast('✅ 保存成功（已同步云端）', 'success'); }
-      else { updateCloudStatus(); showToast('⚠️ 已保存到本地，云端同步失败', 'warning'); }
-    });
-    setTimeout(function() { navigate('dashboard'); }, 1000);
-  } catch(e) {
-    console.error('saveRecord 异常:', e.message || e);
-    showToast('保存失败: ' + (e.message || '未知错误'), 'error');
-  }
-}
-
-// ========== 编辑 ==========
-function editRecord(id) {
-  requireAuth(function() {
-    var c = allCustomers.find(function(x) { return x.id === id; });
-    if (!c) { alert('客户不存在'); return; }
-    document.getElementById('f-id').value = c.id;
-    var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-pet','f-petdetail','f-urgency','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-houseage','f-floorheight','f-elevator','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-reference','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-study','f-need-storage','f-need-hallway','f-need-balcony','f-need-smarthome','f-water-cold','f-water-hot','f-water-quality','f-water-purifier','f-electric','f-weak-electric','f-heating','f-floor-heating','f-ac-type','f-budget','f-date','f-duration','f-payment','f-other'];
-    ids.forEach(function(fid) {
-      var el = document.getElementById(fid);
-      if (el) el.value = c[fid] || '';
-    });
-    setCheckboxesFromTextarea('f-need-livingroom','cg-livingroom');
-    setCheckboxesFromTextarea('f-need-dining','cg-dining');
-    setCheckboxesFromTextarea('f-need-kitchen','cg-kitchen');
-    setCheckboxesFromTextarea('f-need-masterbed','cg-masterbed');
-    setCheckboxesFromTextarea('f-need-secondbed','cg-secondbed');
-    setCheckboxesFromTextarea('f-need-bathroom','cg-bathroom');
-    setCheckboxesFromTextarea('f-need-study','cg-study');
-    setCheckboxesFromTextarea('f-need-storage','cg-storage');
-    setCheckboxesFromTextarea('f-need-hallway','cg-hallway');
-    setCheckboxesFromTextarea('f-need-balcony','cg-balcony');
-    setCheckboxesFromTextarea('f-need-smarthome','cg-smarthome');
-    setCheckboxesFromTextarea('f-familynote','cg-familynote');
-    setCheckboxesFromTextarea('f-other','cg-other');
-    setCheckboxesFromTextarea('f-reference','cg-reference');
-    document.getElementById('form-title').textContent = '📝 编辑客户资料 — ' + (c['f-name'] || '');
-    switchTab(1);
-    navigate('form');
-  });
-}
-
-// ========== 删除 ==========
-function deleteRecord(id) {
-  requireAuth(function() {
-    var c = allCustomers.find(function(x) { return x.id === id; });
-    var name = c ? (c['f-name'] || '未命名') : '';
-    if (!confirm('确定要删除客户「' + name + '」的资料吗？')) return;
-    deleteFromLocal(id);
-    allCustomers = allCustomers.filter(function(x) { return x.id !== id; });
-    renderList();
-    showToast('🗑️ 客户资料已删除', 'success');
-    if (cloudOnline) { deleteFromCloud(id).then(function(ok) { updateCloudStatus(); }); }
-  });
-}
-
-function deleteAllCustomers() {
-  requireAuth(function() {
-    if (allCustomers.length === 0) { showToast('当前没有客户资料', 'error'); return; }
-    if (!confirm('⚠️ 警告：确定要删除全部 ' + allCustomers.length + ' 条客户资料吗？\n此操作不可恢复！')) return;
-    clearLocalData();
-    allCustomers = [];
-    renderList();
-    showToast('🗑️ 所有客户资料已删除', 'success');
-    if (cloudOnline) { deleteAllFromCloud().then(function(ok) { updateCloudStatus(); }); }
-  });
-}
-
-// ========== 导出 CSV ==========
-function exportAllData() {
-  requireAuth(function() {
-    var list = allCustomers;
-    if (list.length === 0) { showToast('没有数据可导出', 'error'); return; }
-    var FIELD_MAP = {
-      'f-name':{label:'客户姓名'},'f-phone':{label:'联系电话'},'f-gender':{label:'性别'},'f-age':{label:'年龄区间'},'f-job':{label:'职业'},'f-source':{label:'推荐来源'},'f-pet':{label:'是否养宠物'},'f-petdetail':{label:'宠物类型'},'f-urgency':{label:'紧急程度'},
-      'f-area':{label:'房屋面积'},'f-housetype':{label:'户型'},'f-propertytype':{label:'房屋类型'},'f-address':{label:'装修地址'},'f-floor':{label:'楼层'},'f-direction':{label:'朝向'},'f-houseage':{label:'房屋年限'},'f-floorheight':{label:'层高'},'f-elevator':{label:'是否有电梯'},
-      'f-familycount':{label:'家庭成员数'},'f-haselderly':{label:'是否有老人'},'f-haschildren':{label:'是否有小孩'},'f-familynote':{label:'家庭成员备注'},
-      'f-style':{label:'装修风格'},'f-color':{label:'色彩偏好'},'f-custom':{label:'全屋定制'},'f-reference':{label:'参考风格'},
-      'f-need-livingroom':{label:'客厅需求'},'f-need-dining':{label:'餐厅需求'},'f-need-kitchen':{label:'厨房需求'},'f-need-masterbed':{label:'主卧需求'},'f-need-secondbed':{label:'次卧需求'},'f-need-bathroom':{label:'卫生间需求'},'f-need-study':{label:'书房需求'},'f-need-storage':{label:'储物需求'},'f-need-hallway':{label:'玄关需求'},'f-need-balcony':{label:'阳台需求'},'f-need-smarthome':{label:'智能家居'},
-      'f-water-cold':{label:'冷水'},'f-water-hot':{label:'热水'},'f-water-quality':{label:'自来水水质'},'f-water-purifier':{label:'净水系统'},'f-electric':{label:'强电'},'f-weak-electric':{label:'弱电'},'f-heating':{label:'暖气'},'f-floor-heating':{label:'地暖'},'f-ac-type':{label:'空调类型'},
-      'f-budget':{label:'装修预算'},'f-date':{label:'预计开工时间'},'f-duration':{label:'工期要求'},'f-payment':{label:'付款方式'},'f-other':{label:'特殊需求'}
-    };
-    var fids = Object.keys(FIELD_MAP);
-    var header = fids.map(function(fid) { return FIELD_MAP[fid].label; });
-    var rows = [header.join(',')];
-    for (var i = 0; i < list.length; i++) {
-      var row = [];
-      for (var j = 0; j < fids.length; j++) { row.push('"' + (list[i][fids[j]] || '').replace(/"/g, '""') + '"'); }
-      rows.push(row.join(','));
+  /* --- 初始化 --- */
+  document.addEventListener('DOMContentLoaded', () => {
+    buildFormTabs();
+    switchPage('dashboard');
+    loadCustomers();
+    setWelcome();
+    document.getElementById('authInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAuth(); });
+    // 自动登录检查
+    if (localStorage.getItem('crm_auth') !== 'ok') {
+      document.getElementById('authOverlay').classList.add('show');
     }
-    var csv = '\uFEFF' + rows.join('\n');
-    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    var link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = '蜂云装饰客户资料_' + new Date().toISOString().slice(0,10) + '.csv';
-    link.click();
-    showToast('📤 数据已导出为CSV文件', 'success');
   });
-}
 
-// ========== 重置表单 ==========
-function resetForm() {
-  document.getElementById('f-id').value = '';
-  var ids = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-area','f-housetype','f-propertytype','f-address','f-floor','f-direction','f-familycount','f-haselderly','f-haschildren','f-familynote','f-style','f-color','f-custom','f-need-livingroom','f-need-dining','f-need-kitchen','f-need-masterbed','f-need-secondbed','f-need-bathroom','f-need-balcony','f-water-cold','f-water-hot','f-water-quality','f-electric','f-weak-electric','f-heating','f-budget','f-date','f-duration','f-other'];
-  ids.forEach(function(fid) {
-    var el = document.getElementById(fid);
-    if (el) el.value = '';
-  });
-  var cgIds = ['cg-livingroom','cg-dining','cg-kitchen','cg-masterbed','cg-secondbed','cg-bathroom','cg-study','cg-storage','cg-hallway','cg-balcony','cg-smarthome','cg-familynote','cg-other','cg-reference'];
-  cgIds.forEach(function(gid) {
-    var g = document.getElementById(gid);
-    if (!g) return;
-    var cbs = g.querySelectorAll('input[type="checkbox"]');
-    for (var i = 0; i < cbs.length; i++) cbs[i].checked = false;
-  });
-  document.getElementById('form-title').textContent = '📝 新建客户资料';
-  switchTab(1);
-  renderProgress();
-}
-
-// ========== 功能区多选框 -> textarea ==========
-function updateTextarea(textareaId, groupId) {
-  var group = document.getElementById(groupId);
-  if (!group) return;
-  var checked = group.querySelectorAll('input[type="checkbox"]:checked');
-  var values = [];
-  for (var i = 0; i < checked.length; i++) values.push(checked[i].value);
-  var ta = document.getElementById(textareaId);
-  if (ta) ta.value = values.join('、');
-}
-
-function setCheckboxesFromTextarea(textareaId, groupId) {
-  var ta = document.getElementById(textareaId);
-  if (!ta || !ta.value) return;
-  var group = document.getElementById(groupId);
-  if (!group) return;
-  var vals = ta.value.split(/[、,，]/).map(function(s){return s.trim();}).filter(Boolean);
-  var cbs = group.querySelectorAll('input[type="checkbox"]');
-  for (var i = 0; i < cbs.length; i++) { cbs[i].checked = vals.indexOf(cbs[i].value) !== -1; }
-}
-
-function showToast(msg, type) {
-  var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast toast-' + type + ' show';
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(function() { el.classList.remove('show'); }, 3000);
-}
-
-// ========== 页面初始化 ==========
-window.addEventListener('DOMContentLoaded', function() {
-  allCustomers = loadFromLocal();
-  updateCloudStatus();
-  renderDashboard();
-  checkCloudHealth().then(function(online) {
-    if (online) {
-      return loadFromCloud().then(function(cloudData) {
-        if (cloudData && cloudData.length > 0) {
-          allCustomers = cloudData;
-          localStorage.setItem(LS_KEY, JSON.stringify(cloudData));
-        } else {
-          if (allCustomers.length > 0) syncToCloud();
-        }
-        updateCloudStatus();
-        renderDashboard();
-        showToast('✅ 云端已连接，共 ' + allCustomers.length + ' 条客户资料', 'success');
-      });
+  function checkAuth() {
+    const pwd = document.getElementById('authInput').value;
+    if (pwd === '131313') {
+      localStorage.setItem('crm_auth', 'ok');
+      document.getElementById('authOverlay').classList.remove('show');
+      showToast('登录成功', 'success');
     } else {
-      updateCloudStatus();
-      showToast('⚠️ 云端不可用，使用本地数据（' + allCustomers.length + ' 条）', 'warning');
+      showToast('密码错误', 'error');
+      document.getElementById('authInput').value = '';
     }
-  }).catch(function() { updateCloudStatus(); });
-});
-</script>
+  }
+
+  /* --- 侧边栏 --- */
+  function openSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('mobileOverlay').classList.add('show'); }
+  function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('show'); }
+
+  function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+    document.getElementById('page-'+page).classList.add('show');
+    document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('nav-'+page).classList.add('active');
+    closeSidebar();
+    // 更新顶部标题
+    const titles = { dashboard:'数据看板', form:'新建客户', list:'客户列表', backup:'备份恢复' };
+    const subs   = { dashboard:'欢迎回来，以下是今日数据概览', form:'填写客户装修需求信息', list:'管理所有客户资料', backup:'数据备份与恢复' };
+    document.getElementById('topbarTitle').textContent = titles[page] || '';
+    document.getElementById('topbarSub').textContent = subs[page] || '';
+    if (page === 'list') renderList();
+    if (page === 'backup') updateStorageInfo();
+    if (page === 'dashboard') { loadCustomers(); setWelcome(); }
+  }
+
+  /* --- 欢迎语 --- */
+  function setWelcome() {
+    const h = new Date().getHours();
+    let msg = '欢迎回来 👋';
+    if (h < 6) msg = '夜深了，注意休息 🌙';
+    else if (h < 9) msg = '早上好，开始新的一天 ☀️';
+    else if (h < 12) msg = '上午好，工作顺利 💼';
+    else if (h < 14) msg = '中午好，记得休息一下 🍱';
+    else if (h < 18) msg = '下午好，继续加油 💪';
+    else if (h < 22) msg = '晚上好，辛苦了 🌆';
+    document.getElementById('welcomeMsg').textContent = msg;
+  }
+
+  /* --- 构建表单标签页 --- */
+  function buildFormTabs() {
+    const navTabs = document.getElementById('formTabs');
+    const progress = document.getElementById('formProgress');
+    navTabs.innerHTML = '';
+    progress.innerHTML = '';
+    TAB_NAMES.forEach((name, i) => {
+      const tab = document.createElement('div');
+      tab.className = 'form-tab' + (i === 0 ? ' active' : '');
+      tab.onclick = () => goTab(i);
+      tab.innerHTML = `<span class="ft-icon">${['👤','🏠','👨‍👩‍👧‍👦','🎨','🏗️','🔧','💰','📝'][i]}</span><span>${name}</span><span class="ft-num">${i+1}</span>`;
+      navTabs.appendChild(tab);
+
+      const dot = document.createElement('div');
+      dot.className = 'fp-dot' + (i === 0 ? ' active' : '');
+      dot.id = 'fp-dot-'+i;
+      progress.appendChild(dot);
+      if (i < TAB_NAMES.length - 1) {
+        const bar = document.createElement('div');
+        bar.style.cssText = 'width:20px;height:2px;background:var(--g200);border-radius:1px;';
+        progress.appendChild(bar);
+      }
+    });
+    showTabPanel(0);
+  }
+
+  function goTab(i) {
+    currentTab = i;
+    updateTabUI();
+    showTabPanel(i);
+  }
+  function nextTab() { if (currentTab < TAB_NAMES.length - 1) goTab(currentTab + 1); }
+  function prevTab() { if (currentTab > 0) goTab(currentTab - 1); }
+  function updateTabUI() {
+    document.querySelectorAll('.form-tab').forEach((t,i) => t.classList.toggle('active', i === currentTab));
+    document.querySelectorAll('.fp-dot').forEach((d,i) => {
+      d.classList.remove('active','done');
+      if (i === currentTab) d.classList.add('active');
+      else if (i < currentTab) d.classList.add('done');
+    });
+  }
+  function showTabPanel(i) {
+    document.querySelectorAll('.form-tab-panel').forEach((p,j) => p.classList.toggle('show', j === i));
+  }
+
+  /* --- 打开新建表单 --- */
+  function openForm() {
+    editingId = null;
+    document.getElementById('customerForm').reset();
+    document.querySelectorAll('.cg-reference,.cg-function,.cg-special,.cg-membnote').forEach(cb => cb.checked = false);
+    goTab(0);
+  }
+
+  /* --- 保存客户 --- */
+  async function saveCustomer() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    if (!name || !phone) { showToast('请填写客户姓名和电话', 'warning'); return; }
+
+    const getVal = id => document.getElementById(id).value;
+    const getCB  = cls => Array.from(document.querySelectorAll(cls)).filter(cb => cb.checked).map(cb => cb.value);
+
+    const record = {
+      'f-name': name, 'f-phone': phone,
+      'f-gender': getVal('f-gender'), 'f-age': getVal('f-age'), 'f-job': getVal('f-job'),
+      'f-source': getVal('f-source'), 'f-urgency': getVal('f-urgency'), 'f-pet': getVal('f-pet'),
+      'f-area': getVal('f-area'), 'f-type': getVal('f-type'), 'f-housetype': getVal('f-housetype'),
+      'f-floor': getVal('f-floor'), 'f-direction': getVal('f-direction'), 'f-buildyear': getVal('f-buildyear'),
+      'f-floorheight': getVal('f-floorheight'), 'f-elevator': getVal('f-elevator'), 'f-address': getVal('f-address'),
+      'f-members': getVal('f-members'), 'f-elderly': getVal('f-elderly'), 'f-children': getVal('f-children'), 'f-childcount': getVal('f-childcount'),
+      'f-membnote': getCB('.cg-membnote').join('、'),
+      'f-style': getVal('f-style'), 'f-color': getVal('f-color'), 'f-custom': getVal('f-custom'),
+      'f-reference': getCB('.cg-reference').join('、'),
+      'f-function': getCB('.cg-function').join('、'),
+      'f-smarthome': getVal('f-smarthome'),
+      'f-water': getVal('f-water'), 'f-electric': getVal('f-electric'),
+      'f-hvac': getVal('f-hvac'), 'f-ventilation': getVal('f-ventilation'),
+      'f-budget': getVal('f-budget'), 'f-date': getVal('f-date'), 'f-duration': getVal('f-duration'), 'f-paytype': getVal('f-paytype'),
+      'f-special': getCB('.cg-special').join('、'),
+      'f-notes': getVal('f-notes'),
+    };
+
+    if (API) {
+      // 使用后端 API
+      const payload = editingId ? { ...record, id: editingId } : record;
+      const method = editingId ? 'PUT' : 'POST';
+      try {
+        const res = await fetch(API + '/api/customers', {
+          method, headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('保存失败');
+        const data = await res.json();
+        showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
+      } catch(e) {
+        // 降级到 localStorage
+        saveToLocal(record);
+      }
+    } else {
+      saveToLocal(record);
+    }
+    switchPage('dashboard');
+  }
+
+  function saveToLocal(record) {
+    record.id = editingId || Date.now().toString();
+    record.createdAt = record.createdAt || new Date().toISOString();
+    if (editingId) {
+      const idx = customers.findIndex(c => c.id === editingId);
+      if (idx >= 0) customers[idx] = record;
+    } else {
+      customers.unshift(record);
+    }
+    localStorage.setItem('crm_customers', JSON.stringify(customers));
+    showToast(editingId ? '客户资料已更新（本地）' : '客户资料已保存（本地）', 'success');
+  }
+
+  /* --- 加载客户 --- */
+  async function loadCustomers() {
+    if (API) {
+      try {
+        const res = await fetch(API + '/api/customers');
+        if (res.ok) customers = await res.json();
+      } catch(e) { /* 使用本地数据 */ }
+    }
+    renderDashboard();
+    updateSideBadge();
+  }
+
+  function updateSideBadge() {
+    const badge = document.getElementById('side-cust-count');
+    badge.textContent = customers.length;
+    badge.style.display = customers.length > 0 ? 'inline-flex' : 'none';
+  }
+
+  /* --- 仪表盘 --- */
+  function renderDashboard() {
+    document.getElementById('statTotal').textContent = customers.length;
+    const today = new Date().toISOString().slice(0,10);
+    const todayCount = customers.filter(c => (c.createdAt||'').startsWith(today)).length;
+    document.getElementById('statToday').textContent = todayCount;
+    const pending = customers.filter(c => (c['f-urgency']||'') === '很急').length;
+    document.getElementById('statPending').textContent = pending;
+    const active = customers.filter(c => (c['f-housetype']||'') !== '').length;
+    document.getElementById('statActive').textContent = active;
+
+    // 最近客户
+    const recentList = document.getElementById('recentList');
+    if (customers.length === 0) {
+      recentList.innerHTML = '<div class="empty-state"><div class="es-icon">📋</div><div class="es-title">暂无数据</div><div class="es-desc">新建客户后将在此显示</div></div>';
+    } else {
+      recentList.innerHTML = customers.slice(0, 5).map(c => `
+        <div class="recent-item" onclick="viewCustomer('${c.id}')">
+          <div class="ri-avatar" style="background:var(--pri-light);color:var(--pri);">${(c['f-name']||'?')[0]}</div>
+          <div class="ri-body">
+            <div class="ri-name">${c['f-name'] || '未命名'}</div>
+            <div class="ri-desc">${(c['f-type']||'未设置户型')} · ${(c['f-budget']||'预算未设置')}</div>
+          </div>
+          <div class="ri-time">${(c.createdAt||'').slice(0,10)||'—'}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  /* --- 客户列表 --- */
+  function renderList() {
+    const kw = (document.getElementById('searchInput').value || '').toLowerCase();
+    const filtered = customers.filter(c => {
+      if (!kw) return true;
+      return (c['f-name']||'').toLowerCase().includes(kw)
+          || (c['f-phone']||'').includes(kw)
+          || (c['f-type']||'').toLowerCase().includes(kw);
+    });
+    const tbody = document.getElementById('customerBody');
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--g400);">暂无客户数据</td></tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.map(c => `
+      <tr>
+        <td style="font-weight:600;color:var(--g800);">${c['f-name']||'—'}</td>
+        <td class="font-mono">${c['f-phone']||'—'}</td>
+        <td>${c['f-type']||'—'}</td>
+        <td>${c['f-area']||'—'}</td>
+        <td>${c['f-budget']||'—'}</td>
+        <td>${c['f-style']||'—'}</td>
+        <td>${c['f-source']||'—'}</td>
+        <td class="text-muted">${(c.createdAt||'').slice(0,10)||'—'}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <button class="btn-icon" title="查看" onclick="viewCustomer('${c.id}')" style="font-size:14px;">👁️</button>
+            <button class="btn-icon" title="删除" onclick="deleteCustomer('${c.id}')" style="font-size:14px;">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function viewCustomer(id) {
+    const c = customers.find(x => x.id === id);
+    if (!c) return;
+    editingId = id;
+    // 填充表单
+    const fill = id => { const el = document.getElementById(id); if(el) el.value = c[id]||''; };
+    fill('f-name'); fill('f-phone'); fill('f-gender'); fill('f-age'); fill('f-job');
+    fill('f-source'); fill('f-urgency'); fill('f-pet');
+    fill('f-area'); fill('f-type'); fill('f-housetype'); fill('f-floor'); fill('f-direction');
+    fill('f-buildyear'); fill('f-floorheight'); fill('f-elevator'); fill('f-address');
+    fill('f-members'); fill('f-elderly'); fill('f-children'); fill('f-childcount');
+    fill('f-style'); fill('f-color'); fill('f-custom');
+    fill('f-smarthome'); fill('f-water'); fill('f-electric'); fill('f-hvac'); fill('f-ventilation');
+    fill('f-budget'); fill('f-date'); fill('f-duration'); fill('f-paytype');
+    fill('f-notes');
+    // 复选框
+    const setCB = (cls, val) => {
+      document.querySelectorAll(cls).forEach(cb => { cb.checked = (val||'').includes(cb.value); });
+    };
+    setCB('.cg-reference', c['f-reference']);
+    setCB('.cg-function', c['f-function']);
+    setCB('.cg-special', c['f-special']);
+    setCB('.cg-membnote', c['f-membnote']);
+    switchPage('form');
+  }
+
+  async function deleteCustomer(id) {
+    if (!confirm('确认删除该客户资料？')) return;
+    if (API) {
+      try { await fetch(API + '/api/customers/' + id, { method: 'DELETE' }); } catch(e) {}
+    }
+    customers = customers.filter(c => c.id !== id);
+    localStorage.setItem('crm_customers', JSON.stringify(customers));
+    renderList();
+    loadCustomers();
+    showToast('客户已删除', 'success');
+  }
+
+  /* --- 导出 CSV --- */
+  function exportCSV() {
+    if (customers.length === 0) { showToast('暂无数据可导出', 'warning'); return; }
+    const headers = ['姓名','电话','性别','年龄','职业','来源','紧急程度','面积','户型','房屋类型','楼层','朝向','建筑年限','层高','电梯','地址',
+                     '家庭人数','老人','小孩','小孩数量','成员备注',
+                     '风格','色彩','定制','参考来源',
+                     '功能需求','智能家居',
+                     '给排水','电气','暖通','新风',
+                     '预算','开工时间','工期','付款方式',
+                     '特殊需求','备注','创建时间'];
+    const keys = ['f-name','f-phone','f-gender','f-age','f-job','f-source','f-urgency','f-area','f-type','f-housetype','f-floor','f-direction','f-buildyear','f-floorheight','f-elevator','f-address',
+                   'f-members','f-elderly','f-children','f-childcount','f-membnote',
+                   'f-style','f-color','f-custom','f-reference',
+                   'f-function','f-smarthome',
+                   'f-water','f-electric','f-hvac','f-ventilation',
+                   'f-budget','f-date','f-duration','f-paytype',
+                   'f-special','f-notes','createdAt'];
+    const rows = customers.map(c => keys.map(k => `"${(c[k]||'').replace(/"/g,'""')}"`).join(','));
+    const csv = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '蜂云装饰客户数据_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+    showToast('CSV 已导出', 'success');
+  }
+
+  /* --- 备份 --- */
+  function backupExport() {
+    const data = JSON.stringify(customers, null, 2);
+    const blob = new Blob([data], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'CRM备份_' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    showToast('备份文件已下载', 'success');
+  }
+  function backupImport() { document.getElementById('importFile').click(); }
+  function handleImport(e) {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!Array.isArray(data)) throw new Error('格式错误');
+        const len = data.length;
+        customers = data;
+        localStorage.setItem('crm_customers', JSON.stringify(customers));
+        loadCustomers();
+        showToast(`成功导入 ${len} 条客户数据`, 'success');
+      } catch(err) {
+        showToast('文件格式错误，请选择有效的 JSON 备份文件', 'error');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+  function updateStorageInfo() {
+    document.getElementById('infoCount').textContent = customers.length;
+  }
+
+  /* --- 顶部搜索 --- */
+  function handleTopbarSearch(val) {
+    if (document.getElementById('page-list').classList.contains('show')) {
+      document.getElementById('searchInput').value = val;
+      renderList();
+    } else if (val.length >= 2) {
+      switchPage('list');
+      document.getElementById('searchInput').value = val;
+      renderList();
+    }
+  }
+
+  /* --- Toast --- */
+  function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast toast-' + type;
+    setTimeout(() => t.classList.add('show'), 10);
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+  </script>
 </body>
 </html>
