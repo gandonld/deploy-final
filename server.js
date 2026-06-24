@@ -8,43 +8,40 @@ const fetch = require('node-fetch');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 企业微信机器人 Webhook
-const WX_WORKER_KEY = 'abiXKeo1WHhRg0AzGv29P7xxiCh1WBtnMh';
-const WX_WORKER_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + WX_WORKER_KEY;
+// 企业微信群机器人 Webhook（新客户通知）
+const WX_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=8f12c869-600d-4b30-a76e-ab248642c880';
 
-// 发送企业微信通知
+// 发送企业微信通知（新客户录入）
 async function sendWxNotify(record, isNew) {
   try {
     var name = record['f-name'] || '未填写';
     var phone = record['f-phone'] || '';
-    // 手机号脱敏
     var s = String(phone).replace(/\D/g, '');
     var maskedPhone = (s.length >= 7) ? s.slice(0, 3) + '****' + s.slice(-4) : phone;
     var area = record['f-area'] ? record['f-area'] + 'm²' : '未填写';
     var budget = record['f-budget'] || '未填写';
     var housetype = record['f-housetype'] || '未填写';
     var style = record['f-style'] || '未填写';
+    var source = record['f-source'] || '';
+    var urgency = record['f-urgency'] || '';
 
-    var content = '🎉 新客户录入通知\n' +
-      '━━━━━━━━━━\n' +
-      '👤 姓名：' + name + '\n' +
-      '📱 电话：' + maskedPhone + '\n' +
-      '🏠 户型：' + housetype + '\n' +
-      '📐 面积：' + area + '\n' +
-      '💰 预算：' + budget + '\n' +
-      '🎨 风格：' + style + '\n' +
-      '━━━━━━━━━━\n' +
-      '请尽快联系客户！';
+    var markdown = '## 🎉 新客户录入通知\n' +
+      '> 蜂云装饰 · 客户资料管理系统\n' +
+      '\n' +
+      '**👤 姓名：**' + name + '\n' +
+      '**📱 电话：**' + maskedPhone + '\n' +
+      '**🏠 户型：**' + housetype + '\n' +
+      '**📐 面积：**' + area + '\n' +
+      '**💰 预算：**' + budget + '\n' +
+      '**🎨 风格：**' + style + '\n' +
+      (source ? '**📌 来源：**' + source + '\n' : '') +
+      (urgency ? '**⏰ 紧急程度：**' + urgency + '\n' : '') +
+      '\n<font color=\"warning\">请尽快联系客户！</font>';
 
-    var body = JSON.stringify({
-      msgtype: 'text',
-      text: { content: content }
-    });
-
-    var resp = await fetch(WX_WORKER_URL, {
+    var resp = await fetch(WX_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: body
+      body: JSON.stringify({ msgtype: 'markdown', markdown: { content: markdown } })
     });
     var result = await resp.json();
     if (result.errcode === 0) {
