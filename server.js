@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 企业微信群机器人 Webhook（新客户通知）
-const WX_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=8f12c869-600d-4b30-a76e-ab248642c880';
+const WX_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=b927573d-f291-42a2-b366-52450981deb7';
 
 // 发送企业微信通知（新客户录入）
 async function sendWxNotify(record, isNew) {
