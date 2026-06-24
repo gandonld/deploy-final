@@ -3,9 +3,59 @@
 
 const express = require('express');
 const path = require('path');
+const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 企业微信机器人 Webhook
+const WX_WORKER_KEY = 'abiXKeo1WHhRg0AzGv29P7xxiCh1WBtnMh';
+const WX_WORKER_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + WX_WORKER_KEY;
+
+// 发送企业微信通知
+async function sendWxNotify(record, isNew) {
+  try {
+    var name = record['f-name'] || '未填写';
+    var phone = record['f-phone'] || '';
+    // 手机号脱敏
+    var s = String(phone).replace(/\D/g, '');
+    var maskedPhone = (s.length >= 7) ? s.slice(0, 3) + '****' + s.slice(-4) : phone;
+    var area = record['f-area'] ? record['f-area'] + 'm²' : '未填写';
+    var budget = record['f-budget'] || '未填写';
+    var housetype = record['f-housetype'] || '未填写';
+    var style = record['f-style'] || '未填写';
+
+    var content = '🎉 新客户录入通知\n' +
+      '━━━━━━━━━━\n' +
+      '👤 姓名：' + name + '\n' +
+      '📱 电话：' + maskedPhone + '\n' +
+      '🏠 户型：' + housetype + '\n' +
+      '📐 面积：' + area + '\n' +
+      '💰 预算：' + budget + '\n' +
+      '🎨 风格：' + style + '\n' +
+      '━━━━━━━━━━\n' +
+      '请尽快联系客户！';
+
+    var body = JSON.stringify({
+      msgtype: 'text',
+      text: { content: content }
+    });
+
+    var resp = await fetch(WX_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: body
+    });
+    var result = await resp.json();
+    if (result.errcode === 0) {
+      console.log('[企业微信] 通知发送成功:', name);
+    } else {
+      console.error('[企业微信] 通知发送失败:', result.errmsg);
+    }
+  } catch(e) {
+    console.error('[企业微信] 通知异常:', e.message);
+  }
+}
 
 // Supabase 配置（服务端安全，不暴露到浏览器）
 const SUPABASE_URL = 'https://aqbubauinyxqeuhxmpfq.supabase.co';
@@ -98,6 +148,8 @@ app.post('/api/customers', async (req, res) => {
       // 新增
       row.created_at = now;
       result = await supabaseRequest('POST', '/customers', [row]);
+      // 新增客户，发送企业微信通知
+      sendWxNotify(record, true).catch(function(){});
     }
 
     if (result.ok) {
