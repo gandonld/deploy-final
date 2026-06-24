@@ -17,74 +17,127 @@
   --gray-600: #4b5563; --gray-700: #374151; --gray-800: #1f2937;
   --radius: 12px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
-body { font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height:1.6; }
-.header { background: #fff; border-bottom: 3px solid var(--primary); padding: 16px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.header h1 { font-size:20px; color:var(--primary); }
-.header h1 span { color:var(--gray-600); font-weight:400; font-size:14px; margin-left:8px; }
-.nav { display:flex; gap:6px; }
-.nav-btn { padding:8px 18px; border:2px solid var(--gray-200); border-radius:20px; background:#fff; cursor:pointer; font-size:13px; transition:all .2s; }
-.nav-btn:hover, .nav-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
-.container { max-width:1100px; margin:24px auto; padding:0 16px; }
-.card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; margin-bottom:20px; }
-.card-title { font-size:16px; font-weight:600; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center; }
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height:1.6; -webkit-font-smoothing: antialiased; }
+.header { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.header h1 { font-size:17px; color:var(--primary); font-weight:700; }
+.header h1 span { color:var(--gray-500); font-weight:400; font-size:12px; margin-left:6px; }
+.nav-desktop { display:flex; gap:4px; }
+.nav-btn { padding:6px 14px; border:1.5px solid var(--gray-200); border-radius:20px; background:#fff; cursor:pointer; font-size:12.5px; font-weight:500; transition:all .2s; white-space:nowrap; }
+.nav-btn:hover { border-color:var(--primary); color:var(--primary); }
+.nav-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+/* 手机底部导航 */
+.nav-mobile { display:none; position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--gray-200); padding:6px 4px; z-index:100; box-shadow:0 -2px 12px rgba(0,0,0,0.06); padding-bottom:max(6px, env(safe-area-inset-bottom)); }
+.nav-m-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 4px; border:none; background:none; cursor:pointer; font-size:10px; color:var(--gray-500); flex:1; transition:all .15s; border-radius:8px; min-width:0; }
+.nav-m-item.active { color:var(--primary); background:var(--primary-light); }
+.nav-m-icon { font-size:20px; line-height:1; }
+.container { max-width:1200px; margin:0 auto; padding:16px; }
+.card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:16px; border:1px solid var(--gray-100); }
+.card-title { font-size:15px; font-weight:600; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--gray-100); display:flex; justify-content:space-between; align-items:center; color:var(--gray-800); }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
 label { display:block; font-size:13px; font-weight:500; color:var(--gray-600); margin-bottom:4px; }
-input, select, textarea { width:100%; padding:10px 12px; border:1.5px solid var(--gray-200); border-radius:8px; font-size:14px; transition:border .2s; background:#fff; }
+input, select, textarea { width:100%; padding:11px 13px; border:1.5px solid var(--gray-200); border-radius:10px; font-size:14px; transition:all .2s; background:#fff; font-family:inherit; color:var(--gray-800); -webkit-appearance:none; }
 input:focus, select:focus, textarea:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
 textarea { resize:vertical; min-height:60px; }
-.btn { padding:10px 24px; border:none; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; transition:all .2s; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:11px 22px; border:none; border-radius:10px; font-size:14px; font-weight:500; cursor:pointer; transition:all .2s; font-family:inherit; }
 .btn-primary { background:var(--primary); color:#fff; }
 .btn-primary:hover { background:var(--primary-dark); }
+.btn-primary:active { transform:scale(0.97); }
 .btn-outline { background:#fff; color:var(--gray-700); border:1.5px solid var(--gray-200); }
 .btn-outline:hover { border-color:var(--primary); color:var(--primary); }
 .btn-danger { background:var(--danger); color:#fff; }
 .btn-danger:hover { background:#b91c1c; }
-.btn-sm { padding:6px 14px; font-size:12px; }
-.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
-.stat-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; text-align:center; }
-.stat-card .num { font-size:28px; font-weight:700; color:var(--primary); }
-.stat-card .label { font-size:12px; color:var(--gray-500); margin-top:4px; }
-.customer-card { background:#fff; border:1.5px solid var(--gray-100); border-radius:var(--radius); padding:16px; margin-bottom:12px; transition:all .2s; }
-.customer-card:hover { border-color:var(--primary); box-shadow:0 4px 16px rgba(232,83,26,0.10); }
-.customer-card .name { font-size:16px; font-weight:600; color:var(--gray-800); }
-.customer-card .meta { font-size:12px; color:var(--gray-400); margin:4px 0 8px; }
-.customer-card .tags { display:flex; gap:6px; flex-wrap:wrap; }
-.tag { padding:3px 10px; border-radius:12px; font-size:11px; }
+.btn-sm { padding:7px 14px; font-size:12px; border-radius:8px; }
+.btn-block { width:100%; }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.stat-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; text-align:center; border:1px solid var(--gray-100); }
+.stat-card .num { font-size:24px; font-weight:700; color:var(--primary); }
+.stat-card .label { font-size:11px; color:var(--gray-500); margin-top:4px; }
+.customer-card { background:#fff; border:1px solid var(--gray-100); border-radius:var(--radius); padding:14px; margin-bottom:10px; transition:all .2s; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.customer-card:hover { border-color:var(--primary); box-shadow:0 2px 12px rgba(232,83,26,0.08); }
+.customer-card .c-info { flex:1; min-width:0; }
+.customer-card .name { font-size:15px; font-weight:600; color:var(--gray-800); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.customer-card .meta { font-size:12px; color:var(--gray-400); margin:3px 0 6px; }
+.customer-card .tags { display:flex; gap:5px; flex-wrap:wrap; }
+.customer-card .c-actions { display:flex; gap:6px; flex-shrink:0; }
+.tag { padding:3px 9px; border-radius:10px; font-size:11px; font-weight:500; }
 .tag-orange { background:var(--warning-light); color:#b7791f; }
 .tag-blue { background:var(--secondary-light); color:var(--secondary); }
 .tag-green { background:var(--success-light); color:var(--success); }
-.search-box { width:100%; padding:10px 16px; border:1.5px solid var(--gray-200); border-radius:8px; font-size:14px; margin-bottom:16px; }
-.search-box:focus { outline:none; border-color:var(--primary); }
+.search-box { width:100%; padding:11px 16px; border:1.5px solid var(--gray-200); border-radius:10px; font-size:14px; margin-bottom:16px; background:var(--gray-50); }
+.search-box:focus { outline:none; border-color:var(--primary); background:#fff; }
 .empty { text-align:center; padding:48px 20px; color:var(--gray-400); }
-.empty .icon { font-size:48px; margin-bottom:12px; }
-.toast { position:fixed; top:20px; right:20px; padding:14px 24px; border-radius:8px; font-size:14px; font-weight:500; z-index:9999; opacity:0; transition:all .3s; pointer-events:none; }
+.empty .icon { font-size:48px; margin-bottom:12px; opacity:0.5; }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); padding:12px 24px; border-radius:10px; font-size:13px; font-weight:500; z-index:9999; opacity:0; transition:all .3s; pointer-events:none; box-shadow:0 4px 20px rgba(0,0,0,0.15); max-width:90vw; text-align:center; }
 .toast.show { opacity:1; pointer-events:auto; }
 .toast-success { background:var(--success); color:#fff; }
 .toast-error { background:var(--danger); color:#fff; }
 .toast-warning { background:var(--warning); color:#fff; }
-.section-title { font-size:14px; font-weight:600; color:var(--primary); margin:20px 0 10px; padding-left:10px; border-left:3px solid var(--primary); }
-.form-actions { display:flex; gap:12px; margin-top:24px; }
-.header-actions { display:flex; gap:8px; }
-.db-status { font-size:12px; padding:4px 10px; border-radius:12px; background:var(--gray-100); }
-.checkbox-group { display:flex; flex-wrap:wrap; gap:6px 14px; margin-bottom:10px; }
-.cb-item { display:flex; align-items:center; gap:4px; font-size:12.5px; color:var(--gray-600); cursor:pointer; background:var(--gray-50); padding:4px 10px; border-radius:6px; border:1px solid var(--gray-200); transition:all .15s; }
-.cb-item:hover { background:var(--primary-light); border-color:var(--primary); }
-.cb-item input[type="checkbox"] { cursor:pointer; accent-color:var(--primary); }
+.section-title { font-size:14px; font-weight:600; color:var(--primary); margin:24px 0 12px; padding-left:12px; border-left:3px solid var(--primary); }
+.section-title.sub { font-size:13px; color:var(--gray-700); border-left-color:var(--secondary); margin:16px 0 8px; }
+.form-actions { display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; }
+.header-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.db-status { font-size:12px; padding:3px 10px; border-radius:12px; font-weight:500; }
+.checkbox-group { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+.cb-item { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--gray-700); cursor:pointer; background:var(--gray-50); padding:7px 13px; border-radius:20px; border:1.5px solid var(--gray-200); transition:all .15s; white-space:nowrap; user-select:none; }
+.cb-item:hover { background:#fff; border-color:var(--primary); }
+.cb-item:has(input:checked) { background:var(--primary-light); border-color:var(--primary); color:var(--primary); }
+.cb-item input[type="checkbox"] { accent-color:var(--primary); cursor:pointer; }
+/* 欢迎页 */
+.welcome-wrap { display:flex; align-items:center; justify-content:center; min-height:60vh; padding:20px; }
+.welcome-box { text-align:center; max-width:360px; }
+.welcome-box img { width:240px; height:240px; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.10); margin-bottom:20px; }
+.welcome-title { font-size:16px; color:var(--gray-700); margin-bottom:6px; font-weight:500; }
+.welcome-sub { font-size:13px; color:var(--gray-400); }
+/* 备份页 */
+.backup-info { color:var(--gray-500); margin-bottom:14px; font-size:13px; }
+.backup-buttons { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.backup-status-box { padding:12px; background:var(--gray-50); border-radius:8px; font-size:12px; color:var(--gray-600); border:1px solid var(--gray-200); }
+/* 手机端适配 */
 @media(max-width:768px){
-  .checkbox-group { gap:4px 8px; }
-  .cb-item { font-size:11.5px; padding:3px 7px; }
+  .header { padding:10px 14px; }
+  .header h1 { font-size:15px; }
+  .header h1 span { display:none; }
+  .nav-desktop { display:none; }
+  .nav-mobile { display:flex; }
+  .container { padding:12px; padding-bottom:90px; }
+  .grid2, .grid3 { grid-template-columns:1fr; gap:10px; }
+  .card { padding:14px; margin-bottom:12px; border-radius:10px; }
+  .card-title { font-size:14px; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
+  input, select, textarea { padding:12px 14px; font-size:16px; }
+  label { font-size:14px; }
+  .btn { padding:12px 20px; font-size:14px; }
+  .btn-sm { padding:8px 14px; font-size:12px; }
+  .form-actions { flex-direction:column; }
+  .form-actions .btn { width:100%; }
+  .checkbox-group { gap:6px; }
+  .cb-item { font-size:13px; padding:9px 14px; }
+  .customer-card { flex-direction:column; align-items:stretch; gap:8px; }
+  .customer-card .c-actions { justify-content:flex-end; }
+  .section-title { font-size:13px; margin:20px 0 10px; }
+  .section-title.sub { font-size:12px; }
+  .header-actions { flex-wrap:wrap; }
+  .header-actions .btn { font-size:12px; }
+  .stats { grid-template-columns:repeat(2,1fr); gap:8px; }
+  .stat-card { padding:14px; }
+  .welcome-wrap { min-height:50vh; }
+  .welcome-box img { width:200px; height:200px; }
+  .backup-buttons { flex-direction:column; }
+  .backup-buttons .btn { width:100%; }
+  .db-status { font-size:10px; padding:2px 8px; }
 }
-
-  </style>
+</style>
 </head>
 <body>
 
 <div class="header">
-  <h1>蜂云装饰客户资料管理系统 <span class="db-status" id="db-status">检测中...</span></h1>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <h1>蜂云装饰客户资料管理系统</h1>
+    <span class="db-status" id="db-status">检测中...</span>
+  </div>
   <div style="display:flex;align-items:center;gap:8px;">
     <button class="btn btn-outline btn-sm" onclick="syncToCloud()" id="btn-sync" style="display:none;" title="将本地数据同步到云端">☁️ 同步</button>
-    <div class="nav">
+    <div class="nav-desktop" id="nav-desktop">
       <button class="nav-btn active" onclick="navigate('dashboard')">首页</button>
       <button class="nav-btn" onclick="navigate('form')">新建客户</button>
       <button class="nav-btn" onclick="requireAuth(function(){ navigate('list'); })">客户列表</button>
@@ -93,14 +146,22 @@ textarea { resize:vertical; min-height:60px; }
   </div>
 </div>
 
+<!-- 手机底部导航 -->
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-m-item active" onclick="navigate('dashboard')"><span class="nav-m-icon">🏠</span>首页</button>
+  <button class="nav-m-item" onclick="navigate('form')"><span class="nav-m-icon">➕</span>新建客户</button>
+  <button class="nav-m-item" onclick="requireAuth(function(){ navigate('list'); })"><span class="nav-m-icon">📋</span>客户列表</button>
+  <button class="nav-m-item" onclick="requireAuth(function(){ navigate('backup'); })"><span class="nav-m-icon">💾</span>备份恢复</button>
+</div>
+
 <div class="container">
   <!-- 首页（仅显示欢迎页+二维码） -->
   <div id="page-dashboard" class="page">
-    <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
-      <div style="text-align:center;max-width:400px;">
-        <img src="qrcode.png" alt="微信二维码" style="width:280px;height:280px;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);margin-bottom:20px;">
-        <p style="font-size:15px;color:var(--gray-600);margin-bottom:8px;">扫码添加微信，咨询装修服务</p>
-        <p style="font-size:13px;color:var(--gray-400);">蜂云装饰 · 专业家装服务</p>
+    <div class="welcome-wrap">
+      <div class="welcome-box">
+        <img src="qrcode.png" alt="微信二维码">
+        <div class="welcome-title">扫码添加微信，咨询装修服务</div>
+        <div class="welcome-sub">蜂云装饰 · 专业家装服务</div>
       </div>
     </div>
   </div>
@@ -151,7 +212,7 @@ textarea { resize:vertical; min-height:60px; }
         <div><label>是否有老人</label><select id="f-haselderly"><option value="">请选择</option><option>是</option><option>否</option></select></div>
         <div><label>是否有小孩</label><select id="f-haschildren"><option value="">请选择</option><option>是（0-3岁）</option><option>是（3-12岁）</option><option>是（12岁以上）</option><option>否</option></select></div>
       </div>
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);margin-top:0;">成员特殊需求</div>
+      <div class="section-title sub">成员特殊需求</div>
       <div class="checkbox-group" id="cg-familynote">
         <label class="cb-item"><input type="checkbox" value="老人需无障碍设施" onchange="updateTextarea('f-familynote','cg-familynote')"> 老人需无障碍设施</label>
         <label class="cb-item"><input type="checkbox" value="小孩需防撞设计" onchange="updateTextarea('f-familynote','cg-familynote')"> 小孩需防撞设计</label>
@@ -174,7 +235,7 @@ textarea { resize:vertical; min-height:60px; }
         <div><label>色彩偏好</label><select id="f-color"><option value="">请选择</option><option>浅色系（白/米/灰）</option><option>深色系（黑/灰/棕）</option><option>暖色系（橙/黄/红）</option><option>冷色系（蓝/绿/紫）</option><option>黑白灰极简</option><option>无特别偏好</option></select></div>
         <div><label>是否需要全屋定制</label><select id="f-custom"><option value="">请选择</option><option>是，全部定制</option><option>是，部分定制</option><option>否，成品家具</option><option>待定</option></select></div>
       </div>
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);margin-top:0;">参考风格/案例来源</div>
+      <div class="section-title sub">参考风格/案例来源</div>
       <div class="checkbox-group" id="cg-reference">
         <label class="cb-item"><input type="checkbox" value="小红书博主案例" onchange="updateTextarea('f-reference','cg-reference')"> 小红书博主案例</label>
         <label class="cb-item"><input type="checkbox" value="抖音视频参考" onchange="updateTextarea('f-reference','cg-reference')"> 抖音视频参考</label>
@@ -191,7 +252,7 @@ textarea { resize:vertical; min-height:60px; }
       <div class="section-title">功能区需求</div>
       
       <!-- 客厅 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">客厅</div>
+      <div class="section-title sub">>客厅</div>
       <div class="checkbox-group" id="cg-livingroom">
         <label class="cb-item"><input type="checkbox" value="无主灯设计" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 无主灯设计</label>
         <label class="cb-item"><input type="checkbox" value="投影仪/电视墙" onchange="updateTextarea('f-need-livingroom','cg-livingroom')"> 投影仪/电视墙</label>
@@ -205,7 +266,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-livingroom" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 餐厅 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">餐厅</div>
+      <div class="section-title sub">>餐厅</div>
       <div class="checkbox-group" id="cg-dining">
         <label class="cb-item"><input type="checkbox" value="餐边柜" onchange="updateTextarea('f-need-dining','cg-dining')"> 餐边柜</label>
         <label class="cb-item"><input type="checkbox" value="吧台" onchange="updateTextarea('f-need-dining','cg-dining')"> 吧台</label>
@@ -219,7 +280,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-dining" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 厨房 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">厨房</div>
+      <div class="section-title sub">>厨房</div>
       <div class="checkbox-group" id="cg-kitchen">
         <label class="cb-item"><input type="checkbox" value="开放式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 开放式厨房</label>
         <label class="cb-item"><input type="checkbox" value="封闭式厨房" onchange="updateTextarea('f-need-kitchen','cg-kitchen')"> 封闭式厨房</label>
@@ -235,7 +296,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-kitchen" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 主卧 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">主卧</div>
+      <div class="section-title sub">>主卧</div>
       <div class="checkbox-group" id="cg-masterbed">
         <label class="cb-item"><input type="checkbox" value="衣帽间/步入式衣柜" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 衣帽间/步入式衣柜</label>
         <label class="cb-item"><input type="checkbox" value="梳妆台" onchange="updateTextarea('f-need-masterbed','cg-masterbed')"> 梳妆台</label>
@@ -249,7 +310,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-masterbed" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 次卧 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">次卧</div>
+      <div class="section-title sub">>次卧</div>
       <div class="checkbox-group" id="cg-secondbed">
         <label class="cb-item"><input type="checkbox" value="儿童房（男孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 儿童房（男孩）</label>
         <label class="cb-item"><input type="checkbox" value="儿童房（女孩）" onchange="updateTextarea('f-need-secondbed','cg-secondbed')"> 儿童房（女孩）</label>
@@ -262,7 +323,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-secondbed" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 卫生间 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">卫生间</div>
+      <div class="section-title sub">>卫生间</div>
       <div class="checkbox-group" id="cg-bathroom">
         <label class="cb-item"><input type="checkbox" value="干湿分离" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 干湿分离</label>
         <label class="cb-item"><input type="checkbox" value="浴缸" onchange="updateTextarea('f-need-bathroom','cg-bathroom')"> 浴缸</label>
@@ -277,7 +338,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-bathroom" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 书房/办公区 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">书房/办公区</div>
+      <div class="section-title sub">>书房/办公区</div>
       <div class="checkbox-group" id="cg-study">
         <label class="cb-item"><input type="checkbox" value="独立书房" onchange="updateTextarea('f-need-study','cg-study')"> 独立书房</label>
         <label class="cb-item"><input type="checkbox" value="书桌+书柜组合" onchange="updateTextarea('f-need-study','cg-study')"> 书桌+书柜组合</label>
@@ -289,7 +350,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-study" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 储物间 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">储物间</div>
+      <div class="section-title sub">>储物间</div>
       <div class="checkbox-group" id="cg-storage">
         <label class="cb-item"><input type="checkbox" value="独立储物间" onchange="updateTextarea('f-need-storage','cg-storage')"> 独立储物间</label>
         <label class="cb-item"><input type="checkbox" value="入户鞋柜" onchange="updateTextarea('f-need-storage','cg-storage')"> 入户鞋柜</label>
@@ -301,7 +362,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-storage" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 玄关 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">玄关</div>
+      <div class="section-title sub">>玄关</div>
       <div class="checkbox-group" id="cg-hallway">
         <label class="cb-item"><input type="checkbox" value="换鞋凳" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 换鞋凳</label>
         <label class="cb-item"><input type="checkbox" value="穿衣镜" onchange="updateTextarea('f-need-hallway','cg-hallway')"> 穿衣镜</label>
@@ -314,7 +375,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-hallway" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 阳台 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">阳台</div>
+      <div class="section-title sub">>阳台</div>
       <div class="checkbox-group" id="cg-balcony">
         <label class="cb-item"><input type="checkbox" value="生活阳台（洗衣柜+晾晒）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 生活阳台（洗衣柜+晾晒）</label>
         <label class="cb-item"><input type="checkbox" value="休闲阳台（养花+茶台）" onchange="updateTextarea('f-need-balcony','cg-balcony')"> 休闲阳台（养花+茶台）</label>
@@ -326,7 +387,7 @@ textarea { resize:vertical; min-height:60px; }
       <textarea id="f-need-balcony" placeholder="已选项目将自动填入，也可手动补充其他需求"></textarea>
       
       <!-- 智能家居 -->
-      <div class="section-title" style="font-size:13px;color:var(--gray-700);border-left-color:var(--secondary);">智能家居</div>
+      <div class="section-title sub">>智能家居</div>
       <div class="checkbox-group" id="cg-smarthome">
         <label class="cb-item"><input type="checkbox" value="智能灯光" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 智能灯光</label>
         <label class="cb-item"><input type="checkbox" value="电动窗帘" onchange="updateTextarea('f-need-smarthome','cg-smarthome')"> 电动窗帘</label>
@@ -417,15 +478,15 @@ textarea { resize:vertical; min-height:60px; }
   <div id="page-backup" class="page" style="display:none;">
     <div class="card">
       <div class="card-title">📦 数据备份与恢复</div>
-      <p style="color:var(--gray-500);margin-bottom:16px;">您的数据同时保存在浏览器本地和百度网盘，双重保障永不丢失。</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <p class="backup-info">您的数据同时保存在浏览器本地和百度网盘，双重保障永不丢失。</p>
+      <div class="backup-buttons">
         <button class="btn btn-primary" onclick="backupToJson()">📥 导出备份文件（JSON）</button>
         <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">📤 从备份文件恢复</button>
         <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importFromJson(event)">
         <button class="btn btn-outline" onclick="backupToBaiduNetdisk()">☁️ 备份到百度网盘</button>
         <button class="btn btn-outline" onclick="restoreFromBaiduNetdisk()">📦 从百度网盘恢复</button>
       </div>
-      <div id="backup-status" style="padding:12px;background:var(--gray-50);border-radius:8px;font-size:13px;color:var(--gray-600);"></div>
+      <div id="backup-status" class="backup-status-box"></div>
     </div>
   </div>
 </div>
@@ -451,8 +512,14 @@ function requireAuth(callback) {
 function navigate(page) {
   document.querySelectorAll('.page').forEach(function(p) { p.style.display = 'none'; });
   document.getElementById('page-' + page).style.display = 'block';
-  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
-  if (event && event.target) event.target.classList.add('active');
+  // 切换桌面导航
+  document.querySelectorAll('#nav-desktop .nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  var pages = ['dashboard','form','list','backup'];
+  var idx = pages.indexOf(page);
+  if (idx >= 0) document.querySelectorAll('#nav-desktop .nav-btn')[idx].classList.add('active');
+  // 切换手机导航
+  document.querySelectorAll('#nav-mobile .nav-m-item').forEach(function(b) { b.classList.remove('active'); });
+  if (idx >= 0) document.querySelectorAll('#nav-mobile .nav-m-item')[idx].classList.add('active');
   if (page === 'dashboard') renderDashboard();
   if (page === 'list') requireAuth(function() { renderList(); });
 }
@@ -578,10 +645,10 @@ function renderList() {
     var area = c['f-area'] ? c['f-area'] + 'm²' : '';
     var budget = c['f-budget'] || '';
     var style = c['f-style'] || '';
-    return '<div class="customer-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
+    return '<div class="customer-card"><div class="c-info"><div class="name">' + name + '</div><div class="meta">' + phone + (area ? ' | ' + area : '') + '</div><div class="tags">' +
       (budget ? '<span class="tag tag-orange">' + budget + '</span>' : '') +
       (style ? '<span class="tag tag-blue">' + style + '</span>' : '') +
-      '</div></div><div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="editRecord(\'' + c.id + '\')">✏️ 编辑</button><button class="btn btn-danger btn-sm" onclick="deleteRecord(\'' + c.id + '\')">🗑️ 删除</button></div></div></div>';
+      '</div></div><div class="c-actions"><button class="btn btn-outline btn-sm" onclick="editRecord(\'' + c.id + '\')">✏️ 编辑</button><button class="btn btn-danger btn-sm" onclick="deleteRecord(\'' + c.id + '\')">🗑️ 删除</button></div></div>';
   }).join('');
 }
 
