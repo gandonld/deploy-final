@@ -436,30 +436,56 @@
        手机适配
        ============================================================ */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-xl); }
+      .sidebar { transform: translateX(-100%); width: 82vw; max-width: 300px; }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.35); }
       .main-wrap { margin-left: 0; }
       .mobile-overlay {
-        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-        z-index: 199;
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+        z-index: 199; transition: opacity .3s;
       }
       .mobile-overlay.show { display: block; }
       .mobile-menu-btn { display: flex !important; }
 
-      .content { padding: 16px; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .dash-grid-2, .dash-grid-3 { grid-template-columns: 1fr; }
-      .backup-grid { grid-template-columns: 1fr; }
-      .topbar-search input { width: 140px; }
-      .topbar-search input:focus { width: 180px; }
-      .dash-welcome { flex-direction: column; gap: 16px; text-align: center; }
+      .content { padding: 12px; }
+
+      .topbar { padding: 0 12px; }
+      .topbar-page-sub { display: none; }
+      .topbar-search input { width: 120px; }
+      .topbar-search input:focus { width: 160px; }
+
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 14px; }
+      .stat-icon { width: 40px; height: 40px; font-size: 18px; border-radius: 10px; }
+      .stat-value { font-size: 22px; }
+
+      .dash-welcome { padding: 20px; border-radius: 12px; }
+      .dash-welcome-text h2 { font-size: 17px; }
+      .dash-welcome-action .btn { padding: 10px 20px; font-size: 13px; }
+
+      .card { padding: 14px; border-radius: 12px; }
+      .card-title { font-size: 14px; }
     }
 
     @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; gap: 8px; }
+      .stat-card { padding: 12px; }
+      .stat-card:hover { transform: none; }
+      .stat-value { font-size: 20px; }
+
+      .dash-welcome { padding: 16px; flex-direction: column; text-align: center; gap: 14px; }
+
       .form-tabs { gap: 2px; padding: 3px; }
-      .form-tab { min-width: 70px; padding: 8px 4px; font-size: 11px; }
+      .form-tab { min-width: 64px; padding: 8px 4px; font-size: 11px; }
+      .form-tab .ft-icon { font-size: 15px; }
+      .form-section { padding: 14px; }
+      .form-section-title { font-size: 13px; }
+      .form-nav-btns { flex-direction: column; gap: 8px; }
+      .form-nav-btns .btn { width: 100%; }
+
+      .data-table th, .data-table td { padding: 10px 12px; font-size: 12px; }
+      .btn-icon { width: 32px; height: 32px; font-size: 13px; }
+
+      .auth-box { padding: 28px 20px; width: 92vw; max-width: 340px; }
     }
 
     .mobile-menu-btn {
@@ -587,36 +613,22 @@
               <div class="stat-value" id="statPending">0</div>
             </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:var(--inf-light);color:var(--inf);">🏗️</div>
-            <div class="stat-body">
-              <div class="stat-label">施工中</div>
-              <div class="stat-value" id="statActive">0</div>
-            </div>
-          </div>
         </div>
 
-        <!-- 最近客户 + 快捷操作 -->
-        <div class="dash-grid-3">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><span class="ct-icon">🕐</span> 最近新增</div>
-              <button class="btn btn-ghost btn-sm" onclick="switchPage('list')">查看全部 →</button>
-            </div>
-            <div class="recent-list" id="recentList">
-              <div class="empty-state"><div class="es-icon">📋</div><div class="es-title">暂无数据</div><div class="es-desc">新建客户后将在此显示</div></div>
-            </div>
+        <!-- 快捷操作 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="ct-icon">⚡</span> 快捷操作</div>
           </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><span class="ct-icon">⚡</span> 快捷操作</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('form');openForm()">➕ 新建客户资料</button>
-              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('list')">📋 查看客户列表</button>
-              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="exportCSV()">📥 导出客户数据</button>
-              <button class="btn btn-outline btn-block" style="justify-content:flex-start;padding:12px 16px;" onclick="switchPage('backup')">💾 数据备份与恢复</button>
-            </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('form');openForm()">➕ 新建客户资料</button>
+            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('list')">🔒 查看客户列表</button>
+            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="exportCSV()">📥 导出客户数据</button>
+            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('backup')">💾 数据备份与恢复</button>
+          </div>
+          <div style="margin-top:16px;padding:12px 16px;background:var(--g50);border-radius:8px;font-size:12.5px;color:var(--g500);line-height:1.8;">
+            🔒 查看或编辑客户详细资料需要输入访问密码<br>
+            📱 数据保存在本地浏览器，定期导出备份可防止丢失
           </div>
         </div>
       </div>
@@ -1231,27 +1243,41 @@
   const TAB_NAMES = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期','其他需求'];
 
   /* --- 初始化 --- */
+  let pendingPage = null;   // 验证后要跳转的页面
+  let pendingCallback = null; // 验证后要执行的回调
   document.addEventListener('DOMContentLoaded', () => {
     buildFormTabs();
     switchPage('dashboard');
     loadCustomers();
     setWelcome();
     document.getElementById('authInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAuth(); });
-    // 自动登录检查
-    if (localStorage.getItem('crm_auth') !== 'ok') {
-      document.getElementById('authOverlay').classList.add('show');
-    }
   });
 
+  /* 验证密码，成功后执行待定操作 */
   function checkAuth() {
     const pwd = document.getElementById('authInput').value;
     if (pwd === '131313') {
       localStorage.setItem('crm_auth', 'ok');
       document.getElementById('authOverlay').classList.remove('show');
-      showToast('登录成功', 'success');
+      document.getElementById('authInput').value = '';
+      showToast('验证成功', 'success');
+      // 执行待定操作
+      if (pendingCallback) { pendingCallback(); pendingCallback = null; }
+      if (pendingPage) { switchPage(pendingPage); pendingPage = null; }
     } else {
       showToast('密码错误', 'error');
       document.getElementById('authInput').value = '';
+    }
+  }
+
+  /* 需要验证时调用：已登录直接执行，未登录弹窗 */
+  function requireAuth(onSuccess) {
+    if (localStorage.getItem('crm_auth') === 'ok') {
+      onSuccess();
+    } else {
+      pendingCallback = onSuccess;
+      document.getElementById('authOverlay').classList.add('show');
+      document.getElementById('authInput').focus();
     }
   }
 
@@ -1260,14 +1286,24 @@
   function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('show'); }
 
   function switchPage(page) {
+    // 需要验证的页面
+    if (page === 'list' || page === 'backup') {
+      requireAuth(() => {
+        doSwitchPage(page);
+      });
+    } else {
+      doSwitchPage(page);
+    }
+  }
+
+  function doSwitchPage(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
     document.getElementById('page-'+page).classList.add('show');
     document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
     document.getElementById('nav-'+page).classList.add('active');
     closeSidebar();
-    // 更新顶部标题
     const titles = { dashboard:'数据看板', form:'新建客户', list:'客户列表', backup:'备份恢复' };
-    const subs   = { dashboard:'欢迎回来，以下是今日数据概览', form:'填写客户装修需求信息', list:'管理所有客户资料', backup:'数据备份与恢复' };
+    const subs   = { dashboard:'欢迎回来', form:'填写客户装修需求信息', list:'管理所有客户资料', backup:'数据备份与恢复' };
     document.getElementById('topbarTitle').textContent = titles[page] || '';
     document.getElementById('topbarSub').textContent = subs[page] || '';
     if (page === 'list') renderList();
@@ -1431,25 +1467,6 @@
     document.getElementById('statToday').textContent = todayCount;
     const pending = customers.filter(c => (c['f-urgency']||'') === '很急').length;
     document.getElementById('statPending').textContent = pending;
-    const active = customers.filter(c => (c['f-housetype']||'') !== '').length;
-    document.getElementById('statActive').textContent = active;
-
-    // 最近客户
-    const recentList = document.getElementById('recentList');
-    if (customers.length === 0) {
-      recentList.innerHTML = '<div class="empty-state"><div class="es-icon">📋</div><div class="es-title">暂无数据</div><div class="es-desc">新建客户后将在此显示</div></div>';
-    } else {
-      recentList.innerHTML = customers.slice(0, 5).map(c => `
-        <div class="recent-item" onclick="viewCustomer('${c.id}')">
-          <div class="ri-avatar" style="background:var(--pri-light);color:var(--pri);">${(c['f-name']||'?')[0]}</div>
-          <div class="ri-body">
-            <div class="ri-name">${c['f-name'] || '未命名'}</div>
-            <div class="ri-desc">${(c['f-type']||'未设置户型')} · ${(c['f-budget']||'预算未设置')}</div>
-          </div>
-          <div class="ri-time">${(c.createdAt||'').slice(0,10)||'—'}</div>
-        </div>
-      `).join('');
-    }
   }
 
   /* --- 客户列表 --- */
@@ -1487,29 +1504,29 @@
   }
 
   function viewCustomer(id) {
-    const c = customers.find(x => x.id === id);
-    if (!c) return;
-    editingId = id;
-    // 填充表单
-    const fill = id => { const el = document.getElementById(id); if(el) el.value = c[id]||''; };
-    fill('f-name'); fill('f-phone'); fill('f-gender'); fill('f-age'); fill('f-job');
-    fill('f-source'); fill('f-urgency'); fill('f-pet');
-    fill('f-area'); fill('f-type'); fill('f-housetype'); fill('f-floor'); fill('f-direction');
-    fill('f-buildyear'); fill('f-floorheight'); fill('f-elevator'); fill('f-address');
-    fill('f-members'); fill('f-elderly'); fill('f-children'); fill('f-childcount');
-    fill('f-style'); fill('f-color'); fill('f-custom');
-    fill('f-smarthome'); fill('f-water'); fill('f-electric'); fill('f-hvac'); fill('f-ventilation');
-    fill('f-budget'); fill('f-date'); fill('f-duration'); fill('f-paytype');
-    fill('f-notes');
-    // 复选框
-    const setCB = (cls, val) => {
-      document.querySelectorAll(cls).forEach(cb => { cb.checked = (val||'').includes(cb.value); });
-    };
-    setCB('.cg-reference', c['f-reference']);
-    setCB('.cg-function', c['f-function']);
-    setCB('.cg-special', c['f-special']);
-    setCB('.cg-membnote', c['f-membnote']);
-    switchPage('form');
+    requireAuth(() => {
+      const c = customers.find(x => x.id === id);
+      if (!c) return;
+      editingId = id;
+      const fill = id => { const el = document.getElementById(id); if(el) el.value = c[id]||''; };
+      fill('f-name'); fill('f-phone'); fill('f-gender'); fill('f-age'); fill('f-job');
+      fill('f-source'); fill('f-urgency'); fill('f-pet');
+      fill('f-area'); fill('f-type'); fill('f-housetype'); fill('f-floor'); fill('f-direction');
+      fill('f-buildyear'); fill('f-floorheight'); fill('f-elevator'); fill('f-address');
+      fill('f-members'); fill('f-elderly'); fill('f-children'); fill('f-childcount');
+      fill('f-style'); fill('f-color'); fill('f-custom');
+      fill('f-smarthome'); fill('f-water'); fill('f-electric'); fill('f-hvac'); fill('f-ventilation');
+      fill('f-budget'); fill('f-date'); fill('f-duration'); fill('f-paytype');
+      fill('f-notes');
+      const setCB = (cls, val) => {
+        document.querySelectorAll(cls).forEach(cb => { cb.checked = (val||'').includes(cb.value); });
+      };
+      setCB('.cg-reference', c['f-reference']);
+      setCB('.cg-function', c['f-function']);
+      setCB('.cg-special', c['f-special']);
+      setCB('.cg-membnote', c['f-membnote']);
+      doSwitchPage('form');
+    });
   }
 
   async function deleteCustomer(id) {
