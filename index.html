@@ -1276,7 +1276,6 @@
   function checkAuth() {
     const pwd = document.getElementById('authInput').value;
     if (pwd === '131313') {
-      localStorage.setItem('crm_auth', 'ok');
       document.getElementById('authOverlay').classList.remove('show');
       document.getElementById('authInput').value = '';
       showToast('验证成功', 'success');
@@ -1289,15 +1288,12 @@
     }
   }
 
-  /* 需要验证时调用：已登录直接执行，未登录弹窗 */
+  /* 需要验证时调用：每次都弹窗，不记住状态 */
   function requireAuth(onSuccess) {
-    if (localStorage.getItem('crm_auth') === 'ok') {
-      onSuccess();
-    } else {
-      pendingCallback = onSuccess;
-      document.getElementById('authOverlay').classList.add('show');
-      document.getElementById('authInput').focus();
-    }
+    pendingCallback = onSuccess;
+    document.getElementById('authOverlay').classList.add('show');
+    document.getElementById('authInput').value = '';
+    document.getElementById('authInput').focus();
   }
 
   /* --- 侧边栏 --- */
