@@ -1266,9 +1266,7 @@
   /* ============================================================
      JS: 核心逻辑（尽量复用原有逻辑，只做必要的适配）
      ============================================================ */
-  const API = location.hostname.includes('railway.app')
-    ? 'https://diligent-miracle-production-e706.up.railway.app'
-    : '';
+  const API = 'https://diligent-miracle-production-e706.up.railway.app';
   let customers = JSON.parse(localStorage.getItem('crm_customers') || '[]');
   let editingId = null;
   let currentTab = 0;
