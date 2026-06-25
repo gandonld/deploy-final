@@ -1433,22 +1433,27 @@
         'f-notes': getVal('f-notes'),
       };
 
-      if (API) {
-        const payload = editingId ? { ...record, id: editingId } : record;
-        const method = editingId ? 'PUT' : 'POST';
-        try {
-          const res = await fetch(API + '/api/customers', {
-            method, headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) throw new Error('保存失败');
-          showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
-        } catch(e) {
-          saveToLocal(record);
-        }
+      // 1. 始终先保存到本地（立刻更新界面）
+      record.id = editingId || Date.now().toString();
+      record.createdAt = record.createdAt || new Date().toISOString();
+      if (editingId) {
+        const idx = customers.findIndex(c => c.id === editingId);
+        if (idx >= 0) customers[idx] = record;
       } else {
-        saveToLocal(record);
+        customers.unshift(record);
       }
+      localStorage.setItem('crm_customers', JSON.stringify(customers));
+
+      // 2. 同步到云端（发企业微信通知 + 跨设备共享）
+      if (API) {
+        const method = editingId ? 'PUT' : 'POST';
+        fetch(API + '/api/customers', {
+          method, headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ ...record, id: record.id })
+        }).catch(() => {}); // 云端失败不影响本地
+      }
+
+      showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
       switchPage('dashboard');
     } catch(e) {
       showToast('保存失败：' + e.message, 'error');
