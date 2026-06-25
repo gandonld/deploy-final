@@ -1336,7 +1336,7 @@
     document.getElementById('topbarSub').textContent = subs[page] || '';
     if (page === 'list') renderList();
     if (page === 'backup') updateStorageInfo();
-    if (page === 'dashboard') { loadCustomers(); setWelcome(); }
+    if (page === 'dashboard') { renderDashboard(); setWelcome(); }
   }
 
   /* --- 欢迎语 --- */
@@ -1478,10 +1478,21 @@
 
   /* --- 加载客户 --- */
   async function loadCustomers() {
+    // 始终先从 localStorage 读取，确保本地数据不丢失
+    const raw = localStorage.getItem('crm_customers');
+    if (raw) { try { customers = JSON.parse(raw); } catch(e) {} }
+    // 如果有 API，再用 API 数据覆盖（以服务端为准）
     if (API) {
       try {
         const res = await fetch(API + '/api/customers');
-        if (res.ok) customers = await res.json();
+        if (res.ok) {
+          const apiData = await res.json();
+          if (Array.isArray(apiData) && apiData.length > 0) {
+            customers = apiData;
+            // 同时更新 localStorage 保持同步
+            localStorage.setItem('crm_customers', JSON.stringify(apiData));
+          }
+        }
       } catch(e) { /* 使用本地数据 */ }
     }
     renderDashboard();
