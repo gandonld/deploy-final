@@ -347,6 +347,13 @@
     .form-section-title .fst-icon { font-size: 18px; color: var(--pri); }
 
     .form-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+    .form-save-bar {
+      display: flex; align-items: center; gap: 16px; padding: 14px 20px;
+      margin-top: 20px; background: var(--g50); border-radius: 12px;
+      border: 1px solid var(--g200);
+      position: sticky; bottom: 8px; z-index: 10;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    }
 
     /* ============================================================
        仪表盘
@@ -1158,6 +1165,12 @@
               </div>
             </div>
           </form>
+          <!-- 底部固定保存栏（始终可见） -->
+          <div class="form-save-bar">
+            <button type="button" class="btn btn-outline" onclick="switchPage('dashboard')" style="flex:0 0 auto;">✕ 取消</button>
+            <div style="font-size:12px;color:var(--g400);text-align:center;flex:1;">填写完毕后点击右侧按钮保存</div>
+            <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="flex:0 0 auto;padding:10px 28px;">💾 保存客户资料</button>
+          </div>
         </div>
       </div>
 
@@ -1394,66 +1407,73 @@
 
   /* --- 保存客户 --- */
   async function saveCustomer() {
-    const name = document.getElementById('f-name').value.trim();
-    const phone = document.getElementById('f-phone').value.trim();
-    if (!name || !phone) { showToast('请填写客户姓名和电话', 'warning'); return; }
+    try {
+      const name = document.getElementById('f-name').value.trim();
+      const phone = document.getElementById('f-phone').value.trim();
+      if (!name || !phone) { showToast('请填写客户姓名和电话', 'warning'); return; }
 
-    const getVal = id => document.getElementById(id).value;
-    const getCB  = cls => Array.from(document.querySelectorAll(cls)).filter(cb => cb.checked).map(cb => cb.value);
+      const getVal = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+      const getCB  = cls => Array.from(document.querySelectorAll(cls)).filter(cb => cb.checked).map(cb => cb.value);
 
-    const record = {
-      'f-name': name, 'f-phone': phone,
-      'f-gender': getVal('f-gender'), 'f-age': getVal('f-age'), 'f-job': getVal('f-job'),
-      'f-source': getVal('f-source'), 'f-urgency': getVal('f-urgency'), 'f-pet': getVal('f-pet'),
-      'f-area': getVal('f-area'), 'f-type': getVal('f-type'), 'f-housetype': getVal('f-housetype'),
-      'f-floor': getVal('f-floor'), 'f-direction': getVal('f-direction'), 'f-buildyear': getVal('f-buildyear'),
-      'f-floorheight': getVal('f-floorheight'), 'f-elevator': getVal('f-elevator'), 'f-address': getVal('f-address'),
-      'f-members': getVal('f-members'), 'f-elderly': getVal('f-elderly'), 'f-children': getVal('f-children'), 'f-childcount': getVal('f-childcount'),
-      'f-membnote': getCB('.cg-membnote').join('、'),
-      'f-style': getVal('f-style'), 'f-color': getVal('f-color'), 'f-custom': getVal('f-custom'),
-      'f-reference': getCB('.cg-reference').join('、'),
-      'f-function': getCB('.cg-function').join('、'),
-      'f-smarthome': getVal('f-smarthome'),
-      'f-water': getVal('f-water'), 'f-electric': getVal('f-electric'),
-      'f-hvac': getVal('f-hvac'), 'f-ventilation': getVal('f-ventilation'),
-      'f-budget': getVal('f-budget'), 'f-date': getVal('f-date'), 'f-duration': getVal('f-duration'), 'f-paytype': getVal('f-paytype'),
-      'f-special': getCB('.cg-special').join('、'),
-      'f-notes': getVal('f-notes'),
-    };
+      const record = {
+        'f-name': name, 'f-phone': phone,
+        'f-gender': getVal('f-gender'), 'f-age': getVal('f-age'), 'f-job': getVal('f-job'),
+        'f-source': getVal('f-source'), 'f-urgency': getVal('f-urgency'), 'f-pet': getVal('f-pet'),
+        'f-area': getVal('f-area'), 'f-type': getVal('f-type'), 'f-housetype': getVal('f-housetype'),
+        'f-floor': getVal('f-floor'), 'f-direction': getVal('f-direction'), 'f-buildyear': getVal('f-buildyear'),
+        'f-floorheight': getVal('f-floorheight'), 'f-elevator': getVal('f-elevator'), 'f-address': getVal('f-address'),
+        'f-members': getVal('f-members'), 'f-elderly': getVal('f-elderly'), 'f-children': getVal('f-children'), 'f-childcount': getVal('f-childcount'),
+        'f-membnote': getCB('.cg-membnote').join('、'),
+        'f-style': getVal('f-style'), 'f-color': getVal('f-color'), 'f-custom': getVal('f-custom'),
+        'f-reference': getCB('.cg-reference').join('、'),
+        'f-function': getCB('.cg-function').join('、'),
+        'f-smarthome': getVal('f-smarthome'),
+        'f-water': getVal('f-water'), 'f-electric': getVal('f-electric'),
+        'f-hvac': getVal('f-hvac'), 'f-ventilation': getVal('f-ventilation'),
+        'f-budget': getVal('f-budget'), 'f-date': getVal('f-date'), 'f-duration': getVal('f-duration'), 'f-paytype': getVal('f-paytype'),
+        'f-special': getCB('.cg-special').join('、'),
+        'f-notes': getVal('f-notes'),
+      };
 
-    if (API) {
-      // 使用后端 API
-      const payload = editingId ? { ...record, id: editingId } : record;
-      const method = editingId ? 'PUT' : 'POST';
-      try {
-        const res = await fetch(API + '/api/customers', {
-          method, headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error('保存失败');
-        const data = await res.json();
-        showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
-      } catch(e) {
-        // 降级到 localStorage
+      if (API) {
+        const payload = editingId ? { ...record, id: editingId } : record;
+        const method = editingId ? 'PUT' : 'POST';
+        try {
+          const res = await fetch(API + '/api/customers', {
+            method, headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('保存失败');
+          showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
+        } catch(e) {
+          saveToLocal(record);
+        }
+      } else {
         saveToLocal(record);
       }
-    } else {
-      saveToLocal(record);
+      switchPage('dashboard');
+    } catch(e) {
+      showToast('保存失败：' + e.message, 'error');
+      console.error('saveCustomer error:', e);
     }
-    switchPage('dashboard');
   }
 
   function saveToLocal(record) {
-    record.id = editingId || Date.now().toString();
-    record.createdAt = record.createdAt || new Date().toISOString();
-    if (editingId) {
-      const idx = customers.findIndex(c => c.id === editingId);
-      if (idx >= 0) customers[idx] = record;
-    } else {
-      customers.unshift(record);
+    try {
+      record.id = editingId || Date.now().toString();
+      record.createdAt = record.createdAt || new Date().toISOString();
+      if (editingId) {
+        const idx = customers.findIndex(c => c.id === editingId);
+        if (idx >= 0) customers[idx] = record;
+      } else {
+        customers.unshift(record);
+      }
+      localStorage.setItem('crm_customers', JSON.stringify(customers));
+      showToast(editingId ? '客户资料已更新（本地）' : '客户资料已保存（本地）', 'success');
+    } catch(e) {
+      showToast('本地存储失败：' + e.message, 'error');
+      console.error('saveToLocal error:', e);
     }
-    localStorage.setItem('crm_customers', JSON.stringify(customers));
-    showToast(editingId ? '客户资料已更新（本地）' : '客户资料已保存（本地）', 'success');
   }
 
   /* --- 加载客户 --- */
