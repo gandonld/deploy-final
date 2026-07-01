@@ -293,47 +293,106 @@
     .cb-chip:has(input:checked) .cb-dot::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; }
 
     /* ============================================================
-       标签页表单（新建客户）
+       游戏化表单 — 关卡进度系统
        ============================================================ */
-    .form-tabs-wrap { margin-bottom: 24px; }
-    .form-progress {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      margin-bottom: 20px;
-    }
-    .form-progress .fp-dot {
-      width: 10px; height: 10px; border-radius: 50%; background: var(--g200);
-      transition: all var(--trans);
-    }
-    .form-progress .fp-dot.done  { background: var(--suc); transform: scale(1.2); }
-    .form-progress .fp-dot.active {
-      background: var(--pri); transform: scale(1.4);
-      box-shadow: 0 0 0 4px var(--pri-light);
-    }
+    .form-tabs-wrap { margin-bottom: 20px; }
 
+    /* --- 星星进度条 --- */
+    .form-progress {
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+      margin-bottom: 16px; padding: 10px 0;
+    }
+    .fp-stage {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      position: relative; flex: 1;
+    }
+    .fp-stage-line {
+      position: absolute; top: 13px; left: 50%; right: -50%;
+      height: 3px; background: var(--g200); transition: background .4s ease; z-index: 0;
+    }
+    .fp-stage-line.done { background: var(--suc); }
+    .fp-stage-star {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid var(--g300); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; transition: all .3s ease; position: relative; z-index: 1;
+      cursor: pointer;
+    }
+    .fp-stage.done .fp-stage-star {
+      background: var(--suc); border-color: var(--suc); color: #fff;
+    }
+    .fp-stage.active .fp-stage-star {
+      background: var(--pri); border-color: var(--pri); color: #fff;
+      box-shadow: 0 0 0 4px var(--pri-light); transform: scale(1.2);
+    }
+    .fp-stage-label {
+      font-size: 9px; color: var(--g400); white-space: nowrap;
+      transition: color .3s ease;
+    }
+    .fp-stage.active .fp-stage-label { color: var(--pri); font-weight: 700; }
+    .fp-stage.done .fp-stage-label { color: var(--suc); }
+
+    /* --- 评级徽章（侧边栏） --- */
+    .grade-badge {
+      margin: 10px 14px; padding: 10px 12px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .grade-label { font-size: 10px; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase; }
+    .grade-row { display: flex; align-items: center; gap: 8px; }
+    .grade-stars { font-size: 14px; letter-spacing: 1px; }
+    .grade-text { font-size: 12px; font-weight: 700; }
+    .grade-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 4px; height: 4px; overflow: hidden; }
+    .grade-bar { height: 4px; border-radius: 4px; background: var(--g400); transition: width .4s ease, background .4s ease; width: 0%; }
+
+    /* --- 关卡标签样式 --- */
     .form-tabs {
-      display: flex; gap: 4px; background: var(--g100); padding: 4px;
+      display: flex; gap: 3px; background: var(--g100); padding: 4px;
       border-radius: 12px; overflow-x: auto; scrollbar-width: none;
     }
     .form-tabs::-webkit-scrollbar { display: none; }
     .form-tab {
-      flex: 1; min-width: 90px; padding: 10px 8px; border-radius: 10px;
+      flex: 1; min-width: 78px; padding: 9px 6px; border-radius: 10px;
       text-align: center; cursor: pointer; transition: all var(--trans);
-      font-size: 12.5px; font-weight: 600; color: var(--g500); white-space: nowrap;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      font-size: 11.5px; font-weight: 600; color: var(--g500); white-space: nowrap;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      position: relative;
     }
     .form-tab:hover { color: var(--g700); background: rgba(255,255,255,0.6); }
     .form-tab.active { background: #fff; color: var(--pri); box-shadow: var(--shadow); }
-    .form-tab .ft-icon { font-size: 18px; }
-    .form-tab .ft-num {
-      width: 18px; height: 18px; border-radius: 50%; background: var(--g200);
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; color: var(--g500); transition: all var(--trans);
+    .form-tab.cleared { color: var(--suc); }
+    .form-tab.cleared .ft-badge { background: var(--suc); color: #fff; }
+    .form-tab .ft-icon { font-size: 17px; }
+    .form-tab .ft-badge {
+      font-size: 9px; font-weight: 700; background: var(--g200); color: var(--g500);
+      padding: 1px 5px; border-radius: 8px; transition: all var(--trans);
     }
-    .form-tab.active .ft-num { background: var(--pri); color: #fff; }
+    .form-tab.active .ft-badge { background: var(--pri); color: #fff; }
 
     .form-tab-panel { display: none; animation: tabIn .3s ease; }
     .form-tab-panel.show { display: block; }
     @keyframes tabIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* --- 关卡顶部横幅 --- */
+    .stage-banner {
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+      border-radius: 12px; margin-bottom: 16px;
+      background: linear-gradient(90deg, var(--pri) 0%, #3b82f6 100%);
+      color: #fff; position: relative; overflow: hidden;
+    }
+    .stage-banner::after {
+      content: ''; position: absolute; right: -20px; top: -20px;
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .stage-num {
+      width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; flex-shrink: 0;
+    }
+    .stage-info { flex: 1; }
+    .stage-info .si-title { font-size: 15px; font-weight: 700; }
+    .stage-info .si-desc { font-size: 12px; opacity: 0.8; margin-top: 2px; }
 
     .form-section {
       background: #fff; border: 1px solid var(--g200); border-radius: var(--r-lg);
@@ -346,13 +405,43 @@
     }
     .form-section-title .fst-icon { font-size: 18px; color: var(--pri); }
 
-    .form-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+    .form-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; gap: 8px; }
     .form-save-bar {
       display: flex; align-items: center; gap: 16px; padding: 14px 20px;
       margin-top: 20px; background: var(--g50); border-radius: 12px;
       border: 1px solid var(--g200);
       position: sticky; bottom: 8px; z-index: 10;
       box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    }
+
+    /* --- 庆祝弹窗 --- */
+    .celebrate-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      z-index: 5000; align-items: center; justify-content: center;
+    }
+    .celebrate-overlay.show { display: flex; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    .celebrate-box {
+      background: #fff; border-radius: 24px; padding: 48px 40px;
+      text-align: center; max-width: 380px; width: 90%;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.6) translateY(40px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .celebrate-icon { font-size: 64px; margin-bottom: 16px; display: block; animation: bounce 1s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .celebrate-title { font-size: 22px; font-weight: 800; color: var(--g900); margin-bottom: 8px; }
+    .celebrate-grade { font-size: 32px; margin: 12px 0; }
+    .celebrate-desc { font-size: 14px; color: var(--g500); line-height: 1.7; margin-bottom: 24px; }
+    .confetti {
+      position: absolute; width: 10px; height: 10px; border-radius: 2px;
+      animation: confettiFall 2.5s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-50px) rotate(0deg); opacity:1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity:0; }
     }
 
     /* ============================================================
@@ -475,9 +564,16 @@
 
       /* 表单手机适配 */
       .form-tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .form-tabs { min-width: max-content; gap: 4px; }
-      .form-tab { min-width: 68px; padding: 8px 6px; font-size: 11px; }
-      .form-tab .ft-icon { font-size: 16px; margin-bottom: 2px; }
+      .form-tabs { min-width: max-content; gap: 3px; }
+      .form-tab { min-width: 62px; padding: 8px 5px; font-size: 10.5px; }
+      .form-tab .ft-icon { font-size: 15px; margin-bottom: 1px; }
+      .form-tab .ft-badge { font-size: 8px; padding: 1px 4px; }
+      .stage-banner { padding: 12px 14px; }
+      .stage-num { width: 34px; height: 34px; font-size: 15px; }
+      .stage-info .si-title { font-size: 13px; }
+      .stage-info .si-desc { font-size: 11px; }
+      .fp-stage-label { display: none; }
+      .fp-stage-star { width: 22px; height: 22px; font-size: 10px; }
       .form-row { grid-template-columns: 1fr; }
       .form-section { padding: 14px; }
       .form-nav-btns { flex-direction: column; gap: 8px; }
@@ -552,6 +648,15 @@
       </div>
       <div class="side-item" onclick="switchPage('form');openForm()" id="nav-form">
         <span class="si-icon">➕</span> 新建客户
+      </div>
+      <!-- 档案评级（新建客户时显示） -->
+      <div class="grade-badge" id="gradeBadge" style="display:none;">
+        <div class="grade-label">📊 档案评级</div>
+        <div class="grade-row">
+          <span class="grade-stars" id="gradeStars">☆☆☆☆☆</span>
+          <span class="grade-text" id="gradeText" style="color:#64748b;">待填写</span>
+        </div>
+        <div class="grade-bar-wrap"><div class="grade-bar" id="gradeBar"></div></div>
       </div>
       <div class="side-item" onclick="switchPage('list')" id="nav-list">
         <span class="si-icon">📋</span> 客户列表
@@ -673,6 +778,15 @@
           <!-- 标签页导航 -->
           <div class="form-tabs-wrap">
             <div class="form-tabs" id="formTabs"></div>
+          </div>
+
+          <!-- 关卡横幅 -->
+          <div class="stage-banner" id="stageBanner">
+            <div class="stage-num" id="stageNum">1</div>
+            <div class="stage-info">
+              <div class="si-title" id="stageTitle">第 1 关 · 基本信息</div>
+              <div class="si-desc" id="stageDesc">填写客户的基本联系信息</div>
+            </div>
           </div>
 
           <!-- 表单面板 -->
@@ -1262,6 +1376,17 @@
     </div>
   </div>
 
+  <!-- 🎉 归档庆祝弹窗 -->
+  <div class="celebrate-overlay" id="celebrateOverlay">
+    <div class="celebrate-box" style="position:relative;">
+      <span class="celebrate-icon" id="celebrateIcon">🎉</span>
+      <div class="celebrate-title">档案归档成功！</div>
+      <div class="celebrate-grade" id="celebrateGrade">🥇 金牌档案</div>
+      <div class="celebrate-desc" id="celebrateDesc">完整度 80%，信息详实，便于后续跟进！</div>
+      <button class="btn btn-primary" onclick="closeCelebrate()" style="width:100%;padding:14px;">太棒了，继续</button>
+    </div>
+  </div>
+
   <script>
   /* ============================================================
      JS: 核心逻辑（尽量复用原有逻辑，只做必要的适配）
@@ -1271,6 +1396,19 @@
   let editingId = null;
   let currentTab = 0;
   const TAB_NAMES = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期','其他需求'];
+  const TAB_ICONS = ['👤','🏠','👨‍👩‍👧‍👦','🎨','🏗️','🔧','💰','📝'];
+  const TAB_DESCS = [
+    '填写客户的基本联系信息',
+    '了解房屋基本情况',
+    '掌握家庭结构与生活习惯',
+    '挖掘装修风格偏好',
+    '明确各功能区的需求',
+    '了解水电暖通需求',
+    '确认预算与工期计划',
+    '补充其他特殊需求'
+  ];
+  // 已通关的标签页集合
+  const clearedTabs = new Set();
 
   /* --- 初始化 --- */
   let pendingPage = null;   // 验证后要跳转的页面
@@ -1335,6 +1473,11 @@
     if (page === 'list') renderList();
     if (page === 'backup') updateStorageInfo();
     if (page === 'dashboard') { renderDashboard(); setWelcome(); }
+    // 切离表单时隐藏评级
+    if (page !== 'form') {
+      const badge = document.getElementById('gradeBadge');
+      if (badge) badge.style.display = 'none';
+    }
   }
 
   /* --- 欢迎语 --- */
@@ -1350,46 +1493,141 @@
     document.getElementById('welcomeMsg').textContent = msg;
   }
 
-  /* --- 构建表单标签页 --- */
+  /* --- 构建表单标签页（游戏化关卡版）--- */
   function buildFormTabs() {
     const navTabs = document.getElementById('formTabs');
     const progress = document.getElementById('formProgress');
     navTabs.innerHTML = '';
     progress.innerHTML = '';
     TAB_NAMES.forEach((name, i) => {
+      // 标签页按钮
       const tab = document.createElement('div');
       tab.className = 'form-tab' + (i === 0 ? ' active' : '');
       tab.onclick = () => goTab(i);
-      tab.innerHTML = `<span class="ft-icon">${['👤','🏠','👨‍👩‍👧‍👦','🎨','🏗️','🔧','💰','📝'][i]}</span><span>${name}</span><span class="ft-num">${i+1}</span>`;
+      tab.id = 'ftab-btn-' + i;
+      tab.innerHTML = `<span class="ft-icon">${TAB_ICONS[i]}</span><span>${name}</span><span class="ft-badge">第${i+1}关</span>`;
       navTabs.appendChild(tab);
 
-      const dot = document.createElement('div');
-      dot.className = 'fp-dot' + (i === 0 ? ' active' : '');
-      dot.id = 'fp-dot-'+i;
-      progress.appendChild(dot);
+      // 进度星星
+      const stage = document.createElement('div');
+      stage.className = 'fp-stage' + (i === 0 ? ' active' : '');
+      stage.id = 'fp-stage-'+i;
+      stage.onclick = () => goTab(i);
+
+      // 连接线（除最后一个）
       if (i < TAB_NAMES.length - 1) {
-        const bar = document.createElement('div');
-        bar.style.cssText = 'width:20px;height:2px;background:var(--g200);border-radius:1px;';
-        progress.appendChild(bar);
+        const line = document.createElement('div');
+        line.className = 'fp-stage-line';
+        line.id = 'fp-line-'+i;
+        stage.appendChild(line);
       }
+      const star = document.createElement('div');
+      star.className = 'fp-stage-star';
+      star.textContent = i + 1;
+      stage.appendChild(star);
+
+      const label = document.createElement('div');
+      label.className = 'fp-stage-label';
+      label.textContent = name;
+      stage.appendChild(label);
+
+      progress.appendChild(stage);
     });
     showTabPanel(0);
+    updateStageBanner(0);
   }
 
   function goTab(i) {
     currentTab = i;
     updateTabUI();
     showTabPanel(i);
+    updateStageBanner(i);
+    updateGradeScore();
   }
-  function nextTab() { if (currentTab < TAB_NAMES.length - 1) goTab(currentTab + 1); }
+  function nextTab() {
+    if (currentTab < TAB_NAMES.length - 1) {
+      // 标记当前关卡已通过
+      clearedTabs.add(currentTab);
+      goTab(currentTab + 1);
+      // 小庆祝 toast
+      const stageLabels = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期'];
+      showToast('✅ 第' + (currentTab) + '关通过！继续加油', 'success');
+    }
+  }
   function prevTab() { if (currentTab > 0) goTab(currentTab - 1); }
+
   function updateTabUI() {
-    document.querySelectorAll('.form-tab').forEach((t,i) => t.classList.toggle('active', i === currentTab));
-    document.querySelectorAll('.fp-dot').forEach((d,i) => {
-      d.classList.remove('active','done');
-      if (i === currentTab) d.classList.add('active');
-      else if (i < currentTab) d.classList.add('done');
+    document.querySelectorAll('.form-tab').forEach((t,i) => {
+      t.classList.remove('active','cleared');
+      if (i === currentTab) t.classList.add('active');
+      else if (clearedTabs.has(i)) t.classList.add('cleared');
     });
+    document.querySelectorAll('.fp-stage').forEach((s,i) => {
+      s.classList.remove('active','done');
+      if (i === currentTab) s.classList.add('active');
+      else if (clearedTabs.has(i) || i < currentTab) s.classList.add('done');
+    });
+    // 连接线颜色
+    for (let i = 0; i < TAB_NAMES.length - 1; i++) {
+      const line = document.getElementById('fp-line-'+i);
+      if (line) line.classList.toggle('done', i < currentTab);
+    }
+  }
+
+  function updateStageBanner(i) {
+    document.getElementById('stageNum').textContent = i + 1;
+    document.getElementById('stageTitle').textContent = '第 ' + (i+1) + ' 关 · ' + TAB_NAMES[i];
+    document.getElementById('stageDesc').textContent = TAB_DESCS[i];
+    // 关卡颜色主题
+    const colors = [
+      '#1d4ed8,#3b82f6','#059669,#10b981','#7c3aed,#8b5cf6','#db2777,#ec4899',
+      '#d97706,#f59e0b','#dc2626,#ef4444','#0891b2,#06b6d4','#374151,#6b7280'
+    ];
+    const [c1,c2] = colors[i].split(',');
+    document.getElementById('stageBanner').style.background = `linear-gradient(90deg,${c1} 0%,${c2} 100%)`;
+  }
+
+  /* --- 实时评级计算 --- */
+  function updateGradeScore() {
+    const getV = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    const getCBLen = cls => document.querySelectorAll(cls+':checked').length;
+
+    // 计分项（共20项）
+    const checks = [
+      getV('f-name'), getV('f-phone'), getV('f-gender'), getV('f-age'), getV('f-job'),
+      getV('f-source'), getV('f-urgency'),
+      getV('f-area'), getV('f-type'), getV('f-housetype'), getV('f-floor'), getV('f-address'),
+      getV('f-members'),
+      getV('f-style'), getV('f-color'),
+      getCBLen('.cg-function') > 0 ? 'y' : '',
+      getV('f-budget'), getV('f-date'),
+      getCBLen('.cg-special') > 0 ? 'y' : '',
+      getV('f-notes'),
+    ];
+    const filled = checks.filter(v => v && v !== '' && v !== '否' && v !== '无').length;
+    const pct = Math.round((filled / checks.length) * 100);
+
+    // 评级
+    let grade, gradeColor, stars, icon;
+    if (pct >= 90)      { grade = '白金档案'; stars = '★★★★★'; gradeColor = '#7c3aed'; icon = '💎'; }
+    else if (pct >= 70) { grade = '金牌档案'; stars = '★★★★☆'; gradeColor = '#d97706'; icon = '🥇'; }
+    else if (pct >= 50) { grade = '银牌档案'; stars = '★★★☆☆'; gradeColor = '#64748b'; icon = '🥈'; }
+    else if (pct >= 25) { grade = '铜牌档案'; stars = '★★☆☆☆'; gradeColor = '#92400e'; icon = '🥉'; }
+    else                { grade = '待填写';   stars = '☆☆☆☆☆'; gradeColor = '#94a3b8'; icon = '📋'; }
+
+    const gradeEl = document.getElementById('gradeText');
+    const starsEl = document.getElementById('gradeStars');
+    const barEl   = document.getElementById('gradeBar');
+    if (gradeEl) {
+      gradeEl.textContent = grade;
+      gradeEl.style.color = gradeColor;
+    }
+    if (starsEl) starsEl.textContent = stars;
+    if (barEl) {
+      barEl.style.width = pct + '%';
+      barEl.style.background = gradeColor;
+    }
+    return { pct, grade, stars, icon };
   }
   function showTabPanel(i) {
     document.querySelectorAll('.form-tab-panel').forEach((p,j) => p.classList.toggle('show', j === i));
@@ -1400,7 +1638,15 @@
     editingId = null;
     document.getElementById('customerForm').reset();
     document.querySelectorAll('.cg-reference,.cg-function,.cg-special,.cg-membnote').forEach(cb => cb.checked = false);
+    clearedTabs.clear();
     goTab(0);
+    // 显示评级徽章
+    const badge = document.getElementById('gradeBadge');
+    if (badge) badge.style.display = 'flex';
+    updateGradeScore();
+    // 监听所有字段变化实时更新评级
+    document.getElementById('customerForm').addEventListener('change', updateGradeScore);
+    document.getElementById('customerForm').addEventListener('input', updateGradeScore);
   }
 
   /* --- 保存客户 --- */
@@ -1454,7 +1700,9 @@
       }
 
       showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
-      switchPage('dashboard');
+      // 显示庆祝弹窗
+      if (!editingId) showCelebrate();
+      else doSwitchPage('dashboard');
     } catch(e) {
       showToast('保存失败：' + e.message, 'error');
       console.error('saveCustomer error:', e);
@@ -1661,10 +1909,42 @@
       document.getElementById('searchInput').value = val;
       renderList();
     }
+  /* --- 庆祝弹窗 --- */
+  function showCelebrate() {
+    const { pct, grade, stars, icon } = updateGradeScore();
+    document.getElementById('celebrateIcon').textContent = icon;
+    document.getElementById('celebrateGrade').textContent = stars + ' ' + grade;
+    const tips = {
+      '白金档案': '满分填写，信息极为详实！您是档案管理之王！',
+      '金牌档案': '完整度很高，后续跟进将事半功倍！',
+      '银牌档案': '基本信息完备，建议补充更多细节。',
+      '铜牌档案': '已初步建立档案，后续跟进时可继续完善。',
+      '待填写': '档案较为简单，建议后续补充更多信息。'
+    };
+    document.getElementById('celebrateDesc').textContent = `完整度 ${pct}%，${tips[grade]||''}`;
+    document.getElementById('celebrateOverlay').classList.add('show');
+    launchConfetti();
+  }
+
+  function closeCelebrate() {
+    document.getElementById('celebrateOverlay').classList.remove('show');
+    const badge = document.getElementById('gradeBadge');
+    if (badge) badge.style.display = 'none';
+    doSwitchPage('dashboard');
+  }
+
+  function launchConfetti() {
+    const colors = ['#1d4ed8','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2'];
+    for (let i = 0; i < 50; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.cssText = 'left:'+Math.random()*100+'vw;top:'+(Math.random()*-50)+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(6+Math.random()*8)+'px;height:'+(6+Math.random()*8)+'px;border-radius:'+(Math.random()>0.5?'50%':'2px')+';animation-delay:'+(Math.random()*1.5)+'s;animation-duration:'+(2+Math.random()*1.5)+'s;position:fixed;z-index:4999;pointer-events:none;';
+      document.body.appendChild(c);
+      setTimeout(() => { try{ c.remove(); }catch(e){} }, 4000);
+    }
   }
 
   /* --- Toast --- */
-  function showToast(msg, type='success') {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast toast-' + type;
