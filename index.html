@@ -3,575 +3,742 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
-  <title>蜂云装饰 · 客户资料管理系统</title>
+  <title>蜂云装饰 · 冒险公会</title>
   <style>
     /* ============================================================
-       ENTREPRISE DESIGN SYSTEM — 蜂云装饰 CRM
-       Inspired by: SAP Fiori, Salesforce Lightning, Oracle ERP
+       蜂云·冒险公会 — GAME UI DESIGN SYSTEM
+       Inspired by: RPG Adventure Guild, Dark Fantasy UI
        ============================================================ */
 
-    /* --- Reset & Root --- */
+    /* --- 基础变量 --- */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      /* 企业级色彩体系 */
-      --side-bg:    #0f172a;   /* 侧边栏深蓝黑   */
-      --side-hover: #1e293b;   /* 侧边栏悬停     */
-      --side-active:#1d4ed8;   /* 侧边栏选中     */
-      --head-bg:    #ffffff;   /* 顶部栏背景     */
-      --body-bg:    #f1f5f9;   /* 页面背景灰     */
-      --card-bg:    #ffffff;   /* 卡片白         */
-      --pri:        #1d4ed8;   /* 品牌蓝         */
-      --pri-light:  #dbeafe;   /* 品牌蓝浅底     */
-      --pri-dark:   #1e40af;   /* 品牌蓝深       */
-      --suc:        #059669;   /* 成功绿         */
-      --suc-light:  #d1fae5;
-      --war:        #d97706;   /* 警告琥珀       */
-      --war-light:  #fef3c7;
-      --dan:        #dc2626;   /* 危险红         */
-      --dan-light:  #fee2e2;
-      --inf:        #0891b2;   /* 信息青         */
-      --inf-light:  #cffafe;
-      --g50: #f8fafc; --g100: #f1f5f9; --g200: #e2e8f0;
-      --g300: #cbd5e1; --g400: #94a3b8; --g500: #64748b;
-      --g600: #475569; --g700: #334155; --g800: #1e293b;
-      --g900: #0f172a;
-
-      --r:       10px;        /* 圆角基准       */
-      --r-lg:    16px;        /* 大圆角         */
-      --shadow:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-lg:0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
-      --shadow-xl:0 20px 40px rgba(0,0,0,0.12);
-      --font: 'PingFang SC', 'Microsoft YaHei', -apple-system, 'Segoe UI', system-ui, sans-serif;
-      --side-w:   240px;      /* 侧边栏宽度     */
-      --head-h:   56px;       /* 顶部栏高度     */
-      --trans:    .2s cubic-bezier(.4,0,.2,1);
+      --bg-deep:   #08081c;
+      --bg-surface:#0f0f2d;
+      --bg-card:   #181840;
+      --bg-hover:  #222258;
+      --border:    #2a2a60;
+      --border-lit:#4a4a90;
+      --gold:         #ffd700;
+      --gold-dark:    #b8960f;
+      --gold-glow:    rgba(255,215,0,0.25);
+      --gold-soft:    rgba(255,215,0,0.08);
+      --emerald:      #00e5a0;
+      --emerald-glow: rgba(0,229,160,0.3);
+      --emerald-soft: rgba(0,229,160,0.08);
+      --sapphire:     #4da6ff;
+      --sapphire-glow:rgba(77,166,255,0.3);
+      --sapphire-soft:rgba(77,166,255,0.08);
+      --ruby:         #ff4d6a;
+      --ruby-glow:    rgba(255,77,106,0.3);
+      --ruby-soft:    rgba(255,77,106,0.08);
+      --amethyst:     #b366ff;
+      --amethyst-glow:rgba(179,102,255,0.3);
+      --amethyst-soft:rgba(179,102,255,0.08);
+      --amber:        #ffb347;
+      --amber-glow:   rgba(255,179,71,0.3);
+      --text:         #dddde8;
+      --text-dim:     #8888aa;
+      --text-muted:   #5a5a88;
+      --font: 'PingFang SC','Microsoft YaHei',-apple-system,system-ui,sans-serif;
+      --side-w: 240px;
+      --head-h: 54px;
+      --r: 8px;
+      --r-lg: 14px;
+      --trans: .25s cubic-bezier(.4,0,.2,1);
     }
 
+    /* --- 星空背景粒子动画 --- */
     html { font-size: 14px; }
     body {
-      font-family: var(--font); color: var(--g800); background: var(--body-bg);
-      line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
-      display: flex; overflow-x: hidden;
+      font-family: var(--font); color: var(--text); background: var(--bg-deep);
+      line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100dvh;
+      display: flex; overflow-x: hidden; position: relative;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.4), transparent),
+        radial-gradient(1px 1px at 25% 55%, rgba(255,255,255,.3), transparent),
+        radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,.35), transparent),
+        radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.28), transparent),
+        radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,.33), transparent),
+        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,.25), transparent),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.3), transparent),
+        radial-gradient(1.5px 1.5px at 60% 90%, rgba(255,255,255,.28), transparent),
+        radial-gradient(2px 2px at 78% 12%, rgba(255,215,0,.2), transparent),
+        radial-gradient(1px 1px at 32% 42%, rgba(0,229,160,.15), transparent),
+        radial-gradient(1.5px 1.5px at 92% 78%, rgba(77,166,255,.18), transparent);
+      animation: starTwinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes starTwinkle {
+      0%   { opacity: 0.7; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.7; }
     }
 
-    /* --- 侧边栏 --- */
+    /* --- 漂浮光点 --- */
+    .floating-particles {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .particle {
+      position: absolute; border-radius: 50%;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      20%  { opacity: 0.8; }
+      80%  { opacity: 0.3; }
+      100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+    }
+
+    /* ================================================
+       侧边栏 — 暗黑公会面板
+       ================================================ */
     .sidebar {
       position: fixed; top: 0; left: 0; bottom: 0; width: var(--side-w);
-      background: var(--side-bg); color: #cbd5e1; z-index: 200;
-      display: flex; flex-direction: column; transition: transform var(--trans);
-      overflow-y: auto; overflow-x: hidden; scrollbar-width: thin;
+      background: linear-gradient(180deg, #0c0c2d 0%, #0f0f35 50%, #0a0a28 100%);
+      border-right: 1px solid var(--border);
+      z-index: 200; display: flex; flex-direction: column;
+      transition: transform var(--trans); overflow-y: auto; overflow-x: hidden;
+      box-shadow: 2px 0 30px rgba(0,0,0,0.5);
     }
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
     .side-logo {
-      padding: 18px 20px; display: flex; align-items: center; gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+      padding: 20px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
+      position: relative;
+    }
+    .side-logo::after {
+      content: ''; position: absolute; bottom: -1px; left: 20px; right: 20px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
     .side-logo .logo-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, #ffd700, #b8960f);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
+      font-size: 20px; flex-shrink: 0; box-shadow: 0 0 16px var(--gold-glow);
+      position: relative;
     }
-    .side-logo .logo-text { font-size: 15px; font-weight: 700; color: #f1f5f9; letter-spacing: 0.5px; }
-    .side-logo .logo-sub  { font-size: 11px; color: #64748b; font-weight: 400; }
+    .side-logo .logo-icon::after {
+      content: ''; position: absolute; inset: -2px; border-radius: 12px;
+      border: 1px solid rgba(255,215,0,0.3);
+      animation: borderPulse 2s ease-in-out infinite;
+    }
+    @keyframes borderPulse {
+      0%,100% { border-color: rgba(255,215,0,0.2); }
+      50%     { border-color: rgba(255,215,0,0.5); }
+    }
+    .side-logo .logo-text { font-size: 15px; font-weight: 800; color: #e8e8f0; letter-spacing: 1px; }
+    .side-logo .logo-sub  { font-size: 10px; color: #6a6a90; font-weight: 400; letter-spacing: 0.5px; }
 
     .side-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
-    .side-label { font-size: 11px; color: #475569; padding: 16px 12px 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .side-label {
+      font-size: 10px; color: #4a4a7a; padding: 18px 14px 8px;
+      text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+    }
     .side-item {
       display: flex; align-items: center; gap: 12px; padding: 10px 14px;
       border-radius: 8px; cursor: pointer; transition: all var(--trans);
-      font-size: 13.5px; font-weight: 500; color: #94a3b8; position: relative;
+      font-size: 13.5px; font-weight: 500; color: #7a7aaa; position: relative;
     }
-    .side-item:hover { background: var(--side-hover); color: #e2e8f0; }
+    .side-item:hover { background: var(--bg-hover); color: #b8b8d8; }
     .side-item.active {
-      background: rgba(29,78,216,0.25); color: #60a5fa; font-weight: 600;
+      background: linear-gradient(90deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
+      color: var(--gold); font-weight: 600;
+      box-shadow: inset 3px 0 0 var(--gold);
     }
-    .side-item.active::before {
-      content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px;
-      border-radius: 0 3px 3px 0; background: var(--pri);
+    .side-item.active::after {
+      content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px;
+      background: var(--gold); border-radius: 2px; box-shadow: 0 0 8px var(--gold-glow);
     }
-    .side-item .si-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+    .side-item .si-icon { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; opacity: 0.85; }
     .side-item .si-badge {
-      margin-left: auto; background: var(--dan); color: #fff;
-      font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px; min-width: 20px; text-align: center;
+      margin-left: auto; background: var(--ruby); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+      min-width: 22px; text-align: center; box-shadow: 0 0 8px var(--ruby-glow);
     }
 
     .side-footer {
-      padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 14px 16px; border-top: 1px solid var(--border);
       display: flex; align-items: center; gap: 10px; flex-shrink: 0;
     }
     .side-footer .avatar {
-      width: 34px; height: 34px; border-radius: 50%; background: var(--pri);
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #4da6ff, #2563eb);
       display: flex; align-items: center; justify-content: center;
       font-size: 14px; color: #fff; font-weight: 700; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(77,166,255,0.3); border: 2px solid rgba(77,166,255,0.2);
     }
     .side-footer .user-info { flex: 1; min-width: 0; }
-    .side-footer .user-name { font-size: 13px; color: #e2e8f0; font-weight: 600; }
-    .side-footer .user-role { font-size: 11px; color: #64748b; }
+    .side-footer .user-name { font-size: 13px; color: #e2e2f0; font-weight: 700; }
+    .side-footer .user-role { font-size: 10px; color: #6a6a90; }
+    .side-footer .user-level {
+      font-size: 10px; color: var(--gold); font-weight: 700;
+      background: var(--gold-soft); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,215,0,0.15);
+    }
 
-    /* --- 主内容区 --- */
-    .main-wrap { margin-left: var(--side-w); flex: 1; display: flex; flex-direction: column; min-height: 100dvh; }
+    /* --- 评级徽章（侧边栏） --- */
+    .grade-badge {
+      margin: 8px 14px; padding: 12px; border-radius: 10px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .grade-label { font-size: 10px; color: #5a5a80; letter-spacing: 1px; text-transform: uppercase; }
+    .grade-row { display: flex; align-items: center; gap: 8px; }
+    .grade-stars { font-size: 14px; letter-spacing: 1px; }
+    .grade-text { font-size: 12px; font-weight: 700; }
+    .grade-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 4px; height: 4px; overflow: hidden; }
+    .grade-bar { height: 4px; border-radius: 4px; background: var(--sapphire); transition: width .4s, background .4s; width: 0%; box-shadow: 0 0 6px var(--sapphire-glow); }
+
+    /* ================================================
+       主内容区
+       ================================================ */
+    .main-wrap { margin-left: var(--side-w); flex: 1; display: flex; flex-direction: column; min-height: 100dvh; position: relative; z-index: 1; }
 
     /* --- 顶部栏 --- */
     .topbar {
-      height: var(--head-h); background: var(--head-bg);
-      border-bottom: 1px solid var(--g200); padding: 0 24px;
+      height: var(--head-h); background: var(--bg-surface);
+      border-bottom: 1px solid var(--border); padding: 0 24px;
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+      backdrop-filter: blur(12px);
     }
     .topbar-left { display: flex; align-items: center; gap: 16px; }
-    .topbar-page-title { font-size: 16px; font-weight: 700; color: var(--g800); }
-    .topbar-page-sub  { font-size: 12px; color: var(--g400); margin-top: 1px; }
+    .topbar-page-title { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; }
+    .topbar-page-sub  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
     .topbar-right { display: flex; align-items: center; gap: 12px; }
-    .topbar-search {
-      position: relative;
-    }
+    .topbar-search { position: relative; }
     .topbar-search input {
-      width: 220px; padding: 7px 14px 7px 34px; border: 1px solid var(--g200);
-      border-radius: 8px; font-size: 13px; background: var(--g50);
-      transition: all var(--trans); color: var(--g700);
+      width: 220px; padding: 7px 14px 7px 34px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 13px; background: var(--bg-deep); color: var(--text);
+      transition: all var(--trans);
     }
-    .topbar-search input:focus { outline: none; border-color: var(--pri); background: #fff; width: 280px; box-shadow: 0 0 0 3px var(--pri-light); }
-    .topbar-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--g400); }
+    .topbar-search input:focus { outline: none; border-color: var(--sapphire); width: 280px; box-shadow: 0 0 12px var(--sapphire-soft); }
+    .topbar-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-muted); }
     .topbar-btn {
-      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--g200);
-      background: #fff; cursor: pointer; display: flex; align-items: center;
-      justify-content: center; font-size: 16px; transition: all var(--trans); color: var(--g500);
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg-deep); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 15px; transition: all var(--trans); color: var(--text-dim);
     }
-    .topbar-btn:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
+    .topbar-btn:hover { border-color: var(--sapphire); color: var(--sapphire); box-shadow: 0 0 12px var(--sapphire-soft); }
 
     /* --- 内容容器 --- */
     .content { flex: 1; padding: 24px; max-width: 1400px; width: 100%; }
     .content-fluid { max-width: 100%; }
 
-    /* --- 页面切换 --- */
+    /* --- 页面切换动画 --- */
     .page { display: none; }
-    .page.show { display: block; animation: pageIn .3s ease; }
-    @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* --- 卡片 --- */
-    .card {
-      background: var(--card-bg); border-radius: var(--r-lg); padding: 20px;
-      box-shadow: var(--shadow); border: 1px solid var(--g200);
-      transition: box-shadow var(--trans);
+    .page.show { display: block; animation: pageIn .4s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .card:hover { box-shadow: var(--shadow-lg); }
+
+    /* ================================================
+       卡片系统
+       ================================================ */
+    .card {
+      background: var(--bg-card); border-radius: var(--r-lg); padding: 24px;
+      border: 1px solid var(--border); transition: all var(--trans);
+      position: relative;
+    }
+    .card::before {
+      content: ''; position: absolute; inset: 0; border-radius: var(--r-lg);
+      border: 1px solid transparent; pointer-events: none;
+      transition: border-color var(--trans);
+    }
+    .card:hover::before { border-color: rgba(255,215,0,0.15); }
     .card-header {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--g100);
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
-    .card-title { font-size: 15px; font-weight: 700; color: var(--g800); display: flex; align-items: center; gap: 8px; }
-    .card-title .ct-icon { font-size: 18px; color: var(--pri); }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 10px; }
+    .card-title .ct-icon { font-size: 20px; }
 
-    /* --- 统计卡片 --- */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .stat-card {
-      background: var(--card-bg); border-radius: var(--r-lg); padding: 20px;
-      box-shadow: var(--shadow); border: 1px solid var(--g200);
-      display: flex; align-items: flex-start; gap: 16px; transition: all var(--trans);
-      position: relative; overflow: hidden;
+    /* ================================================
+       统计水晶球
+       ================================================ */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-orb {
+      background: var(--bg-card); border-radius: var(--r-lg); padding: 22px;
+      border: 1px solid var(--border); display: flex; align-items: center; gap: 16px;
+      transition: all var(--trans); position: relative; overflow: hidden;
     }
-    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-    .stat-card::after {
-      content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
-      border-radius: 50%; opacity: 0.06; transform: translate(20px, -20px);
+    .stat-orb::after {
+      content: ''; position: absolute; top: -32px; right: -32px; width: 80px; height: 80px;
+      border-radius: 50%; opacity: 0.04; transition: opacity var(--trans);
     }
-    .stat-icon {
-      width: 48px; height: 48px; border-radius: 12px; display: flex;
-      align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+    .stat-orb:hover { transform: translateY(-3px); border-color: var(--border-lit); }
+    .stat-orb:hover::after { opacity: 0.08; }
+    .stat-orb-icon {
+      width: 52px; height: 52px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+      position: relative;
     }
-    .stat-body { flex: 1; }
-    .stat-label { font-size: 13px; color: var(--g500); font-weight: 500; margin-bottom: 4px; }
-    .stat-value { font-size: 28px; font-weight: 800; color: var(--g900); line-height: 1.1; }
-    .stat-trend { font-size: 12px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-    .stat-trend.up   { color: var(--suc); }
-    .stat-trend.down { color: var(--dan); }
+    .stat-orb-icon::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 50%;
+      border: 2px solid transparent; animation: orbPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); opacity: 0.3; }
+      50%     { transform: scale(1.15); opacity: 0.6; }
+    }
+    .stat-orb-body { flex: 1; }
+    .stat-orb-label { font-size: 12px; color: var(--text-dim); font-weight: 500; margin-bottom: 2px; letter-spacing: 0.5px; }
+    .stat-orb-value { font-size: 30px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: 1px; }
+    .stat-orb-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
-    /* --- 数据表格 --- */
-    .data-table-wrap { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--g200); background: #fff; }
+    /* 水晶球颜色 */
+    .orb-sapphire .stat-orb-icon { background: rgba(77,166,255,0.12); color: var(--sapphire); }
+    .orb-sapphire .stat-orb-icon::after { border-color: var(--sapphire); }
+    .orb-emerald .stat-orb-icon { background: rgba(0,229,160,0.12); color: var(--emerald); }
+    .orb-emerald .stat-orb-icon::after { border-color: var(--emerald); }
+    .orb-amber .stat-orb-icon { background: rgba(255,179,71,0.12); color: var(--amber); }
+    .orb-amber .stat-orb-icon::after { border-color: var(--amber); }
+    .orb-ruby .stat-orb-icon { background: rgba(255,77,106,0.12); color: var(--ruby); }
+    .orb-ruby .stat-orb-icon::after { border-color: var(--ruby); }
+
+    /* ================================================
+       欢迎横幅 — 冒险招募公告
+       ================================================ */
+    .hero-banner {
+      background: linear-gradient(135deg, #1a1040 0%, #0f2a3a 40%, #1a0a30 100%);
+      border-radius: var(--r-lg); padding: 32px 36px; margin-bottom: 24px;
+      position: relative; overflow: hidden; border: 1px solid var(--border);
+    }
+    .hero-banner::before {
+      content: ''; position: absolute; top: -60px; right: -40px; width: 240px; height: 240px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.08), transparent 70%);
+    }
+    .hero-banner::after {
+      content: ''; position: absolute; bottom: -30px; left: 30%; width: 160px; height: 160px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(0,229,160,0.06), transparent 70%);
+    }
+    .hero-banner-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .hero-banner-text h2 {
+      font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .hero-banner-text h2 .hero-icon { display: inline-block; animation: bounceHero 1.5s ease-in-out infinite; }
+    @keyframes bounceHero { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .hero-banner-text p { font-size: 13px; color: #8888aa; }
+    .hero-banner-action { flex-shrink: 0; }
+    .hero-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px;
+      background: linear-gradient(135deg, #ffd700, #b8960f);
+      border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; color: #1a1a3a;
+      font-weight: 700; font-size: 13px; cursor: pointer; transition: all var(--trans);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.2); letter-spacing: 0.5px;
+    }
+    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,215,0,0.25); }
+
+    /* ================================================
+       任务板 — 快捷操作
+       ================================================ */
+    .quest-board { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .quest-item {
+      display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 10px;
+      cursor: pointer; transition: all var(--trans); position: relative; overflow: hidden;
+    }
+    .quest-item:hover { border-color: var(--gold); background: var(--bg-hover); }
+    .quest-item:hover .quest-icon { transform: scale(1.15); }
+    .quest-item::after {
+      content: ''; position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid var(--border); opacity: 0; transition: all var(--trans);
+    }
+    .quest-item:hover::after { opacity: 1; border-color: var(--gold); }
+    .quest-icon {
+      width: 44px; height: 44px; border-radius: 10px; display: flex;
+      align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+      transition: transform var(--trans);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    }
+    .quest-body { flex: 1; min-width: 0; }
+    .quest-body .qb-title { font-size: 13px; font-weight: 700; color: var(--text); }
+    .quest-body .qb-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .quest-notice {
+      margin-top: 14px; padding: 12px 16px; background: rgba(255,215,0,0.04);
+      border: 1px solid rgba(255,215,0,0.1); border-radius: 8px;
+      font-size: 12px; color: var(--text-dim); line-height: 1.8;
+    }
+
+    /* ================================================
+       数据表格 — 冒险者名册
+       ================================================ */
+    .data-table-wrap {
+      overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
     .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .data-table thead { background: var(--g50); }
+    .data-table thead { background: rgba(255,255,255,0.03); }
     .data-table th {
-      padding: 12px 16px; text-align: left; font-weight: 600; color: var(--g600);
-      border-bottom: 1px solid var(--g200); white-space: nowrap; font-size: 12px;
-      text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 13px 16px; text-align: left; font-weight: 700; color: var(--gold);
+      border-bottom: 1px solid var(--border); white-space: nowrap; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 1.5px;
     }
     .data-table td {
-      padding: 14px 16px; border-bottom: 1px solid var(--g100); color: var(--g700);
-      vertical-align: middle;
+      padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-dim); vertical-align: middle;
     }
-    .data-table tbody tr { transition: background var(--trans); }
-    .data-table tbody tr:hover { background: var(--g50); }
+    .data-table tbody tr { transition: all var(--trans); }
+    .data-table tbody tr:hover { background: rgba(255,215,0,0.04); }
     .data-table tbody tr:last-child td { border-bottom: none; }
 
-    /* --- 标签/Badge --- */
+    /* --- 标签 --- */
     .badge {
       display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
-      border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap;
+      border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap;
     }
-    .badge-blue   { background: var(--pri-light); color: var(--pri-dark); }
-    .badge-green  { background: var(--suc-light); color: var(--suc); }
-    .badge-amber  { background: var(--war-light); color: var(--war); }
-    .badge-red    { background: var(--dan-light); color: var(--dan); }
-    .badge-gray   { background: var(--g100);      color: var(--g500); }
+    .badge-sapphire { background: rgba(77,166,255,0.12); color: var(--sapphire); border: 1px solid rgba(77,166,255,0.2); }
+    .badge-emerald  { background: rgba(0,229,160,0.12); color: var(--emerald);  border: 1px solid rgba(0,229,160,0.2); }
+    .badge-amber    { background: rgba(255,179,71,0.12); color: var(--amber);    border: 1px solid rgba(255,179,71,0.2); }
+    .badge-ruby     { background: rgba(255,77,106,0.12); color: var(--ruby);     border: 1px solid rgba(255,77,106,0.2); }
+    .badge-gray     { background: rgba(255,255,255,0.05); color: var(--text-muted); }
 
-    /* --- 按钮体系 --- */
+    /* ================================================
+       按钮系统
+       ================================================ */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 9px 20px; border: none; border-radius: 8px; font-size: 13.5px;
+      padding: 9px 20px; border: none; border-radius: 8px; font-size: 13px;
       font-weight: 600; cursor: pointer; transition: all var(--trans);
-      font-family: var(--font); letter-spacing: 0.2px; white-space: nowrap;
+      font-family: var(--font); letter-spacing: 0.3px; white-space: nowrap;
     }
     .btn-primary {
-      background: var(--pri); color: #fff; box-shadow: 0 1px 3px rgba(29,78,216,0.3);
+      background: linear-gradient(135deg, #ffd700, #d4a800);
+      color: #1a1a3a; font-weight: 700; text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+      box-shadow: 0 2px 8px rgba(255,215,0,0.2);
     }
-    .btn-primary:hover { background: var(--pri-dark); box-shadow: 0 4px 12px rgba(29,78,216,0.3); transform: translateY(-1px); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,215,0,0.3); }
     .btn-outline {
-      background: #fff; color: var(--g700); border: 1px solid var(--g300);
+      background: transparent; color: var(--text-dim); border: 1px solid var(--border);
     }
-    .btn-outline:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
-    .btn-danger  { background: var(--dan); color: #fff; }
-    .btn-danger:hover { background: #b91c1c; }
-    .btn-ghost {
-      background: transparent; color: var(--g500); padding: 9px 12px;
-    }
-    .btn-ghost:hover { background: var(--g100); color: var(--g800); }
-    .btn-sm { padding: 6px 14px; font-size: 12.5px; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+    .btn-danger  { background: linear-gradient(135deg, #ff4d6a, #dc2626); color: #fff; }
+    .btn-danger:hover { box-shadow: 0 4px 16px var(--ruby-glow); }
+    .btn-ghost { background: transparent; color: var(--text-dim); padding: 9px 12px; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .btn-sm { padding: 6px 14px; font-size: 12px; }
     .btn-icon {
       width: 36px; height: 36px; padding: 0; border-radius: 8px;
-      border: 1px solid var(--g200); background: #fff; cursor: pointer;
+      border: 1px solid var(--border); background: var(--bg-deep); cursor: pointer;
       display: inline-flex; align-items: center; justify-content: center;
-      font-size: 15px; transition: all var(--trans); color: var(--g500);
+      font-size: 15px; transition: all var(--trans); color: var(--text-dim);
     }
-    .btn-icon:hover { border-color: var(--pri); color: var(--pri); background: var(--pri-light); }
+    .btn-icon:hover { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 12px var(--gold-soft); }
     .btn-block { width: 100%; }
 
-    /* --- 表单 --- */
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .form-row.full { grid-template-columns: 1fr; }
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-label {
-      font-size: 13px; font-weight: 600; color: var(--g600); display: flex;
-      align-items: center; gap: 5px;
+    /* --- 搜索框 --- */
+    .search-box {
+      width: 100%; padding: 10px 16px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 13px; background: var(--bg-deep); color: var(--text);
+      margin-bottom: 16px; transition: all var(--trans);
     }
-    .form-label .req { color: var(--dan); font-weight: 700; }
-    input, select, textarea {
-      width: 100%; padding: 10px 14px; border: 1.5px solid var(--g200);
-      border-radius: 8px; font-size: 13.5px; background: #fff;
-      font-family: var(--font); color: var(--g800); transition: all var(--trans);
-    }
-    input:hover, select:hover, textarea:hover { border-color: var(--g300); }
-    input:focus, select:focus, textarea:focus {
-      outline: none; border-color: var(--pri); background: #fff;
-      box-shadow: 0 0 0 3px var(--pri-light);
-    }
-    textarea { resize: vertical; min-height: 60px; }
-    select {
-      appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
-    }
+    .search-box:focus { outline: none; border-color: var(--sapphire); box-shadow: 0 0 12px var(--sapphire-soft); }
 
-    /* --- 复选框组 --- */
-    .cb-group { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cb-chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--g200);
-      background: #fff; cursor: pointer; font-size: 13px; color: var(--g600);
-      transition: all var(--trans); user-select: none; white-space: nowrap;
-    }
-    .cb-chip:hover { border-color: var(--g300); background: var(--g50); }
-    .cb-chip input { display: none; }
-    .cb-chip .cb-dot {
-      width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--g300);
-      display: flex; align-items: center; justify-content: center; transition: all var(--trans); flex-shrink: 0;
-    }
-    .cb-chip:has(input:checked) { border-color: var(--pri); background: var(--pri-light); color: var(--pri-dark); font-weight: 600; }
-    .cb-chip:has(input:checked) .cb-dot { background: var(--pri); border-color: var(--pri); }
-    .cb-chip:has(input:checked) .cb-dot::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; }
-
-    /* ============================================================
-       游戏化表单 — 关卡进度系统
-       ============================================================ */
+    /* ================================================
+       表单系统 — 羊皮卷轴
+       ================================================ */
     .form-tabs-wrap { margin-bottom: 20px; }
 
-    /* --- 星星进度条 --- */
+    /* 星星进度 */
     .form-progress {
       display: flex; align-items: center; justify-content: center; gap: 4px;
-      margin-bottom: 16px; padding: 10px 0;
+      margin-bottom: 14px; padding: 8px 0;
     }
     .fp-stage {
       display: flex; flex-direction: column; align-items: center; gap: 3px;
       position: relative; flex: 1;
     }
     .fp-stage-line {
-      position: absolute; top: 13px; left: 50%; right: -50%;
-      height: 3px; background: var(--g200); transition: background .4s ease; z-index: 0;
+      position: absolute; top: 14px; left: 50%; right: -50%;
+      height: 2px; background: var(--border); transition: all .4s ease; z-index: 0;
     }
-    .fp-stage-line.done { background: var(--suc); }
+    .fp-stage-line.done { background: var(--emerald); box-shadow: 0 0 8px var(--emerald-glow); }
     .fp-stage-star {
-      width: 26px; height: 26px; border-radius: 50%;
-      border: 2px solid var(--g300); background: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; transition: all .3s ease; position: relative; z-index: 1;
-      cursor: pointer;
+      width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+      background: var(--bg-deep); display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; transition: all .3s ease; position: relative; z-index: 1;
+      cursor: pointer; color: var(--text-muted);
     }
-    .fp-stage.done .fp-stage-star {
-      background: var(--suc); border-color: var(--suc); color: #fff;
-    }
+    .fp-stage.done .fp-stage-star { background: var(--emerald); border-color: var(--emerald); color: #fff; }
     .fp-stage.active .fp-stage-star {
-      background: var(--pri); border-color: var(--pri); color: #fff;
-      box-shadow: 0 0 0 4px var(--pri-light); transform: scale(1.2);
+      background: var(--gold); border-color: var(--gold); color: #1a1a3a;
+      box-shadow: 0 0 16px var(--gold-glow); transform: scale(1.2);
     }
     .fp-stage-label {
-      font-size: 9px; color: var(--g400); white-space: nowrap;
-      transition: color .3s ease;
+      font-size: 9px; color: var(--text-muted); white-space: nowrap; transition: color .3s;
     }
-    .fp-stage.active .fp-stage-label { color: var(--pri); font-weight: 700; }
-    .fp-stage.done .fp-stage-label { color: var(--suc); }
+    .fp-stage.active .fp-stage-label { color: var(--gold); font-weight: 700; }
+    .fp-stage.done .fp-stage-label { color: var(--emerald); }
 
-    /* --- 评级徽章（侧边栏） --- */
-    .grade-badge {
-      margin: 10px 14px; padding: 10px 12px; border-radius: 10px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .grade-label { font-size: 10px; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase; }
-    .grade-row { display: flex; align-items: center; gap: 8px; }
-    .grade-stars { font-size: 14px; letter-spacing: 1px; }
-    .grade-text { font-size: 12px; font-weight: 700; }
-    .grade-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 4px; height: 4px; overflow: hidden; }
-    .grade-bar { height: 4px; border-radius: 4px; background: var(--g400); transition: width .4s ease, background .4s ease; width: 0%; }
-
-    /* --- 关卡标签样式 --- */
+    /* 关卡标签 */
     .form-tabs {
-      display: flex; gap: 3px; background: var(--g100); padding: 4px;
+      display: flex; gap: 4px; background: var(--bg-deep); padding: 5px;
       border-radius: 12px; overflow-x: auto; scrollbar-width: none;
+      border: 1px solid var(--border);
     }
     .form-tabs::-webkit-scrollbar { display: none; }
     .form-tab {
-      flex: 1; min-width: 78px; padding: 9px 6px; border-radius: 10px;
+      flex: 1; min-width: 70px; padding: 10px 6px; border-radius: 10px;
       text-align: center; cursor: pointer; transition: all var(--trans);
-      font-size: 11.5px; font-weight: 600; color: var(--g500); white-space: nowrap;
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-      position: relative;
+      font-size: 11px; font-weight: 600; color: var(--text-dim); white-space: nowrap;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      position: relative; background: transparent;
     }
-    .form-tab:hover { color: var(--g700); background: rgba(255,255,255,0.6); }
-    .form-tab.active { background: #fff; color: var(--pri); box-shadow: var(--shadow); }
-    .form-tab.cleared { color: var(--suc); }
-    .form-tab.cleared .ft-badge { background: var(--suc); color: #fff; }
-    .form-tab .ft-icon { font-size: 17px; }
+    .form-tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .form-tab.active { background: var(--bg-card); color: var(--gold); box-shadow: 0 0 12px rgba(255,215,0,0.1); }
+    .form-tab.cleared { color: var(--emerald); }
+    .form-tab .ft-icon { font-size: 18px; }
     .form-tab .ft-badge {
-      font-size: 9px; font-weight: 700; background: var(--g200); color: var(--g500);
-      padding: 1px 5px; border-radius: 8px; transition: all var(--trans);
+      font-size: 8px; font-weight: 700; background: rgba(255,255,255,0.06); color: var(--text-dim);
+      padding: 1px 6px; border-radius: 8px; transition: all var(--trans); letter-spacing: 0.5px;
     }
-    .form-tab.active .ft-badge { background: var(--pri); color: #fff; }
+    .form-tab.active .ft-badge { background: rgba(255,215,0,0.2); color: var(--gold); }
+    .form-tab.cleared .ft-badge { background: rgba(0,229,160,0.15); color: var(--emerald); }
 
     .form-tab-panel { display: none; animation: tabIn .3s ease; }
     .form-tab-panel.show { display: block; }
-    @keyframes tabIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes tabIn { from { opacity: 0; transform: translateX(6px); } to { opacity: 1; transform: translateX(0); } }
 
-    /* --- 关卡顶部横幅 --- */
+    /* --- 关卡横幅 --- */
     .stage-banner {
-      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
-      border-radius: 12px; margin-bottom: 16px;
-      background: linear-gradient(90deg, var(--pri) 0%, #3b82f6 100%);
-      color: #fff; position: relative; overflow: hidden;
+      display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+      border-radius: 12px; margin-bottom: 18px; position: relative; overflow: hidden;
+      background: linear-gradient(90deg, var(--bg-card), var(--bg-hover));
+      border: 1px solid var(--border);
     }
     .stage-banner::after {
-      content: ''; position: absolute; right: -20px; top: -20px;
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(255,255,255,0.08);
+      content: ''; position: absolute; right: -30px; top: -30px; width: 100px; height: 100px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.08), transparent 70%);
     }
     .stage-num {
-      width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 800; flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-size: 18px; font-weight: 900;
+      flex-shrink: 0; color: var(--gold); background: rgba(255,215,0,0.1);
+      border: 2px solid rgba(255,215,0,0.25);
     }
-    .stage-info { flex: 1; }
-    .stage-info .si-title { font-size: 15px; font-weight: 700; }
-    .stage-info .si-desc { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+    .stage-info { flex: 1; min-width: 0; }
+    .stage-info .si-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .stage-info .si-desc { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
 
     .form-section {
-      background: #fff; border: 1px solid var(--g200); border-radius: var(--r-lg);
-      padding: 20px; margin-bottom: 16px;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 22px; margin-bottom: 16px;
     }
     .form-section-title {
-      font-size: 14px; font-weight: 700; color: var(--g800); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 8px; padding-bottom: 10px;
-      border-bottom: 2px solid var(--g100);
+      font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
-    .form-section-title .fst-icon { font-size: 18px; color: var(--pri); }
+    .form-section-title .fst-icon { font-size: 18px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label {
+      font-size: 12px; font-weight: 600; color: var(--text-dim); display: flex;
+      align-items: center; gap: 5px; letter-spacing: 0.3px;
+    }
+    .form-label .req { color: var(--ruby); font-weight: 800; }
+
+    input, select, textarea {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 13px; background: var(--bg-deep);
+      font-family: var(--font); color: var(--text); transition: all var(--trans);
+    }
+    input:hover, select:hover, textarea:hover { border-color: var(--border-lit); }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--sapphire);
+      box-shadow: 0 0 12px var(--sapphire-soft);
+    }
+    textarea { resize: vertical; min-height: 60px; }
+    select {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a6a90' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+    }
+    /* 下拉菜单暗色方案 */
+    select option { background: var(--bg-card); color: var(--text); }
+
+    /* --- 复选框 chip --- */
+    .cb-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cb-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg-deep); cursor: pointer; font-size: 12px; color: var(--text-dim);
+      transition: all var(--trans); user-select: none; white-space: nowrap;
+    }
+    .cb-chip:hover { border-color: var(--border-lit); background: var(--bg-hover); }
+    .cb-chip input { display: none; }
+    .cb-chip .cb-dot {
+      width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--border-lit);
+      display: flex; align-items: center; justify-content: center; transition: all var(--trans); flex-shrink: 0;
+    }
+    .cb-chip:has(input:checked) {
+      border-color: var(--emerald); background: var(--emerald-soft); color: var(--emerald); font-weight: 600;
+    }
+    .cb-chip:has(input:checked) .cb-dot { background: var(--emerald); border-color: var(--emerald); }
+    .cb-chip:has(input:checked) .cb-dot::after { content: '✓'; color: #0f0f2d; font-size: 10px; font-weight: 800; }
 
     .form-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; gap: 8px; }
     .form-save-bar {
       display: flex; align-items: center; gap: 16px; padding: 14px 20px;
-      margin-top: 20px; background: var(--g50); border-radius: 12px;
-      border: 1px solid var(--g200);
-      position: sticky; bottom: 8px; z-index: 10;
-      box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+      margin-top: 20px; background: var(--bg-surface); border-radius: 12px;
+      border: 1px solid var(--border); position: sticky; bottom: 8px; z-index: 10;
     }
 
-    /* --- 庆祝弹窗 --- */
+    /* ================================================
+       庆祝弹窗 — 魔法水晶效果
+       ================================================ */
     .celebrate-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65);
-      z-index: 5000; align-items: center; justify-content: center;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px); z-index: 5000; align-items: center; justify-content: center;
     }
     .celebrate-overlay.show { display: flex; animation: fadeIn .3s ease; }
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
     .celebrate-box {
-      background: #fff; border-radius: 24px; padding: 48px 40px;
-      text-align: center; max-width: 380px; width: 90%;
-      animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+      background: var(--bg-card); border: 1px solid var(--gold);
+      border-radius: 20px; padding: 48px 40px; text-align: center;
+      max-width: 380px; width: 90%; position: relative; overflow: hidden;
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 0 40px var(--gold-glow), 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .celebrate-box::before {
+      content: ''; position: absolute; inset: 0; border-radius: 20px;
+      border: 2px solid transparent; pointer-events: none;
+      animation: celebrateBorder 2s linear infinite;
+    }
+    @keyframes celebrateBorder {
+      0%   { border-color: var(--gold) transparent transparent transparent; }
+      25%  { border-color: transparent var(--gold) transparent transparent; }
+      50%  { border-color: transparent transparent var(--gold) transparent; }
+      75%  { border-color: transparent transparent transparent var(--gold); }
+      100% { border-color: var(--gold) transparent transparent transparent; }
     }
     @keyframes popIn {
-      from { transform: scale(0.6) translateY(40px); opacity: 0; }
+      from { transform: scale(0.5) translateY(30px); opacity: 0; }
       to   { transform: scale(1) translateY(0); opacity: 1; }
     }
-    .celebrate-icon { font-size: 64px; margin-bottom: 16px; display: block; animation: bounce 1s infinite; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .celebrate-title { font-size: 22px; font-weight: 800; color: var(--g900); margin-bottom: 8px; }
+    .celebrate-icon { font-size: 64px; margin-bottom: 16px; display: block; animation: bounce 1s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .celebrate-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; text-shadow: 0 0 20px rgba(255,215,0,0.4); }
     .celebrate-grade { font-size: 32px; margin: 12px 0; }
-    .celebrate-desc { font-size: 14px; color: var(--g500); line-height: 1.7; margin-bottom: 24px; }
+    .celebrate-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin-bottom: 24px; }
+
     .confetti {
-      position: absolute; width: 10px; height: 10px; border-radius: 2px;
+      position: absolute; width: 10px; height: 10px;
       animation: confettiFall 2.5s ease-in forwards;
     }
     @keyframes confettiFall {
-      0%   { transform: translateY(-50px) rotate(0deg); opacity:1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity:0; }
+      0%   { transform: translateY(-50px) rotate(0deg) scale(1); opacity:1; }
+      100% { transform: translateY(110vh) rotate(720deg) scale(0.3); opacity:0; }
     }
 
-    /* ============================================================
-       仪表盘
-       ============================================================ */
-    .dash-welcome {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 50%, #1e3a8a 100%);
-      border-radius: var(--r-lg); padding: 28px 32px; margin-bottom: 24px;
-      color: #fff; display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(29,78,216,0.3); position: relative; overflow: hidden;
-    }
-    .dash-welcome::after {
-      content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px;
-      border-radius: 50%; background: rgba(255,255,255,0.06);
-    }
-    .dash-welcome-text h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-    .dash-welcome-text p { font-size: 13px; opacity: 0.75; }
-    .dash-welcome-action { flex-shrink: 0; }
-    .dash-welcome-action .btn { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
-    .dash-welcome-action .btn:hover { background: rgba(255,255,255,0.3); }
-
-    .dash-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    .dash-grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
-
-    .recent-list { display: flex; flex-direction: column; gap: 2px; }
-    .recent-item {
-      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
-      border-radius: 8px; transition: background var(--trans); cursor: pointer;
-    }
-    .recent-item:hover { background: var(--g50); }
-    .recent-item .ri-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; flex-shrink: 0;
-    }
-    .recent-item .ri-body { flex: 1; min-width: 0; }
-    .recent-item .ri-name { font-size: 13.5px; font-weight: 600; color: var(--g800); }
-    .recent-item .ri-desc { font-size: 12px; color: var(--g400); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .recent-item .ri-time { font-size: 11px; color: var(--g400); flex-shrink: 0; }
-
-    /* --- 备份页面 --- */
+    /* ================================================
+       备份页面 — 奥术水晶
+       ================================================ */
     .backup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .backup-card {
-      background: #fff; border: 1px solid var(--g200); border-radius: var(--r-lg);
-      padding: 24px; text-align: center; transition: all var(--trans);
+    .backup-crystal {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
+      padding: 28px; text-align: center; transition: all var(--trans);
+      position: relative; overflow: hidden;
     }
-    .backup-card:hover { border-color: var(--pri); box-shadow: var(--shadow-lg); }
-    .backup-card .bc-icon { font-size: 40px; margin-bottom: 12px; }
-    .backup-card .bc-title { font-size: 15px; font-weight: 700; color: var(--g800); margin-bottom: 6px; }
-    .backup-card .bc-desc { font-size: 12.5px; color: var(--g500); margin-bottom: 16px; }
+    .backup-crystal:hover {
+      border-color: var(--sapphire); box-shadow: 0 0 24px var(--sapphire-soft);
+    }
+    .backup-crystal .bc-icon { font-size: 44px; margin-bottom: 14px; display: block; }
+    .backup-crystal .bc-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .backup-crystal .bc-desc { font-size: 12px; color: var(--text-dim); margin-bottom: 18px; }
 
     /* --- 空状态 --- */
     .empty-state { text-align: center; padding: 60px 20px; }
-    .empty-state .es-icon { font-size: 56px; opacity: 0.3; margin-bottom: 16px; }
-    .empty-state .es-title { font-size: 16px; font-weight: 700; color: var(--g700); margin-bottom: 6px; }
-    .empty-state .es-desc { font-size: 13px; color: var(--g400); }
+    .empty-state .es-icon { font-size: 56px; opacity: 0.2; margin-bottom: 16px; display: block; }
+    .empty-state .es-title { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+    .empty-state .es-desc { font-size: 13px; color: var(--text-muted); }
 
     /* --- Toast --- */
     .toast {
       position: fixed; top: 20px; right: 20px; padding: 14px 24px;
       border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 9999;
       opacity: 0; transition: all .35s ease; pointer-events: none;
-      box-shadow: var(--shadow-xl); display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 8px;
+      transform: translateX(40px);
     }
     .toast.show { opacity: 1; pointer-events: auto; transform: translateX(0); }
-    .toast-success { background: var(--suc); color: #fff; }
-    .toast-error   { background: var(--dan); color: #fff; }
-    .toast-warning { background: var(--war); color: #fff; }
+    .toast-success { background: linear-gradient(135deg, #00e5a0, #00b87a); color: #0f0f2d; }
+    .toast-error   { background: linear-gradient(135deg, #ff4d6a, #dc2626); color: #fff; }
+    .toast-warning { background: linear-gradient(135deg, #ffb347, #e69119); color: #1a1a3a; }
 
     /* --- 认证弹窗 --- */
     .auth-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px); z-index: 999; align-items: center; justify-content: center;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px); z-index: 999; align-items: center; justify-content: center;
     }
     .auth-overlay.show { display: flex; }
     .auth-box {
-      background: #fff; border-radius: var(--r-lg); padding: 40px; width: 360px;
-      text-align: center; box-shadow: var(--shadow-xl);
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px; width: 360px;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     }
-    .auth-box h3 { font-size: 20px; color: var(--g800); margin-bottom: 6px; }
-    .auth-box p { font-size: 13px; color: var(--g500); margin-bottom: 24px; }
+    .auth-box h3 { font-size: 20px; color: #fff; margin-bottom: 6px; }
+    .auth-box p { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
     .auth-box input {
       text-align: center; font-size: 24px; letter-spacing: 12px; padding: 14px;
-      border-radius: 10px;
+      border-radius: 10px; background: var(--bg-deep); border: 1px solid var(--border);
+      color: var(--gold); font-weight: 700;
     }
+    .auth-box input:focus { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); }
 
-    /* ============================================================
+    /* ================================================
        手机适配
-       ============================================================ */
+       ================================================ */
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); width: 82vw; max-width: 300px; }
-      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.35); }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 30px rgba(0,0,0,0.6); }
       .main-wrap { margin-left: 0; width: 100%; min-height: 100dvh; min-height: -webkit-fill-available; overflow-x: hidden; }
       .content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
       .mobile-overlay {
-        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
         z-index: 199; transition: opacity .3s;
       }
       .mobile-overlay.show { display: block; }
       .mobile-menu-btn { display: flex !important; }
 
       .content { padding: 12px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: 100%; max-width: 100vw; overflow-x: hidden; }
-
       .topbar { padding: 0 12px; }
       .topbar-page-sub { display: none; }
       .topbar-search { display: none; }
       .topbar-right { gap: 4px; }
 
       .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .stat-card { padding: 14px; }
-      .stat-icon { width: 40px; height: 40px; font-size: 18px; border-radius: 10px; }
-      .stat-value { font-size: 22px; }
+      .stat-orb { padding: 14px; }
+      .stat-orb-icon { width: 42px; height: 42px; font-size: 20px; }
+      .stat-orb-value { font-size: 24px; }
 
-      .dash-welcome { padding: 20px; border-radius: 12px; }
-      .dash-welcome-text h2 { font-size: 17px; }
-      .dash-welcome-action .btn { padding: 10px 20px; font-size: 13px; }
+      .hero-banner { padding: 20px; border-radius: 12px; }
+      .hero-banner-text h2 { font-size: 17px; }
+      .hero-banner-content { flex-direction: column; text-align: center; }
 
-      .card { padding: 14px; border-radius: 12px; }
-      .card-title { font-size: 14px; }
+      .card { padding: 16px; border-radius: 12px; }
+      .quest-board { grid-template-columns: 1fr; }
+      .backup-grid { grid-template-columns: 1fr; }
 
-      /* 表单手机适配 */
       .form-tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .form-tabs { min-width: max-content; gap: 3px; }
-      .form-tab { min-width: 62px; padding: 8px 5px; font-size: 10.5px; }
-      .form-tab .ft-icon { font-size: 15px; margin-bottom: 1px; }
-      .form-tab .ft-badge { font-size: 8px; padding: 1px 4px; }
+      .form-tabs { min-width: max-content; }
+      .form-tab { min-width: 60px; padding: 8px 4px; font-size: 10px; }
+      .form-tab .ft-icon { font-size: 14px; }
+      .form-tab .ft-badge { font-size: 7px; }
       .stage-banner { padding: 12px 14px; }
-      .stage-num { width: 34px; height: 34px; font-size: 15px; }
+      .stage-num { width: 36px; height: 36px; font-size: 15px; }
       .stage-info .si-title { font-size: 13px; }
-      .stage-info .si-desc { font-size: 11px; }
       .fp-stage-label { display: none; }
       .fp-stage-star { width: 22px; height: 22px; font-size: 10px; }
       .form-row { grid-template-columns: 1fr; }
@@ -579,47 +746,34 @@
       .form-nav-btns { flex-direction: column; gap: 8px; }
       .form-nav-btns .btn { width: 100%; }
 
-      /* 表格横向滚动 */
       .data-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .data-table { min-width: 700px; }
       .data-table th, .data-table td { padding: 10px 12px; font-size: 12px; }
 
-      /* 按钮组手机适配 */
       .btn-icon { width: 32px; height: 32px; font-size: 13px; }
     }
 
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: 1fr; gap: 8px; }
-      .stat-card { padding: 12px; }
-      .stat-card:hover { transform: none; }
-      .stat-value { font-size: 20px; }
-
-      .dash-welcome { padding: 16px; flex-direction: column; text-align: center; gap: 14px; }
-
-      .form-tabs { gap: 2px; padding: 3px; }
-      .form-tab { min-width: 64px; padding: 8px 4px; font-size: 11px; }
-      .form-tab .ft-icon { font-size: 15px; }
-      .form-section { padding: 14px; }
-      .form-section-title { font-size: 13px; }
-      .form-nav-btns { flex-direction: column; gap: 8px; }
-      .form-nav-btns .btn { width: 100%; }
-
+      .stat-orb { padding: 12px; }
+      .stat-orb:hover { transform: none; }
+      .stat-orb-value { font-size: 20px; }
+      .hero-banner { padding: 16px; }
+      .form-tab { min-width: 56px; padding: 6px 2px; font-size: 9px; }
       .data-table th, .data-table td { padding: 10px 12px; font-size: 12px; }
-      .btn-icon { width: 32px; height: 32px; font-size: 13px; }
-
       .auth-box { padding: 28px 20px; width: 92vw; max-width: 340px; }
     }
 
     .mobile-menu-btn {
-      display: none; width: 36px; height: 36px; border: 1px solid var(--g200);
-      border-radius: 8px; background: #fff; cursor: pointer; align-items: center;
-      justify-content: center; font-size: 18px; color: var(--g600);
+      display: none; width: 36px; height: 36px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--bg-deep); cursor: pointer; align-items: center;
+      justify-content: center; font-size: 18px; color: var(--text-dim);
     }
 
     /* --- 工具类 --- */
-    .text-muted { color: var(--g400); }
-    .text-sm { font-size: 12.5px; }
-    .font-mono { font-family: 'SF Mono', 'Fira Code', monospace; }
+    .text-muted { color: var(--text-muted); }
+    .text-sm { font-size: 12px; }
+    .font-mono { font-family: 'SF Mono','Fira Code',monospace; }
     .mt-8  { margin-top: 8px; }
     .mt-16 { margin-top: 16px; }
     .mb-8  { margin-bottom: 8px; }
@@ -632,26 +786,29 @@
 </head>
 <body>
 
-  <!-- ===== 侧边栏 ===== -->
+  <!-- 漂浮光点粒子 -->
+  <div class="floating-particles" id="floatingParticles"></div>
+
+  <!-- ===== 侧边栏 · 公会面板 ===== -->
   <aside class="sidebar" id="sidebar">
     <div class="side-logo">
-      <div class="logo-icon">🏠</div>
+      <div class="logo-icon">⚔️</div>
       <div>
-        <div class="logo-text">蜂云装饰</div>
-        <div class="logo-sub">CRM 客户管理系统</div>
+        <div class="logo-text">蜂云公会</div>
+        <div class="logo-sub">FENGYUN · ADVENTURE GUILD</div>
       </div>
     </div>
     <nav class="side-nav">
-      <div class="side-label">主菜单</div>
+      <div class="side-label">✦ 公会大厅</div>
       <div class="side-item active" onclick="switchPage('dashboard')" id="nav-dashboard">
-        <span class="si-icon">📊</span> 数据看板
+        <span class="si-icon">🏰</span> 公会大厅
       </div>
       <div class="side-item" onclick="switchPage('form');openForm()" id="nav-form">
-        <span class="si-icon">➕</span> 新建客户
+        <span class="si-icon">📜</span> 委托发布
       </div>
-      <!-- 档案评级（新建客户时显示） -->
+      <!-- 档案评级 -->
       <div class="grade-badge" id="gradeBadge" style="display:none;">
-        <div class="grade-label">📊 档案评级</div>
+        <div class="grade-label">💠 委托评级</div>
         <div class="grade-row">
           <span class="grade-stars" id="gradeStars">☆☆☆☆☆</span>
           <span class="grade-text" id="gradeText" style="color:#64748b;">待填写</span>
@@ -659,25 +816,26 @@
         <div class="grade-bar-wrap"><div class="grade-bar" id="gradeBar"></div></div>
       </div>
       <div class="side-item" onclick="switchPage('list')" id="nav-list">
-        <span class="si-icon">📋</span> 客户列表
+        <span class="si-icon">📖</span> 冒险者名册
         <span class="si-badge" id="side-cust-count">0</span>
       </div>
 
-      <div class="side-label">系统</div>
+      <div class="side-label">✦ 公会管理</div>
       <div class="side-item" onclick="switchPage('backup')" id="nav-backup">
-        <span class="si-icon">💾</span> 备份恢复
+        <span class="si-icon">🔮</span> 水晶存档
       </div>
     </nav>
     <div class="side-footer">
-      <div class="avatar">管</div>
+      <div class="avatar">🐉</div>
       <div class="user-info">
-        <div class="user-name">管理员</div>
-        <div class="user-role">系统管理员</div>
+        <div class="user-name">公会长</div>
+        <div class="user-role">Master · Guild Leader</div>
       </div>
+      <span class="user-level">Lv.99</span>
     </div>
   </aside>
 
-  <!-- 手机侧边栏遮罩 -->
+  <!-- 手机遮罩 -->
   <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
 
   <!-- ===== 主内容区 ===== -->
@@ -688,19 +846,19 @@
       <div class="topbar-left">
         <button class="mobile-menu-btn" onclick="openSidebar()">☰</button>
         <div>
-          <div class="topbar-page-title" id="topbarTitle">数据看板</div>
-          <div class="topbar-page-sub" id="topbarSub">欢迎回来，以下是今日数据概览</div>
+          <div class="topbar-page-title" id="topbarTitle">公会大厅</div>
+          <div class="topbar-page-sub" id="topbarSub">欢迎回来，冒险者</div>
         </div>
       </div>
       <div class="topbar-right">
         <div class="topbar-search">
           <span class="search-icon">🔍</span>
-          <input type="text" placeholder="搜索客户..." id="topbarSearch" oninput="handleTopbarSearch(this.value)">
+          <input type="text" placeholder="搜索冒险者..." id="topbarSearch" oninput="handleTopbarSearch(this.value)">
         </div>
-        <button class="topbar-btn" title="刷新数据" onclick="loadCustomers()">🔄</button>
+        <button class="topbar-btn" title="刷新" onclick="loadCustomers()">🔄</button>
         <button class="topbar-btn" title="通知" style="position:relative;">
           🔔
-          <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid #fff;"></span>
+          <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ff4d6a;border:2px solid #0f0f2d;box-shadow:0 0 6px rgba(255,77,106,0.6);"></span>
         </button>
       </div>
     </header>
@@ -708,116 +866,139 @@
     <!-- 内容区 -->
     <main class="content" id="mainContent">
 
-      <!-- ========== 页面1: 数据看板 ========== -->
+      <!-- ========== 页面1: 公会大厅 ========== -->
       <div class="page" id="page-dashboard">
-        <!-- 欢迎横幅 -->
-        <div class="dash-welcome">
-          <div class="dash-welcome-text">
-            <h2 id="welcomeMsg">欢迎回来 👋</h2>
-            <p id="welcomeSub">今天是美好的一天，让我们开始工作吧</p>
-          </div>
-          <div class="dash-welcome-action">
-            <button class="btn" onclick="switchPage('form');openForm()">➕ 新建客户</button>
+        <!-- 英雄横幅 -->
+        <div class="hero-banner">
+          <div class="hero-banner-content">
+            <div class="hero-banner-text">
+              <h2><span class="hero-icon">⚔️</span> 公会大厅 · 冒险者招募中</h2>
+              <p>新的冒险即将开始，今天又有多少冒险者前来报到？</p>
+            </div>
+            <div class="hero-banner-action">
+              <button class="hero-btn" onclick="switchPage('form');openForm()">📜 发布新委托</button>
+            </div>
           </div>
         </div>
 
-        <!-- 统计卡片 -->
+        <!-- 统计水晶球 -->
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon" style="background:var(--pri-light);color:var(--pri);">👥</div>
-            <div class="stat-body">
-              <div class="stat-label">客户总数</div>
-              <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-orb orb-sapphire">
+            <div class="stat-orb-icon">👥</div>
+            <div class="stat-orb-body">
+              <div class="stat-orb-label">冒险者总数</div>
+              <div class="stat-orb-value" id="statTotal">0</div>
             </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:var(--suc-light);color:var(--suc);">✅</div>
-            <div class="stat-body">
-              <div class="stat-label">今日新增</div>
-              <div class="stat-value" id="statToday">0</div>
+          <div class="stat-orb orb-emerald">
+            <div class="stat-orb-icon">✨</div>
+            <div class="stat-orb-body">
+              <div class="stat-orb-label">今日报到</div>
+              <div class="stat-orb-value" id="statToday">0</div>
             </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:var(--war-light);color:var(--war);">⏰</div>
-            <div class="stat-body">
-              <div class="stat-label">待跟进</div>
-              <div class="stat-value" id="statPending">0</div>
+          <div class="stat-orb orb-amber">
+            <div class="stat-orb-icon">⚡</div>
+            <div class="stat-orb-body">
+              <div class="stat-orb-label">紧急委托</div>
+              <div class="stat-orb-value" id="statPending">0</div>
             </div>
           </div>
         </div>
 
-        <!-- 快捷操作 -->
+        <!-- 任务板 -->
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span class="ct-icon">⚡</span> 快捷操作</div>
+            <div class="card-title"><span class="ct-icon">📋</span> 任务板 · 快捷操作</div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('form');openForm()">➕ 新建客户资料</button>
-            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('list')">🔒 查看客户列表</button>
-            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="exportCSV()">📥 导出客户数据</button>
-            <button class="btn btn-outline" style="justify-content:flex-start;padding:14px 18px;" onclick="switchPage('backup')">💾 数据备份与恢复</button>
+          <div class="quest-board">
+            <div class="quest-item" onclick="switchPage('form');openForm()">
+              <div class="quest-icon">📜</div>
+              <div class="quest-body">
+                <div class="qb-title">发布新委托</div>
+                <div class="qb-desc">记录新的冒险者信息</div>
+              </div>
+            </div>
+            <div class="quest-item" onclick="switchPage('list')">
+              <div class="quest-icon">📖</div>
+              <div class="quest-body">
+                <div class="qb-title">查看冒险者名册</div>
+                <div class="qb-desc">需要公会长密码验证</div>
+              </div>
+            </div>
+            <div class="quest-item" onclick="exportCSV()">
+              <div class="quest-icon">📤</div>
+              <div class="quest-body">
+                <div class="qb-title">导出名册卷轴</div>
+                <div class="qb-desc">下载CSV格式数据</div>
+              </div>
+            </div>
+            <div class="quest-item" onclick="switchPage('backup')">
+              <div class="quest-icon">🔮</div>
+              <div class="quest-body">
+                <div class="qb-title">水晶存档</div>
+                <div class="qb-desc">备份与恢复数据</div>
+              </div>
+            </div>
           </div>
-          <div style="margin-top:16px;padding:12px 16px;background:var(--g50);border-radius:8px;font-size:12.5px;color:var(--g500);line-height:1.8;">
-            🔒 查看或编辑客户详细资料需要输入访问密码<br>
-            📱 数据保存在本地浏览器，定期导出备份可防止丢失
+          <div class="quest-notice">
+            🔐 查看冒险者详细资料需要公会长密码验证<br>
+            💾 数据存储于本地水晶（localStorage），定期导出以防丢失
           </div>
         </div>
       </div>
 
-      <!-- ========== 页面2: 新建客户 ========== -->
+      <!-- ========== 页面2: 委托发布（新建客户） ========== -->
       <div class="page" id="page-form">
         <div class="card" style="max-width:960px;margin:0 auto;">
           <div class="card-header">
-            <div class="card-title"><span class="ct-icon">📝</span> 新建客户资料</div>
+            <div class="card-title"><span class="ct-icon">📜</span> 发布新委托</div>
             <button class="btn btn-ghost btn-sm" onclick="switchPage('dashboard')">✕ 取消</button>
           </div>
 
-          <!-- 进度指示器 -->
+          <!-- 冒险之路进度指示器 -->
           <div class="form-progress" id="formProgress"></div>
 
-          <!-- 标签页导航 -->
-          <div class="form-tabs-wrap">
-            <div class="form-tabs" id="formTabs"></div>
-          </div>
+          <!-- 关卡标签 -->
+          <div class="form-tabs-wrap"><div class="form-tabs" id="formTabs"></div></div>
 
           <!-- 关卡横幅 -->
           <div class="stage-banner" id="stageBanner">
             <div class="stage-num" id="stageNum">1</div>
             <div class="stage-info">
-              <div class="si-title" id="stageTitle">第 1 关 · 基本信息</div>
-              <div class="si-desc" id="stageDesc">填写客户的基本联系信息</div>
+              <div class="si-title" id="stageTitle">第 1 关 · 冒险者资料</div>
+              <div class="si-desc" id="stageDesc">填写冒险者的基本信息</div>
             </div>
           </div>
 
-          <!-- 表单面板 -->
           <form id="customerForm" onsubmit="return false;">
             <!-- Tab1: 基本信息 -->
             <div class="form-tab-panel" id="ftab-0">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">👤</span> 基本信息</div>
+                <div class="form-section-title"><span class="fst-icon">👤</span> 冒险者档案</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label"><span class="req">*</span> 客户姓名</label>
-                    <input type="text" id="f-name" placeholder="请输入客户姓名" required>
+                    <label class="form-label"><span class="req">*</span> 冒险者姓名</label>
+                    <input type="text" id="f-name" placeholder="请输入冒险者姓名" required>
                   </div>
                   <div class="form-group">
-                    <label class="form-label"><span class="req">*</span> 联系电话</label>
-                    <input type="tel" id="f-phone" placeholder="请输入手机号码" required>
+                    <label class="form-label"><span class="req">*</span> 传讯水晶号</label>
+                    <input type="tel" id="f-phone" placeholder="请输入联系电话" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">性别</label>
+                    <label class="form-label">冒险者性别</label>
                     <select id="f-gender"><option value="">请选择</option><option value="男">👨 男</option><option value="女">👩 女</option></select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">年龄区间</label>
-                    <select id="f-age"><option value="">请选择</option><option value="20-30">🔟 20-30岁</option><option value="30-40">🔟 30-40岁</option><option value="40-50">🔟 40-50岁</option><option value="50-60">🔟 50-60岁</option><option value="60+">🔟 60岁以上</option></select>
+                    <label class="form-label">年龄阶段</label>
+                    <select id="f-age"><option value="">请选择</option><option value="20-30">20-30岁</option><option value="30-40">30-40岁</option><option value="40-50">40-50岁</option><option value="50-60">50-60岁</option><option value="60+">60岁以上</option></select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">职业</label>
+                    <label class="form-label">冒险者职业</label>
                     <select id="f-job">
                       <option value="">请选择职业</option>
                       <option value="企业主/高管">💼 企业主/高管</option>
@@ -830,30 +1011,30 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">客户来源</label>
+                    <label class="form-label">情报来源</label>
                     <select id="f-source">
                       <option value="">请选择来源</option>
-                      <option value="朋友介绍">👥 朋友介绍</option>
-                      <option value="小区推广">🏘️ 小区推广</option>
-                      <option value="网络平台">🌐 网络平台</option>
-                      <option value="社交媒体">📱 社交媒体</option>
-                      <option value="线下活动">🎪 线下活动</option>
-                      <option value="回头客">🔄 回头客/老客户</option>
+                      <option value="朋友介绍">👥 酒馆传闻</option>
+                      <option value="小区推广">🏘️ 领地公告</option>
+                      <option value="网络平台">🌐 魔法网络</option>
+                      <option value="社交媒体">📱 冒险者通讯</option>
+                      <option value="线下活动">🎪 公会活动</option>
+                      <option value="回头客">🔄 老冒险者</option>
                       <option value="其他">📋 其他</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">紧急程度</label>
+                    <label class="form-label">任务紧急度</label>
                     <select id="f-urgency">
                       <option value="一般">🟢 一般</option>
                       <option value="较急">🟡 较急</option>
-                      <option value="很急">🔴 很急</option>
+                      <option value="很急">🔴 紧急</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">是否有宠物</label>
+                    <label class="form-label">是否有守护兽</label>
                     <select id="f-pet">
                       <option value="否">❌ 否</option>
                       <option value="是">🐾 是</option>
@@ -861,355 +1042,298 @@
                   </div>
                 </div>
               </div>
-              <div class="form-nav-btns"><div></div><button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button></div>
+              <div class="form-nav-btns"><div></div><button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button></div>
             </div>
 
             <!-- Tab2: 房屋信息 -->
             <div class="form-tab-panel" id="ftab-1">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">🏠</span> 房屋信息</div>
+                <div class="form-section-title"><span class="fst-icon">🏠</span> 领地勘察</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">房屋面积</label>
+                    <label class="form-label">领地面积</label>
                     <select id="f-area">
                       <option value="">请选择面积</option>
-                      <option value="<50㎡">📐 &lt;50㎡</option>
-                      <option value="50-80㎡">📐 50-80㎡</option>
-                      <option value="80-100㎡">📐 80-100㎡</option>
-                      <option value="100-120㎡">📐 100-120㎡</option>
-                      <option value="120-150㎡">📐 120-150㎡</option>
-                      <option value="150-200㎡">📐 150-200㎡</option>
-                      <option value="200-300㎡">📐 200-300㎡</option>
-                      <option value="300㎡以上">📐 300㎡以上</option>
+                      <option value="<50㎡">&lt;50㎡</option><option value="50-80㎡">50-80㎡</option>
+                      <option value="80-100㎡">80-100㎡</option><option value="100-120㎡">100-120㎡</option>
+                      <option value="120-150㎡">120-150㎡</option><option value="150-200㎡">150-200㎡</option>
+                      <option value="200-300㎡">200-300㎡</option><option value="300㎡以上">300㎡以上</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">户型</label>
+                    <label class="form-label">城堡结构</label>
                     <select id="f-type">
                       <option value="">请选择户型</option>
-                      <option value="一室一厅">🏠 一室一厅</option>
-                      <option value="两室一厅">🏠 两室一厅</option>
-                      <option value="两室两厅">🏠 两室两厅</option>
-                      <option value="三室一厅">🏠 三室一厅</option>
-                      <option value="三室两厅">🏠 三室两厅</option>
-                      <option value="四室两厅">🏠 四室两厅</option>
-                      <option value="复式/loft">🏗️ 复式/loft</option>
-                      <option value="别墅">🏡 别墅</option>
+                      <option value="一室一厅">🏠 一室一厅</option><option value="两室一厅">🏠 两室一厅</option>
+                      <option value="两室两厅">🏠 两室两厅</option><option value="三室一厅">🏠 三室一厅</option>
+                      <option value="三室两厅">🏠 三室两厅</option><option value="四室两厅">🏠 四室两厅</option>
+                      <option value="复式/loft">🏗️ 复式/loft</option><option value="别墅">🏡 别墅</option>
                       <option value="商铺/办公室">🏢 商铺/办公室</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">房屋类型</label>
+                    <label class="form-label">领地类型</label>
                     <select id="f-housetype">
-                      <option value="新房">🆕 新房</option>
-                      <option value="二手房">🏚️ 二手房</option>
-                      <option value="老房翻新">🔄 老房翻新</option>
-                      <option value="商业空间">🏢 商业空间</option>
+                      <option value="新房">🆕 新建城堡</option><option value="二手房">🏚️ 远古遗迹</option>
+                      <option value="老房翻新">🔄 遗迹翻新</option><option value="商业空间">🏢 商业领地</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">楼层</label>
+                    <label class="form-label">城堡层数</label>
                     <select id="f-floor">
-                      <option value="">请选择楼层</option>
-                      <option value="1层">1️⃣ 1层</option>
-                      <option value="2-5层">2️⃣ 2-5层</option>
-                      <option value="6-10层">3️⃣ 6-10层</option>
-                      <option value="11-20层">4️⃣ 11-20层</option>
-                      <option value="21-30层">5️⃣ 21-30层</option>
-                      <option value="30层以上">6️⃣ 30层以上</option>
-                      <option value="顶层">🔝 顶层</option>
-                      <option value="负一层">⬇️ 负一层</option>
+                      <option value="">请选择</option><option value="1层">1层</option><option value="2-5层">2-5层</option>
+                      <option value="6-10层">6-10层</option><option value="11-20层">11-20层</option>
+                      <option value="21-30层">21-30层</option><option value="30层以上">30层以上</option>
+                      <option value="顶层">🔝 塔顶</option><option value="负一层">⬇️ 地窖</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">朝向</label>
+                    <label class="form-label">领地朝向</label>
                     <select id="f-direction">
-                      <option value="南">⬇️ 南</option>
-                      <option value="北">⬆️ 北</option>
-                      <option value="东">▶️ 东</option>
-                      <option value="西">◀️ 西</option>
-                      <option value="南北通透">↕️ 南北通透</option>
-                      <option value="东西">↔️ 东西</option>
+                      <option value="南">⬇️ 南</option><option value="北">⬆️ 北</option>
+                      <option value="东">▶️ 东</option><option value="西">◀️ 西</option>
+                      <option value="南北通透">↕️ 南北通透</option><option value="东西">↔️ 东西</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">建筑年限</label>
+                    <label class="form-label">建造年代</label>
                     <select id="f-buildyear">
-                      <option value="<5年">🆕 5年内</option>
-                      <option value="5-10年">🏗️ 5-10年</option>
-                      <option value="10-20年">🏚️ 10-20年</option>
-                      <option value="20年以上">🏛️ 20年以上</option>
+                      <option value="<5年">5年内</option><option value="5-10年">5-10年</option>
+                      <option value="10-20年">10-20年</option><option value="20年以上">20年以上</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">层高</label>
+                    <label class="form-label">大厅层高</label>
                     <select id="f-floorheight">
-                      <option value="<2.8m">📏 &lt;2.8m（普通）</option>
-                      <option value="2.8-3.0m">📏 2.8-3.0m（标准）</option>
-                      <option value="3.0-3.3m">📏 3.0-3.3m（舒适）</option>
-                      <option value=">3.3m">📏 &gt;3.3m（豪华/loft）</option>
+                      <option value="<2.8m">&lt;2.8m</option><option value="2.8-3.0m">2.8-3.0m</option>
+                      <option value="3.0-3.3m">3.0-3.3m</option><option value=">3.3m">&gt;3.3m</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">是否有电梯</label>
-                    <select id="f-elevator">
-                      <option value="是">✅ 有电梯</option>
-                      <option value="否">❌ 无电梯</option>
-                    </select>
+                    <label class="form-label">传送法阵（电梯）</label>
+                    <select id="f-elevator"><option value="是">✅ 有</option><option value="否">❌ 无</option></select>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label">房屋地址</label>
+                    <label class="form-label">领地坐标</label>
                     <input type="text" id="f-address" placeholder="请输入详细地址">
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab3: 家庭成员 -->
             <div class="form-tab-panel" id="ftab-2">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">👨‍👩‍👧‍👦</span> 家庭成员</div>
+                <div class="form-section-title"><span class="fst-icon">👨‍👩‍👧‍👦</span> 冒险者小队</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">家庭人数</label>
+                    <label class="form-label">小队人数</label>
                     <select id="f-members">
-                      <option value="1人">👤 1人</option>
-                      <option value="2人">👥 2人</option>
-                      <option value="3人">👨‍👩‍👦 3人</option>
-                      <option value="4人">👨‍👩‍👧‍👦 4人</option>
+                      <option value="1人">👤 1人</option><option value="2人">👥 2人</option>
+                      <option value="3人">👨‍👩‍👦 3人</option><option value="4人">👨‍👩‍👧‍👦 4人</option>
                       <option value="5人及以上">👪 5人及以上</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">是否有老人</label>
-                    <select id="f-elderly">
-                      <option value="否">❌ 否</option>
-                      <option value="是">👴 是</option>
-                    </select>
+                    <label class="form-label">是否有长者</label>
+                    <select id="f-elderly"><option value="否">❌ 否</option><option value="是">👴 是</option></select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">是否有小孩</label>
+                    <label class="form-label">是否有后代</label>
                     <select id="f-children">
-                      <option value="否">❌ 否</option>
-                      <option value="幼儿(0-3岁)">🍼 幼儿(0-3岁)</option>
+                      <option value="否">❌ 否</option><option value="幼儿(0-3岁)">🍼 幼儿(0-3岁)</option>
                       <option value="儿童(3-12岁)">👶 儿童(3-12岁)</option>
                       <option value="青少年(12-18岁)">🧒 青少年(12-18岁)</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">小孩数量</label>
-                    <select id="f-childcount">
-                      <option value="0">0️⃣ 0个</option>
-                      <option value="1">1️⃣ 1个</option>
-                      <option value="2">2️⃣ 2个</option>
-                      <option value="3+">3️⃣ 3个及以上</option>
-                    </select>
+                    <label class="form-label">后代数量</label>
+                    <select id="f-childcount"><option value="0">0个</option><option value="1">1个</option><option value="2">2个</option><option value="3+">3个及以上</option></select>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label">家庭成员备注</label>
+                    <label class="form-label">小队特征</label>
                     <div class="cb-group">
                       <label class="cb-chip">在家办公<input type="checkbox" value="在家办公" class="cg-membnote"></label>
-                      <label class="cb-chip">经常出差<input type="checkbox" value="经常出差" class="cg-membnote"></label>
+                      <label class="cb-chip">经常远征<input type="checkbox" value="经常出差" class="cg-membnote"></label>
                       <label class="cb-chip">居家办公<input type="checkbox" value="居家办公" class="cg-membnote"></label>
-                      <label class="cb-chip">有保姆/月嫂<input type="checkbox" value="有保姆/月嫂" class="cg-membnote"></label>
-                      <label class="cb-chip">有宠物<input type="checkbox" value="有宠物" class="cg-membnote"></label>
+                      <label class="cb-chip">有侍从/月嫂<input type="checkbox" value="有保姆/月嫂" class="cg-membnote"></label>
+                      <label class="cb-chip">有守护兽<input type="checkbox" value="有宠物" class="cg-membnote"></label>
                       <label class="cb-chip">其他<input type="checkbox" value="其他" class="cg-membnote"></label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab4: 风格偏好 -->
             <div class="form-tab-panel" id="ftab-3">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">🎨</span> 风格偏好</div>
+                <div class="form-section-title"><span class="fst-icon">🎨</span> 城堡风格</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">装修风格</label>
+                    <label class="form-label">建筑风格</label>
                     <select id="f-style">
                       <option value="">请选择风格</option>
-                      <option value="现代简约">🏢 现代简约</option>
-                      <option value="北欧风">🌲 北欧风</option>
-                      <option value="中式/新中式">🏮 中式/新中式</option>
-                      <option value="美式/欧式">🏛️ 美式/欧式</option>
-                      <option value="日式/原木风">🪵 日式/原木风</option>
-                      <option value="轻奢风">💎 轻奢风</option>
-                      <option value="工业风">🏭 工业风</option>
-                      <option value="法式/田园">🌸 法式/田园</option>
-                      <option value="混搭">🎲 混搭</option>
+                      <option value="现代简约">🏢 现代简约</option><option value="北欧风">🌲 北境之风</option>
+                      <option value="中式/新中式">🏮 东方古韵</option><option value="美式/欧式">🏛️ 皇家宫廷</option>
+                      <option value="日式/原木风">🪵 和风禅意</option><option value="轻奢风">💎 贵族轻奢</option>
+                      <option value="工业风">🏭 铁匠工坊</option><option value="法式/田园">🌸 精灵田园</option>
+                      <option value="混搭">🎲 魔法混搭</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">主色调</label>
+                    <label class="form-label">魔力色调</label>
                     <select id="f-color">
                       <option value="">请选择主色调</option>
-                      <option value="白色/米色系">⬜ 白色/米色系</option>
-                      <option value="灰色系">⬛ 灰色系</option>
-                      <option value="木色/原木色">🪵 木色/原木色</option>
-                      <option value="暖色系(橙/黄)">🧡 暖色系(橙/黄)</option>
-                      <option value="冷色系(蓝/绿)">💙 冷色系(蓝/绿)</option>
-                      <option value="多彩混搭">🌈 多彩混搭</option>
+                      <option value="白色/米色系">⬜ 圣光白</option><option value="灰色系">⬛ 暗影灰</option>
+                      <option value="木色/原木色">🪵 森林木</option><option value="暖色系(橙/黄)">🧡 火焰橙</option>
+                      <option value="冷色系(蓝/绿)">💙 冰霜蓝</option><option value="多彩混搭">🌈 彩虹魔法</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">定制化需求</label>
+                    <label class="form-label">定制需求</label>
                     <select id="f-custom">
-                      <option value="无">❌ 无</option>
-                      <option value="全屋定制">📐 全屋定制</option>
-                      <option value="部分定制">✂️ 部分定制</option>
-                      <option value="成品+定制结合">🔀 成品+定制结合</option>
+                      <option value="无">❌ 无</option><option value="全屋定制">📐 传说锻造</option>
+                      <option value="部分定制">✂️ 精工定制</option><option value="成品+定制结合">🔀 混合工艺</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">参考来源</label>
+                    <label class="form-label">灵感来源</label>
                     <div class="cb-group">
-                      <label class="cb-chip">小红书<input type="checkbox" value="小红书" class="cg-reference"></label>
-                      <label class="cb-chip">抖音/短视频<input type="checkbox" value="抖音/短视频" class="cg-reference"></label>
-                      <label class="cb-chip">微信/朋友圈<input type="checkbox" value="微信/朋友圈" class="cg-reference"></label>
-                      <label class="cb-chip">装修公司案例<input type="checkbox" value="装修公司案例" class="cg-reference"></label>
-                      <label class="cb-chip">朋友家参观<input type="checkbox" value="朋友家参观" class="cg-reference"></label>
-                      <label class="cb-chip">设计师推荐<input type="checkbox" value="设计师推荐" class="cg-reference"></label>
+                      <label class="cb-chip">魔法卷轴(小红书)<input type="checkbox" value="小红书" class="cg-reference"></label>
+                      <label class="cb-chip">吟游诗人(抖音)<input type="checkbox" value="抖音/短视频" class="cg-reference"></label>
+                      <label class="cb-chip">飞鸽传书(微信)<input type="checkbox" value="微信/朋友圈" class="cg-reference"></label>
+                      <label class="cb-chip">公会典籍<input type="checkbox" value="装修公司案例" class="cg-reference"></label>
+                      <label class="cb-chip">亲友城堡<input type="checkbox" value="朋友家参观" class="cg-reference"></label>
+                      <label class="cb-chip">大法师推荐<input type="checkbox" value="设计师推荐" class="cg-reference"></label>
                       <label class="cb-chip">其他途径<input type="checkbox" value="其他" class="cg-reference"></label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab5: 功能需求 -->
             <div class="form-tab-panel" id="ftab-4">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">🏗️</span> 功能区需求</div>
+                <div class="form-section-title"><span class="fst-icon">🏗️</span> 城堡区域规划</div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label">请选择需要设计的区域（可多选）</label>
+                    <label class="form-label">需要建造的区域（可多选）</label>
                     <div class="cb-group">
-                      <label class="cb-chip">🛋️ 客厅<input type="checkbox" value="客厅" class="cg-function"></label>
-                      <label class="cb-chip">🍽️ 餐厅<input type="checkbox" value="餐厅" class="cg-function"></label>
-                      <label class="cb-chip">🛏️ 主卧<input type="checkbox" value="主卧" class="cg-function"></label>
-                      <label class="cb-chip">🛏️ 次卧<input type="checkbox" value="次卧" class="cg-function"></label>
-                      <label class="cb-chip">📚 书房<input type="checkbox" value="书房" class="cg-function"></label>
-                      <label class="cb-chip">🍳 厨房<input type="checkbox" value="厨房" class="cg-function"></label>
-                      <label class="cb-chip">🚿 卫生间<input type="checkbox" value="卫生间" class="cg-function"></label>
-                      <label class="cb-chip">👕 衣帽间/衣柜<input type="checkbox" value="衣帽间/衣柜" class="cg-function"></label>
-                      <label class="cb-chip">🧺 阳台/洗衣房<input type="checkbox" value="阳台/洗衣房" class="cg-function"></label>
-                      <label class="cb-chip">🎮 娱乐/影音室<input type="checkbox" value="娱乐/影音室" class="cg-function"></label>
-                      <label class="cb-chip">🏋️ 健身房<input type="checkbox" value="健身房" class="cg-function"></label>
+                      <label class="cb-chip">🛋️ 会客厅<input type="checkbox" value="客厅" class="cg-function"></label>
+                      <label class="cb-chip">🍽️ 宴会厅<input type="checkbox" value="餐厅" class="cg-function"></label>
+                      <label class="cb-chip">🛏️ 主卧寝殿<input type="checkbox" value="主卧" class="cg-function"></label>
+                      <label class="cb-chip">🛏️ 次卧寝殿<input type="checkbox" value="次卧" class="cg-function"></label>
+                      <label class="cb-chip">📚 图书馆<input type="checkbox" value="书房" class="cg-function"></label>
+                      <label class="cb-chip">🍳 炼金厨房<input type="checkbox" value="厨房" class="cg-function"></label>
+                      <label class="cb-chip">🚿 浴池<input type="checkbox" value="卫生间" class="cg-function"></label>
+                      <label class="cb-chip">👕 战甲库<input type="checkbox" value="衣帽间/衣柜" class="cg-function"></label>
+                      <label class="cb-chip">🧺 瞭望台/洗衣房<input type="checkbox" value="阳台/洗衣房" class="cg-function"></label>
+                      <label class="cb-chip">🎮 娱乐大厅<input type="checkbox" value="娱乐/影音室" class="cg-function"></label>
+                      <label class="cb-chip">🏋️ 训练场<input type="checkbox" value="健身房" class="cg-function"></label>
                     </div>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">智能家居需求</label>
+                    <label class="form-label">魔法智能系统</label>
                     <select id="f-smarthome">
-                      <option value="无">❌ 无</option>
-                      <option value="灯光智能">💡 灯光智能</option>
-                      <option value="窗帘智能">🪟 窗帘智能</option>
-                      <option value="安防智能">🔒 安防智能</option>
-                      <option value="全屋智能">🏠 全屋智能</option>
+                      <option value="无">❌ 无</option><option value="灯光智能">💡 光明魔法</option>
+                      <option value="窗帘智能">🪟 暗影魔法</option><option value="安防智能">🔒 防护结界</option>
+                      <option value="全屋智能">🏠 全屋附魔</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab6: 水电暖通 -->
             <div class="form-tab-panel" id="ftab-5">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">🔧</span> 水电暖通</div>
+                <div class="form-section-title"><span class="fst-icon">🔧</span> 元素法阵</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">给排水</label>
-                    <select id="f-water"><option value="普通">🚿 普通</option><option value="净水系统">💧 净水系统</option><option value="软水系统">💧 软水系统</option><option value="全屋净水">💧 全屋净水</option></select>
+                    <label class="form-label">💧 水元素</label>
+                    <select id="f-water"><option value="普通">普通</option><option value="净水系统">净化魔法</option><option value="软水系统">软化魔法</option><option value="全屋净水">全屋水结界</option></select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">电气</label>
-                    <select id="f-electric"><option value="常规">⚡ 常规</option><option value="增加插座">🔌 增加插座</option><option value="智能家居布线">🏠 智能家居布线</option><option value="全屋智能电气">💡 全屋智能电气</option></select>
+                    <label class="form-label">⚡ 雷元素</label>
+                    <select id="f-electric"><option value="常规">常规</option><option value="增加插座">增强雷力</option><option value="智能家居布线">魔法脉络</option><option value="全屋智能电气">全屋雷结界</option></select>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">暖通空调</label>
+                    <label class="form-label">🔥 火元素/冰元素</label>
                     <select id="f-hvac">
-                      <option value="分体空调">❄️ 分体空调</option>
-                      <option value="中央空调">🌀 中央空调</option>
-                      <option value="地暖">🔥 地暖</option>
-                      <option value="中央空调+地暖">🌡️ 中央空调+地暖</option>
+                      <option value="分体空调">冰霜魔法</option><option value="中央空调">暴风雪</option>
+                      <option value="地暖">熔岩地毯</option><option value="中央空调+地暖">冰火双修</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">新风系统</label>
+                    <label class="form-label">🌬️ 风元素</label>
                     <select id="f-ventilation">
-                      <option value="无">❌ 无</option>
-                      <option value="单向流新风">🌬️ 单向流新风</option>
-                      <option value="双向流新风">🌪️ 双向流新风</option>
-                      <option value="全热交换新风">🔄 全热交换新风</option>
+                      <option value="无">❌ 无</option><option value="单向流新风">微风术</option>
+                      <option value="双向流新风">飓风术</option><option value="全热交换新风">元素转化阵</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab7: 预算工期 -->
             <div class="form-tab-panel" id="ftab-6">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">💰</span> 预算与工期</div>
+                <div class="form-section-title"><span class="fst-icon">💰</span> 金币与工期</div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label">装修预算</label>
+                    <label class="form-label">预算金币</label>
                     <select id="f-budget">
-                      <option value="<5万">💰 &lt;5万</option>
-                      <option value="5-10万">💰 5-10万</option>
-                      <option value="10-20万">💰 10-20万</option>
-                      <option value="20-50万">💰 20-50万</option>
-                      <option value="50-100万">💰 50-100万</option>
-                      <option value="100万以上">💎 100万以上</option>
+                      <option value="<5万">&lt;5万金币</option><option value="5-10万">5-10万金币</option>
+                      <option value="10-20万">10-20万金币</option><option value="20-50万">20-50万金币</option>
+                      <option value="50-100万">50-100万金币</option><option value="100万以上">💎 100万以上</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">期望开工时间</label>
+                    <label class="form-label">期望出征时间</label>
                     <select id="f-date">
-                      <option value="立即开工">🚀 立即开工</option>
-                      <option value="1个月内">📅 1个月内</option>
-                      <option value="3个月内">📅 3个月内</option>
-                      <option value="6个月内">📅 6个月内</option>
-                      <option value="1年内">📅 1年内</option>
-                      <option value="暂不确定">❓ 暂不确定</option>
+                      <option value="立即开工">🚀 即刻出征</option><option value="1个月内">📅 1个月内</option>
+                      <option value="3个月内">📅 3个月内</option><option value="6个月内">📅 6个月内</option>
+                      <option value="1年内">📅 1年内</option><option value="暂不确定">❓ 待定</option>
                     </select>
                   </div>
                 </div>
@@ -1217,143 +1341,135 @@
                   <div class="form-group">
                     <label class="form-label">预计工期</label>
                     <select id="f-duration">
-                      <option value="<1个月">⏱️ &lt;1个月</option>
-                      <option value="1-2个月">⏱️ 1-2个月</option>
-                      <option value="2-3个月">⏱️ 2-3个月</option>
-                      <option value="3-6个月">⏱️ 3-6个月</option>
-                      <option value="6个月以上">⏱️ 6个月以上</option>
+                      <option value="<1个月">&lt;1个月</option><option value="1-2个月">1-2个月</option>
+                      <option value="2-3个月">2-3个月</option><option value="3-6个月">3-6个月</option>
+                      <option value="6个月以上">6个月以上</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label class="form-label">付款方式</label>
                     <select id="f-paytype">
-                      <option value="按进度付款">📊 按进度付款</option>
-                      <option value="一次性付款">💵 一次性付款</option>
-                      <option value="分期付款">📆 分期付款</option>
+                      <option value="按进度付款">📊 按进度</option><option value="一次性付款">💵 一次性</option>
+                      <option value="分期付款">📆 分期</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="nextTab()">下一步 →</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="nextTab()">→ 下一关</button>
               </div>
             </div>
 
             <!-- Tab8: 其他需求 -->
             <div class="form-tab-panel" id="ftab-7">
               <div class="form-section">
-                <div class="form-section-title"><span class="fst-icon">📝</span> 其他需求</div>
+                <div class="form-section-title"><span class="fst-icon">📝</span> 特殊契约条款</div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label">特殊需求备注（可多选）</label>
+                    <label class="form-label">特殊条款（可多选）</label>
                     <div class="cb-group">
                       <label class="cb-chip">环保材料优先<input type="checkbox" value="环保材料优先" class="cg-special"></label>
-                      <label class="cb-chip">噪音隔离要求高<input type="checkbox" value="噪音隔离要求高" class="cg-special"></label>
+                      <label class="cb-chip">隔音结界要求高<input type="checkbox" value="噪音隔离要求高" class="cg-special"></label>
                       <label class="cb-chip">采光要求高<input type="checkbox" value="采光要求高" class="cg-special"></label>
                       <label class="cb-chip">储物空间尽量多<input type="checkbox" value="储物空间尽量多" class="cg-special"></label>
-                      <label class="cb-chip"> wants开放式厨房<input type="checkbox" value="开放式厨房" class="cg-special"></label>
+                      <label class="cb-chip">开放式厨房<input type="checkbox" value="开放式厨房" class="cg-special"></label>
                       <label class="cb-chip">需要家政间<input type="checkbox" value="需要家政间" class="cg-special"></label>
-                      <label class="cb-chip">需要酒柜/吧台<input type="checkbox" value="酒柜/吧台" class="cg-special"></label>
-                      <label class="cb-chip">需要儿童玩耍区<input type="checkbox" value="儿童玩耍区" class="cg-special"></label>
-                      <label class="cb-chip">需要老人房特殊设计<input type="checkbox" value="老人房特殊设计" class="cg-special"></label>
-                      <label class="cb-chip">需要无障碍设计<input type="checkbox" value="无障碍设计" class="cg-special"></label>
-                      <label class="cb-chip">希望尽量省钱<input type="checkbox" value="尽量省钱" class="cg-special"></label>
-                      <label class="cb-chip">希望效果好不计成本<input type="checkbox" value="效果好不计成本" class="cg-special"></label>
-                      <label class="cb-chip">需要设计师全程跟进<input type="checkbox" value="设计师全程跟进" class="cg-special"></label>
-                      <label class="cb-chip">需要快速完工<input type="checkbox" value="快速完工" class="cg-special"></label>
+                      <label class="cb-chip">酒柜/吧台<input type="checkbox" value="酒柜/吧台" class="cg-special"></label>
+                      <label class="cb-chip">儿童玩耍区<input type="checkbox" value="儿童玩耍区" class="cg-special"></label>
+                      <label class="cb-chip">老人房特殊设计<input type="checkbox" value="老人房特殊设计" class="cg-special"></label>
+                      <label class="cb-chip">无障碍设计<input type="checkbox" value="无障碍设计" class="cg-special"></label>
+                      <label class="cb-chip">尽量省钱<input type="checkbox" value="尽量省钱" class="cg-special"></label>
+                      <label class="cb-chip">不计成本追求极致<input type="checkbox" value="效果好不计成本" class="cg-special"></label>
+                      <label class="cb-chip">大法师全程监工<input type="checkbox" value="设计师全程跟进" class="cg-special"></label>
+                      <label class="cb-chip">快速完工<input type="checkbox" value="快速完工" class="cg-special"></label>
                       <label class="cb-chip">其他特殊要求<input type="checkbox" value="其他" class="cg-special"></label>
                     </div>
                   </div>
                 </div>
                 <div class="form-row full">
                   <div class="form-group">
-                    <label class="form-label">补充备注</label>
-                    <textarea id="f-notes" rows="4" placeholder="请输入其他需要补充说明的内容..."></textarea>
+                    <label class="form-label">补充笔记</label>
+                    <textarea id="f-notes" rows="4" placeholder="撰写冒险者的其他特殊要求..."></textarea>
                   </div>
                 </div>
               </div>
               <div class="form-nav-btns">
-                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一步</button>
-                <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="padding:12px 32px;">💾 保存客户资料</button>
+                <button type="button" class="btn btn-outline" onclick="prevTab()">← 上一关</button>
+                <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="padding:12px 32px;">✨ 封印委托契约</button>
               </div>
             </div>
           </form>
-          <!-- 底部固定保存栏（始终可见） -->
+
+          <!-- 底部固定栏 -->
           <div class="form-save-bar">
-            <button type="button" class="btn btn-outline" onclick="switchPage('dashboard')" style="flex:0 0 auto;">✕ 取消</button>
-            <div style="font-size:12px;color:var(--g400);text-align:center;flex:1;">填写完毕后点击右侧按钮保存</div>
-            <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="flex:0 0 auto;padding:10px 28px;">💾 保存客户资料</button>
+            <button type="button" class="btn btn-outline" onclick="switchPage('dashboard')" style="flex:0 0 auto;">✕ 丢弃</button>
+            <div style="font-size:12px;color:var(--text-muted);text-align:center;flex:1;">完成所有关卡后封印契约</div>
+            <button type="button" class="btn btn-primary" onclick="saveCustomer()" style="flex:0 0 auto;padding:10px 28px;">✨ 封印契约</button>
           </div>
         </div>
       </div>
 
-      <!-- ========== 页面3: 客户列表 ========== -->
+      <!-- ========== 页面3: 冒险者名册 ========== -->
       <div class="page" id="page-list">
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span class="ct-icon">📋</span> 客户列表</div>
+            <div class="card-title"><span class="ct-icon">📖</span> 冒险者名册</div>
             <div class="gap-8" style="display:flex;">
               <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 导出</button>
-              <button class="btn btn-primary btn-sm" onclick="switchPage('form');openForm()">➕ 新建</button>
+              <button class="btn btn-primary btn-sm" onclick="switchPage('form');openForm()">➕ 新委托</button>
             </div>
           </div>
-          <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索客户姓名、电话、户型..." oninput="renderList()">
+          <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜寻冒险者姓名、水晶号、领地结构..." oninput="renderList()">
           <div class="data-table-wrap">
             <table class="data-table" id="customerTable">
               <thead>
                 <tr>
-                  <th>客户姓名</th>
-                  <th>联系电话</th>
-                  <th>户型</th>
-                  <th>面积</th>
-                  <th>预算</th>
-                  <th>风格</th>
-                  <th>来源</th>
-                  <th>创建时间</th>
-                  <th>操作</th>
+                  <th>冒险者</th><th>水晶号</th><th>领地</th>
+                  <th>面积</th><th>金币</th><th>风格</th>
+                  <th>来源</th><th>报到时间</th><th>操作</th>
                 </tr>
               </thead>
               <tbody id="customerBody">
-                <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--g400);">暂无客户数据</td></tr>
+                <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-muted);">📜 名册空空如也，尚无冒险者报到</td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- ========== 页面4: 备份恢复 ========== -->
+      <!-- ========== 页面4: 水晶存档 ========== -->
       <div class="page" id="page-backup">
         <div style="max-width:720px;margin:0 auto;">
           <div class="card" style="margin-bottom:16px;">
             <div class="card-header">
-              <div class="card-title"><span class="ct-icon">💾</span> 数据备份与恢复</div>
+              <div class="card-title"><span class="ct-icon">🔮</span> 水晶存档 · 数据管理</div>
             </div>
-            <p class="text-muted text-sm mb-16">系统使用浏览器本地存储，定期备份可防止数据丢失。建议每周备份一次。</p>
+            <p class="text-muted text-sm mb-16">💎 数据储存于公会水晶（本地存储），定期进行水晶共鸣可保障数据安全。</p>
             <div class="backup-grid">
-              <div class="backup-card">
+              <div class="backup-crystal">
                 <div class="bc-icon">📤</div>
-                <div class="bc-title">导出备份</div>
-                <div class="bc-desc">将所有客户数据导出为 JSON 文件，保存至本地</div>
-                <button class="btn btn-primary" onclick="backupExport()">导出 JSON</button>
+                <div class="bc-title">🔮 导出水晶</div>
+                <div class="bc-desc">将名册数据凝结为魔法水晶（JSON），保存至本地</div>
+                <button class="btn btn-primary" onclick="backupExport()">导出水晶</button>
               </div>
-              <div class="backup-card">
+              <div class="backup-crystal">
                 <div class="bc-icon">📥</div>
-                <div class="bc-title">导入恢复</div>
-                <div class="bc-desc">从之前导出的 JSON 文件恢复客户数据</div>
-                <button class="btn btn-outline" onclick="backupImport()">选择文件</button>
+                <div class="bc-title">🔮 共鸣恢复</div>
+                <div class="bc-desc">通过已保存的水晶恢复名册数据</div>
+                <button class="btn btn-outline" onclick="backupImport()">选择水晶</button>
                 <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-header">
-              <div class="card-title"><span class="ct-icon">📊</span> 存储信息</div>
+              <div class="card-title"><span class="ct-icon">📊</span> 水晶状态</div>
             </div>
-            <div id="storageInfo" style="font-size:13px;color:var(--g600);line-height:2;">
-              <p>📦 当前客户数：<strong id="infoCount">0</strong> 条</p>
-              <p>💾 存储方式：浏览器 localStorage（本地）</p>
-              <p>⚠️ 建议定期导出备份，避免数据丢失</p>
+            <div id="storageInfo" style="font-size:13px;color:var(--text-dim);line-height:2.2;">
+              <p>📦 已收录冒险者：<strong id="infoCount" style="color:var(--gold);">0</strong> 位</p>
+              <p>💾 储存介质：公会水晶（localStorage）</p>
+              <p>⚠️ 建议定期导出水晶备份，防止魔力流失导致数据丢失</p>
             </div>
           </div>
         </div>
@@ -1368,51 +1484,69 @@
   <!-- 认证弹窗 -->
   <div class="auth-overlay" id="authOverlay">
     <div class="auth-box">
-      <h3>🔒 系统登录</h3>
-      <p>请输入访问密码</p>
-      <input type="password" id="authInput" placeholder="••••••" maxlength="6" style="letter-spacing:12px;text-align:center;">
+      <h3>🔐 公会封印验证</h3>
+      <p>请输入公会长密码以查看名册</p>
+      <input type="password" id="authInput" placeholder="••••••" maxlength="6">
       <br><br>
-      <button class="btn btn-primary btn-block" onclick="checkAuth()">登 录</button>
+      <button class="btn btn-primary btn-block" onclick="checkAuth()">解 封</button>
     </div>
   </div>
 
-  <!-- 🎉 归档庆祝弹窗 -->
+  <!-- 🎉 封印完成弹窗 -->
   <div class="celebrate-overlay" id="celebrateOverlay">
     <div class="celebrate-box" style="position:relative;">
       <span class="celebrate-icon" id="celebrateIcon">🎉</span>
-      <div class="celebrate-title">档案归档成功！</div>
-      <div class="celebrate-grade" id="celebrateGrade">🥇 金牌档案</div>
-      <div class="celebrate-desc" id="celebrateDesc">完整度 80%，信息详实，便于后续跟进！</div>
-      <button class="btn btn-primary" onclick="closeCelebrate()" style="width:100%;padding:14px;">太棒了，继续</button>
+      <div class="celebrate-title">契约封印完成！</div>
+      <div class="celebrate-grade" id="celebrateGrade">🥇 传说级契约</div>
+      <div class="celebrate-desc" id="celebrateDesc">完成度 80%，契约信息详实！</div>
+      <button class="btn btn-primary" onclick="closeCelebrate()" style="width:100%;padding:14px;">✨ 返回公会大厅</button>
     </div>
   </div>
 
   <script>
   /* ============================================================
-     JS: 核心逻辑（尽量复用原有逻辑，只做必要的适配）
+     JS: 核心逻辑（完整保留原有功能，适配游戏化 UI）
      ============================================================ */
   const API = 'https://diligent-miracle-production-e706.up.railway.app';
   let customers = JSON.parse(localStorage.getItem('crm_customers') || '[]');
   let editingId = null;
   let currentTab = 0;
-  const TAB_NAMES = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期','其他需求'];
+  const TAB_NAMES = ['冒险者档案','领地勘察','冒险小队','城堡风格','区域规划','元素法阵','金币工期','契约条款'];
   const TAB_ICONS = ['👤','🏠','👨‍👩‍👧‍👦','🎨','🏗️','🔧','💰','📝'];
   const TAB_DESCS = [
-    '填写客户的基本联系信息',
-    '了解房屋基本情况',
-    '掌握家庭结构与生活习惯',
-    '挖掘装修风格偏好',
-    '明确各功能区的需求',
-    '了解水电暖通需求',
-    '确认预算与工期计划',
-    '补充其他特殊需求'
+    '填写冒险者的基本身份信息',
+    '了解领地的结构与环境',
+    '掌握冒险小队的成员情况',
+    '挖掘城堡建筑风格偏好',
+    '明确各区域的建造需求',
+    '配置水雷火风四大元素',
+    '确认金币预算与出征计划',
+    '补充契约特殊条款'
   ];
-  // 已通关的标签页集合
   const clearedTabs = new Set();
 
+  /* --- 漂浮粒子动画 --- */
+  (function initParticles() {
+    const container = document.getElementById('floatingParticles');
+    const colors = ['rgba(255,215,0,0.4)','rgba(77,166,255,0.3)','rgba(0,229,160,0.3)','rgba(255,77,106,0.25)','rgba(179,102,255,0.25)'];
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = 2 + Math.random() * 4;
+      p.style.cssText = `
+        left:${Math.random()*100}vw; top:${60+Math.random()*100}vh;
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        box-shadow:0 0 ${size*3}px currentColor;
+        animation-duration:${12+Math.random()*20}s;
+        animation-delay:${Math.random()*10}s;
+      `;
+      container.appendChild(p);
+    }
+  })();
+
   /* --- 初始化 --- */
-  let pendingPage = null;   // 验证后要跳转的页面
-  let pendingCallback = null; // 验证后要执行的回调
+  let pendingCallback = null;
   document.addEventListener('DOMContentLoaded', () => {
     buildFormTabs();
     switchPage('dashboard');
@@ -1421,23 +1555,20 @@
     document.getElementById('authInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAuth(); });
   });
 
-  /* 验证密码，成功后执行待定操作 */
+  /* 密码验证 */
   function checkAuth() {
     const pwd = document.getElementById('authInput').value;
     if (pwd === '131313') {
       document.getElementById('authOverlay').classList.remove('show');
       document.getElementById('authInput').value = '';
-      showToast('验证成功', 'success');
-      // 执行待定操作
+      showToast('🔓 封印已解除', 'success');
       if (pendingCallback) { pendingCallback(); pendingCallback = null; }
-      if (pendingPage) { switchPage(pendingPage); pendingPage = null; }
     } else {
-      showToast('密码错误', 'error');
+      showToast('❌ 密码错误，封印未解除', 'error');
       document.getElementById('authInput').value = '';
     }
   }
 
-  /* 需要验证时调用：每次都弹窗，不记住状态 */
   function requireAuth(onSuccess) {
     pendingCallback = onSuccess;
     document.getElementById('authOverlay').classList.add('show');
@@ -1450,11 +1581,8 @@
   function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('show'); }
 
   function switchPage(page) {
-    // 需要验证的页面
     if (page === 'list' || page === 'backup') {
-      requireAuth(() => {
-        doSwitchPage(page);
-      });
+      requireAuth(() => { doSwitchPage(page); });
     } else {
       doSwitchPage(page);
     }
@@ -1462,18 +1590,19 @@
 
   function doSwitchPage(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-    document.getElementById('page-'+page).classList.add('show');
+    const target = document.getElementById('page-'+page);
+    if (target) target.classList.add('show');
     document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
-    document.getElementById('nav-'+page).classList.add('active');
+    const nav = document.getElementById('nav-'+page);
+    if (nav) nav.classList.add('active');
     closeSidebar();
-    const titles = { dashboard:'数据看板', form:'新建客户', list:'客户列表', backup:'备份恢复' };
-    const subs   = { dashboard:'欢迎回来', form:'填写客户装修需求信息', list:'管理所有客户资料', backup:'数据备份与恢复' };
+    const titles = { dashboard:'公会大厅', form:'委托发布', list:'冒险者名册', backup:'水晶存档' };
+    const subs   = { dashboard:'欢迎回来，冒险者', form:'发布新的冒险委托', list:'管理所有冒险者档案', backup:'水晶共鸣与数据保护' };
     document.getElementById('topbarTitle').textContent = titles[page] || '';
     document.getElementById('topbarSub').textContent = subs[page] || '';
     if (page === 'list') renderList();
     if (page === 'backup') updateStorageInfo();
     if (page === 'dashboard') { renderDashboard(); setWelcome(); }
-    // 切离表单时隐藏评级
     if (page !== 'form') {
       const badge = document.getElementById('gradeBadge');
       if (badge) badge.style.display = 'none';
@@ -1483,24 +1612,23 @@
   /* --- 欢迎语 --- */
   function setWelcome() {
     const h = new Date().getHours();
-    let msg = '欢迎回来 👋';
-    if (h < 6) msg = '夜深了，注意休息 🌙';
-    else if (h < 9) msg = '早上好，开始新的一天 ☀️';
-    else if (h < 12) msg = '上午好，工作顺利 💼';
-    else if (h < 14) msg = '中午好，记得休息一下 🍱';
-    else if (h < 18) msg = '下午好，继续加油 💪';
-    else if (h < 22) msg = '晚上好，辛苦了 🌆';
-    document.getElementById('welcomeMsg').textContent = msg;
+    let msg = '欢迎回来，冒险者 ⚔️';
+    if (h < 6) msg = '夜色深沉，冒险者请休息 🌙';
+    else if (h < 9) msg = '晨曦降临，冒险者准备出发 ☀️';
+    else if (h < 12) msg = '上午好，公会运作正常 💼';
+    else if (h < 14) msg = '午后时光，小憩片刻 🍱';
+    else if (h < 18) msg = '下午好，继续冒险 💪';
+    else if (h < 22) msg = '夜幕降临，辛苦了 🏰';
+    document.getElementById('welcomeMsg')&&(document.getElementById('welcomeMsg').textContent=msg);
   }
 
-  /* --- 构建表单标签页（游戏化关卡版）--- */
+  /* --- 构建表单标签页 --- */
   function buildFormTabs() {
     const navTabs = document.getElementById('formTabs');
     const progress = document.getElementById('formProgress');
     navTabs.innerHTML = '';
     progress.innerHTML = '';
     TAB_NAMES.forEach((name, i) => {
-      // 标签页按钮
       const tab = document.createElement('div');
       tab.className = 'form-tab' + (i === 0 ? ' active' : '');
       tab.onclick = () => goTab(i);
@@ -1508,13 +1636,10 @@
       tab.innerHTML = `<span class="ft-icon">${TAB_ICONS[i]}</span><span>${name}</span><span class="ft-badge">第${i+1}关</span>`;
       navTabs.appendChild(tab);
 
-      // 进度星星
       const stage = document.createElement('div');
       stage.className = 'fp-stage' + (i === 0 ? ' active' : '');
       stage.id = 'fp-stage-'+i;
       stage.onclick = () => goTab(i);
-
-      // 连接线（除最后一个）
       if (i < TAB_NAMES.length - 1) {
         const line = document.createElement('div');
         line.className = 'fp-stage-line';
@@ -1525,12 +1650,10 @@
       star.className = 'fp-stage-star';
       star.textContent = i + 1;
       stage.appendChild(star);
-
       const label = document.createElement('div');
       label.className = 'fp-stage-label';
       label.textContent = name;
       stage.appendChild(label);
-
       progress.appendChild(stage);
     });
     showTabPanel(0);
@@ -1546,12 +1669,10 @@
   }
   function nextTab() {
     if (currentTab < TAB_NAMES.length - 1) {
-      // 标记当前关卡已通过
       clearedTabs.add(currentTab);
       goTab(currentTab + 1);
-      // 小庆祝 toast
-      const stageLabels = ['基本信息','房屋信息','家庭成员','风格偏好','功能需求','水电暖通','预算工期'];
-      showToast('✅ 第' + (currentTab) + '关通过！继续加油', 'success');
+      const stageLabels = ['冒险者档案','领地勘察','冒险小队','城堡风格','区域规划','元素法阵','金币工期'];
+      showToast('✅ 第' + (currentTab) + '关通关！继续冒险', 'success');
     }
   }
   function prevTab() { if (currentTab > 0) goTab(currentTab - 1); }
@@ -1567,7 +1688,6 @@
       if (i === currentTab) s.classList.add('active');
       else if (clearedTabs.has(i) || i < currentTab) s.classList.add('done');
     });
-    // 连接线颜色
     for (let i = 0; i < TAB_NAMES.length - 1; i++) {
       const line = document.getElementById('fp-line-'+i);
       if (line) line.classList.toggle('done', i < currentTab);
@@ -1578,21 +1698,12 @@
     document.getElementById('stageNum').textContent = i + 1;
     document.getElementById('stageTitle').textContent = '第 ' + (i+1) + ' 关 · ' + TAB_NAMES[i];
     document.getElementById('stageDesc').textContent = TAB_DESCS[i];
-    // 关卡颜色主题
-    const colors = [
-      '#1d4ed8,#3b82f6','#059669,#10b981','#7c3aed,#8b5cf6','#db2777,#ec4899',
-      '#d97706,#f59e0b','#dc2626,#ef4444','#0891b2,#06b6d4','#374151,#6b7280'
-    ];
-    const [c1,c2] = colors[i].split(',');
-    document.getElementById('stageBanner').style.background = `linear-gradient(90deg,${c1} 0%,${c2} 100%)`;
   }
 
-  /* --- 实时评级计算 --- */
+  /* --- 实时评级 --- */
   function updateGradeScore() {
     const getV = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
     const getCBLen = cls => document.querySelectorAll(cls+':checked').length;
-
-    // 计分项（共20项）
     const checks = [
       getV('f-name'), getV('f-phone'), getV('f-gender'), getV('f-age'), getV('f-job'),
       getV('f-source'), getV('f-urgency'),
@@ -1607,28 +1718,22 @@
     const filled = checks.filter(v => v && v !== '' && v !== '否' && v !== '无').length;
     const pct = Math.round((filled / checks.length) * 100);
 
-    // 评级
     let grade, gradeColor, stars, icon;
-    if (pct >= 90)      { grade = '白金档案'; stars = '★★★★★'; gradeColor = '#7c3aed'; icon = '💎'; }
-    else if (pct >= 70) { grade = '金牌档案'; stars = '★★★★☆'; gradeColor = '#d97706'; icon = '🥇'; }
-    else if (pct >= 50) { grade = '银牌档案'; stars = '★★★☆☆'; gradeColor = '#64748b'; icon = '🥈'; }
-    else if (pct >= 25) { grade = '铜牌档案'; stars = '★★☆☆☆'; gradeColor = '#92400e'; icon = '🥉'; }
-    else                { grade = '待填写';   stars = '☆☆☆☆☆'; gradeColor = '#94a3b8'; icon = '📋'; }
+    if (pct >= 90)      { grade = '💎 传说级'; stars = '★★★★★'; gradeColor = '#b366ff'; icon = '💎'; }
+    else if (pct >= 70) { grade = '🥇 史诗级'; stars = '★★★★☆'; gradeColor = '#ffb347'; icon = '🥇'; }
+    else if (pct >= 50) { grade = '🥈 精良级'; stars = '★★★☆☆'; gradeColor = '#94a3b8'; icon = '🥈'; }
+    else if (pct >= 25) { grade = '🥉 普通级'; stars = '★★☆☆☆'; gradeColor = '#cd853f'; icon = '🥉'; }
+    else                { grade = '📋 待填写'; stars = '☆☆☆☆☆'; gradeColor = '#5a5a88'; icon = '📋'; }
 
     const gradeEl = document.getElementById('gradeText');
     const starsEl = document.getElementById('gradeStars');
     const barEl   = document.getElementById('gradeBar');
-    if (gradeEl) {
-      gradeEl.textContent = grade;
-      gradeEl.style.color = gradeColor;
-    }
+    if (gradeEl) { gradeEl.textContent = grade; gradeEl.style.color = gradeColor; }
     if (starsEl) starsEl.textContent = stars;
-    if (barEl) {
-      barEl.style.width = pct + '%';
-      barEl.style.background = gradeColor;
-    }
+    if (barEl) { barEl.style.width = pct + '%'; barEl.style.background = gradeColor; }
     return { pct, grade, stars, icon };
   }
+
   function showTabPanel(i) {
     document.querySelectorAll('.form-tab-panel').forEach((p,j) => p.classList.toggle('show', j === i));
   }
@@ -1640,11 +1745,9 @@
     document.querySelectorAll('.cg-reference,.cg-function,.cg-special,.cg-membnote').forEach(cb => cb.checked = false);
     clearedTabs.clear();
     goTab(0);
-    // 显示评级徽章
     const badge = document.getElementById('gradeBadge');
     if (badge) badge.style.display = 'flex';
     updateGradeScore();
-    // 监听所有字段变化实时更新评级
     document.getElementById('customerForm').addEventListener('change', updateGradeScore);
     document.getElementById('customerForm').addEventListener('input', updateGradeScore);
   }
@@ -1654,7 +1757,7 @@
     try {
       const name = document.getElementById('f-name').value.trim();
       const phone = document.getElementById('f-phone').value.trim();
-      if (!name || !phone) { showToast('请填写客户姓名和电话', 'warning'); return; }
+      if (!name || !phone) { showToast('请填写冒险者姓名和水晶号', 'warning'); return; }
 
       const getVal = id => { const el = document.getElementById(id); return el ? el.value : ''; };
       const getCB  = cls => Array.from(document.querySelectorAll(cls)).filter(cb => cb.checked).map(cb => cb.value);
@@ -1679,7 +1782,6 @@
         'f-notes': getVal('f-notes'),
       };
 
-      // 1. 始终先保存到本地（立刻更新界面）
       record.id = editingId || Date.now().toString();
       record.createdAt = record.createdAt || new Date().toISOString();
       if (editingId) {
@@ -1690,21 +1792,19 @@
       }
       localStorage.setItem('crm_customers', JSON.stringify(customers));
 
-      // 2. 同步到云端（发企业微信通知 + 跨设备共享）
       if (API) {
         const method = editingId ? 'PUT' : 'POST';
         fetch(API + '/api/customers', {
           method, headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ ...record, id: record.id })
-        }).catch(() => {}); // 云端失败不影响本地
+        }).catch(() => {});
       }
 
-      showToast(editingId ? '客户资料已更新' : '客户资料已保存', 'success');
-      // 显示庆祝弹窗
+      showToast(editingId ? '✅ 契约已更新' : '✅ 契约封印完成', 'success');
       if (!editingId) showCelebrate();
       else doSwitchPage('dashboard');
     } catch(e) {
-      showToast('保存失败：' + e.message, 'error');
+      showToast('封印失败：' + e.message, 'error');
       console.error('saveCustomer error:', e);
     }
   }
@@ -1720,19 +1820,16 @@
         customers.unshift(record);
       }
       localStorage.setItem('crm_customers', JSON.stringify(customers));
-      showToast(editingId ? '客户资料已更新（本地）' : '客户资料已保存（本地）', 'success');
+      showToast(editingId ? '✅ 本地已更新' : '✅ 已存入水晶', 'success');
     } catch(e) {
-      showToast('本地存储失败：' + e.message, 'error');
-      console.error('saveToLocal error:', e);
+      showToast('水晶储存失败：' + e.message, 'error');
     }
   }
 
   /* --- 加载客户 --- */
   async function loadCustomers() {
-    // 始终先从 localStorage 读取，确保本地数据不丢失
     const raw = localStorage.getItem('crm_customers');
     if (raw) { try { customers = JSON.parse(raw); } catch(e) {} }
-    // 如果有 API，再用 API 数据覆盖（以服务端为准）
     if (API) {
       try {
         const res = await fetch(API + '/api/customers');
@@ -1740,11 +1837,10 @@
           const apiData = await res.json();
           if (Array.isArray(apiData) && apiData.length > 0) {
             customers = apiData;
-            // 同时更新 localStorage 保持同步
             localStorage.setItem('crm_customers', JSON.stringify(apiData));
           }
         }
-      } catch(e) { /* 使用本地数据 */ }
+      } catch(e) {}
     }
     renderDashboard();
     updateSideBadge();
@@ -1756,7 +1852,7 @@
     badge.style.display = customers.length > 0 ? 'inline-flex' : 'none';
   }
 
-  /* --- 仪表盘 --- */
+  /* --- 公会大厅 --- */
   function renderDashboard() {
     document.getElementById('statTotal').textContent = customers.length;
     const today = new Date().toISOString().slice(0,10);
@@ -1766,7 +1862,7 @@
     document.getElementById('statPending').textContent = pending;
   }
 
-  /* --- 客户列表 --- */
+  /* --- 冒险者名册 --- */
   function renderList() {
     const kw = (document.getElementById('searchInput').value || '').toLowerCase();
     const filtered = customers.filter(c => {
@@ -1777,13 +1873,13 @@
     });
     const tbody = document.getElementById('customerBody');
     if (filtered.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--g400);">暂无客户数据</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-muted);">📜 名册中暂无匹配的冒险者</td></tr>';
       return;
     }
     tbody.innerHTML = filtered.map(c => `
       <tr>
-        <td style="font-weight:600;color:var(--g800);">${c['f-name']||'—'}</td>
-        <td class="font-mono">${c['f-phone']||'—'}</td>
+        <td style="font-weight:700;color:var(--text);">${c['f-name']||'—'}</td>
+        <td class="font-mono" style="color:var(--sapphire);">${c['f-phone']||'—'}</td>
         <td>${c['f-type']||'—'}</td>
         <td>${c['f-area']||'—'}</td>
         <td>${c['f-budget']||'—'}</td>
@@ -1792,8 +1888,8 @@
         <td class="text-muted">${(c.createdAt||'').slice(0,10)||'—'}</td>
         <td>
           <div style="display:flex;gap:4px;">
-            <button class="btn-icon" title="查看" onclick="viewCustomer('${c.id}')" style="font-size:14px;">👁️</button>
-            <button class="btn-icon" title="删除" onclick="deleteCustomer('${c.id}')" style="font-size:14px;">🗑️</button>
+            <button class="btn-icon" title="查看" onclick="viewCustomer('${c.id}')">👁️</button>
+            <button class="btn-icon" title="删除" onclick="deleteCustomer('${c.id}')">🗑️</button>
           </div>
         </td>
       </tr>
@@ -1827,7 +1923,7 @@
   }
 
   async function deleteCustomer(id) {
-    if (!confirm('确认删除该客户资料？')) return;
+    if (!confirm('确认将此冒险者从名册中移除？')) return;
     if (API) {
       try { await fetch(API + '/api/customers/' + id, { method: 'DELETE' }); } catch(e) {}
     }
@@ -1835,12 +1931,12 @@
     localStorage.setItem('crm_customers', JSON.stringify(customers));
     renderList();
     loadCustomers();
-    showToast('客户已删除', 'success');
+    showToast('🗑️ 冒险者已移除', 'success');
   }
 
   /* --- 导出 CSV --- */
   function exportCSV() {
-    if (customers.length === 0) { showToast('暂无数据可导出', 'warning'); return; }
+    if (customers.length === 0) { showToast('📜 名册为空，无数据可导出', 'warning'); return; }
     const headers = ['姓名','电话','性别','年龄','职业','来源','紧急程度','面积','户型','房屋类型','楼层','朝向','建筑年限','层高','电梯','地址',
                      '家庭人数','老人','小孩','小孩数量','成员备注',
                      '风格','色彩','定制','参考来源',
@@ -1860,20 +1956,20 @@
     const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = '蜂云装饰客户数据_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.download = '蜂云公会名册_' + new Date().toISOString().slice(0,10) + '.csv';
     a.click();
-    showToast('CSV 已导出', 'success');
+    showToast('📥 名册卷轴已导出', 'success');
   }
 
-  /* --- 备份 --- */
+  /* --- 水晶备份 --- */
   function backupExport() {
     const data = JSON.stringify(customers, null, 2);
     const blob = new Blob([data], {type:'application/json'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'CRM备份_' + new Date().toISOString().slice(0,10) + '.json';
+    a.download = '公会水晶备份_' + new Date().toISOString().slice(0,10) + '.json';
     a.click();
-    showToast('备份文件已下载', 'success');
+    showToast('🔮 水晶备份已导出', 'success');
   }
   function backupImport() { document.getElementById('importFile').click(); }
   function handleImport(e) {
@@ -1887,9 +1983,9 @@
         customers = data;
         localStorage.setItem('crm_customers', JSON.stringify(customers));
         loadCustomers();
-        showToast(`成功导入 ${len} 条客户数据`, 'success');
+        showToast(`🔮 水晶共鸣成功，恢复 ${len} 位冒险者档案`, 'success');
       } catch(err) {
-        showToast('文件格式错误，请选择有效的 JSON 备份文件', 'error');
+        showToast('❌ 水晶损坏，请选择有效的备份文件', 'error');
       }
     };
     reader.readAsText(file);
@@ -1899,7 +1995,7 @@
     document.getElementById('infoCount').textContent = customers.length;
   }
 
-  /* --- 顶部搜索 --- */
+  /* --- 搜索 --- */
   function handleTopbarSearch(val) {
     if (document.getElementById('page-list').classList.contains('show')) {
       document.getElementById('searchInput').value = val;
@@ -1909,19 +2005,21 @@
       document.getElementById('searchInput').value = val;
       renderList();
     }
+  }
+
   /* --- 庆祝弹窗 --- */
   function showCelebrate() {
     const { pct, grade, stars, icon } = updateGradeScore();
     document.getElementById('celebrateIcon').textContent = icon;
     document.getElementById('celebrateGrade').textContent = stars + ' ' + grade;
     const tips = {
-      '白金档案': '满分填写，信息极为详实！您是档案管理之王！',
-      '金牌档案': '完整度很高，后续跟进将事半功倍！',
-      '银牌档案': '基本信息完备，建议补充更多细节。',
-      '铜牌档案': '已初步建立档案，后续跟进时可继续完善。',
-      '待填写': '档案较为简单，建议后续补充更多信息。'
+      '💎 传说级': '完美契约！所有信息详实完整！传说级的冒险委托！',
+      '🥇 史诗级': '完成度很高，后续跟进将事半功倍！',
+      '🥈 精良级': '基本信息完备，建议补充更多细节。',
+      '🥉 普通级': '已初步封印契约，后续可继续完善。',
+      '📋 待填写': '契约较为简略，建议后续补充更多信息。'
     };
-    document.getElementById('celebrateDesc').textContent = `完整度 ${pct}%，${tips[grade]||''}`;
+    document.getElementById('celebrateDesc').textContent = `契约完成度 ${pct}%，${tips[grade]||''}`;
     document.getElementById('celebrateOverlay').classList.add('show');
     launchConfetti();
   }
@@ -1934,17 +2032,26 @@
   }
 
   function launchConfetti() {
-    const colors = ['#1d4ed8','#059669','#d97706','#dc2626','#7c3aed','#db2777','#0891b2'];
-    for (let i = 0; i < 50; i++) {
+    const colors = ['#ffd700','#00e5a0','#ffb347','#ff4d6a','#b366ff','#4da6ff','#ff69b4'];
+    for (let i = 0; i < 60; i++) {
       const c = document.createElement('div');
       c.className = 'confetti';
-      c.style.cssText = 'left:'+Math.random()*100+'vw;top:'+(Math.random()*-50)+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(6+Math.random()*8)+'px;height:'+(6+Math.random()*8)+'px;border-radius:'+(Math.random()>0.5?'50%':'2px')+';animation-delay:'+(Math.random()*1.5)+'s;animation-duration:'+(2+Math.random()*1.5)+'s;position:fixed;z-index:4999;pointer-events:none;';
+      c.style.cssText = `
+        left:${Math.random()*100}vw; top:${Math.random()*-50}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        width:${6+Math.random()*10}px; height:${6+Math.random()*10}px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        animation-delay:${Math.random()*1.5}s;
+        animation-duration:${2+Math.random()*2}s;
+        position:fixed; z-index:4999; pointer-events:none;
+      `;
       document.body.appendChild(c);
-      setTimeout(() => { try{ c.remove(); }catch(e){} }, 4000);
+      setTimeout(() => { try{ c.remove(); }catch(e){} }, 4500);
     }
   }
 
   /* --- Toast --- */
+  function showToast(msg, type) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast toast-' + type;
